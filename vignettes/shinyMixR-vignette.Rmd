@@ -30,6 +30,13 @@ To get started, first install the package using:
 devtools::install_github("richardhooijmaijers/shinyMixR")
 ```
 
+Be aware that the `nlmixr`, `nlmixr.xpose` and `R3port` package should be installed before installing `shinyMixR`, e.g.:
+```R
+devtools::install_github("richardhooijmaijers/R3port")
+devtools::install_github("nlmixrdevelopment/nlmixr")
+devtools::install_github("nlmixrdevelopment/xpose.nlmixr")
+```
+
 The easiest way to get to know the package is to create the folder structure (which include some example models):
 
 ```{r results='hide'}

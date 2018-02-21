@@ -90,6 +90,10 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <h1>Getting started</h1>
 <p>To get started, first install the package using:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;richardhooijmaijers/shinyMixR&quot;</span>)</code></pre></div>
+<p>Be aware that the <code>nlmixr</code>, <code>nlmixr.xpose</code> and <code>R3port</code> package should be installed before installing <code>shinyMixR</code>, e.g.:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;richardhooijmaijers/R3port&quot;</span>)
+devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;nlmixrdevelopment/nlmixr&quot;</span>)
+devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;nlmixrdevelopment/xpose.nlmixr&quot;</span>)</code></pre></div>
 <p>The easiest way to get to know the package is to create the folder structure (which include some example models):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shinyMixR,<span class="dt">quietly =</span> <span class="ot">TRUE</span>)
 <span class="kw">create_proj</span>()</code></pre></div>
@@ -170,8 +174,8 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 ## run1   24.52
 ## run2</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tree_overview</span>()</code></pre></div>
-<div id="htmlwidget-0ef0ad532ff437d5187a" style="width:672px;height:384px;" class="collapsibleTree html-widget"></div>
-<script type="application/json" data-for="htmlwidget-0ef0ad532ff437d5187a">{"x":{"data":{"name":"start","fill":"#edf8fb","SizeOfNode":14.05,"children":[{"name":"run1","fill":"#bfd3e6","SizeOfNode":9.93},{"name":"run2","fill":"#bfd3e6","SizeOfNode":9.93}]},"options":{"hierarchy":[1,2],"input":null,"attribute":"leafCount","linkLength":null,"fontSize":10,"tooltip":false,"collapsed":false,"zoomable":false,"margin":{"top":20,"bottom":20,"left":54.05,"right":45}}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-83966d7df53759fcff2f" style="width:672px;height:384px;" class="collapsibleTree html-widget"></div>
+<script type="application/json" data-for="htmlwidget-83966d7df53759fcff2f">{"x":{"data":{"name":"start","fill":"#edf8fb","SizeOfNode":14.05,"children":[{"name":"run1","fill":"#bfd3e6","SizeOfNode":9.93},{"name":"run2","fill":"#bfd3e6","SizeOfNode":9.93}]},"options":{"hierarchy":[1,2],"input":null,"attribute":"leafCount","linkLength":null,"fontSize":10,"tooltip":false,"collapsed":false,"zoomable":false,"margin":{"top":20,"bottom":20,"left":54.05,"right":45}}},"evals":[],"jsHooks":[]}</script>
 <p>Although the <code>nlmixr</code> package obiously has the possibilty to run nlmixr models, the shinyMixR package also have a function available named <code>run_nmx</code>. the main reason this function was written is the option to run the model in an external R session. This is necessary within the interface to overcome the application from freezing when a model is submitted. Also within an interactive R session it is convenient because you do not have to wait for a run to finish. An example how this can be used is given below:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">proj_obj &lt;-<span class="st"> </span><span class="kw">get_proj</span>()
 <span class="kw">run_nmx</span>(<span class="st">&quot;run1&quot;</span>,<span class="dt">proj=</span>proj_obj)
