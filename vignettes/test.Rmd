@@ -1,0 +1,77 @@
+---
+title: "Introduction to the shinyMixR package"
+author: "Richard Hooijmaijers"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Introduction
+
+The shinyMixR package is developed as a graphical user interface around the `nlmixr` package. 
+It is build with the `shiny` package combined with `shinydashboard`. Many of the functions within the package can also be used outside the interface within an interactive R session. 
+This vignette will first show the usage of the most important functions within an interactive R session. In the second part an introduction will be given on how the shiny interface can be used.
+
+# Interactive session
+
+There are two important assumptions when working with this package:
+
+1. A specific folder structure should be in place. This structure is used by the package to read and write certain files (the folder structure can be generated automatically using the `create_proj` function)
+2. Within a folder structure, multiple models can be present and is considered a "project". The package creates and manages a project object which is available in the global environment
+
+An example of how a folder structure and project can be created is shown below:
+
+```{r results='hide'}
+library(shinyMixR,quietly = TRUE)
+create_proj()
+proj_obj <- get_proj()
+```
+
+By default, the first function will create a folder structure within the current directory and copies some example files. The following folders are created:
+
+- analysis: in this folder all plots and tables are saved in a structured way to make them accesible to the interface
+- data: data files used by the models in R data format (.rds) 
+- models: models, available as separate R scripts according the unified user interface in `nlmixr`
+- scripts: generic analysis scipts made available in the interface
+- shinyMixR: folder used by the interface to store temporarly files and results files
+
+The second function will look in the folder structure to create or update the available information. The result is a list that is build-up as follows:
+
+```
+object
+|--- run 1
+|    |--- model location
+|    |--- model meta data
+|    |--- model high level results
+|
+|--- ...
+|
+|--- meta data (time of last refresh)
+```
+
+Once a folder structure is in place and the project object is created, an overview can be created for the available models and, if models are submitted, high level results. It is also possible to display a collapsible d3 tree view of the models. This is mainly useful in case reference to models is provided to show the hierachy of the models within a project:
+```{r}
+overview()
+tree_overview()
+```
+<!-- <a target="_blank" href="out1.pdf">out1.pdf</a><br/> -->
+<!-- <a target="_blank" href="out1.html">out1.html</a> -->
+
+Although the `nlmixr` package obiously has the possibilty to run nlmixr models, the shinyMixR package alos have a function available named `run_nmx`. the main reason this function was written is the option to run the model in an external R session. This is necessary within the interface to overcome the application from freezing when a model is submitted. Also within an interactive R session it is convenient that you do not have to wait for a run to finish. An example how this can be used is given below:
+
+```{r eval=FALSE}
+run_nmx("run1",proj=proj_obj)
+# progress of a run is written to external text file
+# this can be read-in for intermediate assessment
+readLines("shinyMixR/temp/run1.prog.txt")
+```
+
+e current version has three functions for assessing the model results. The first function is to create a simple parameter table `par_table`. By default this function returns a data.frame. In case multiple models are selected, each column will have the results of the selected model. The results can also be written to a PDF (using latex) or html file using the `R3port` package:
+
+```{r}
+par_table(proj_obj,c("run1","run2"))
+# par_table(proj_obj, models="run1", outnm="par.tex")
+```
