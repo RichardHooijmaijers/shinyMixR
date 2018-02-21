@@ -12,7 +12,7 @@
 
 <meta name="author" content="Richard Hooijmaijers" />
 
-<meta name="date" content="2018-02-20" />
+<meta name="date" content="2018-02-21" />
 
 <title>Introduction to the shinyMixR package</title>
 
@@ -74,7 +74,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">Introduction to the shinyMixR package</h1>
 <h4 class="author"><em>Richard Hooijmaijers</em></h4>
-<h4 class="date"><em>2018-02-20</em></h4>
+<h4 class="date"><em>2018-02-21</em></h4>
 
 
 
@@ -89,8 +89,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div id="getting-started" class="section level1">
 <h1>Getting started</h1>
 <p>To get started, first install the package using:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;richardhooijmaijers/R3port&quot;</span>)
-devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;richardhooijmaijers/shinyMixR&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">devtools<span class="op">::</span><span class="kw">install_github</span>(<span class="st">&quot;richardhooijmaijers/shinyMixR&quot;</span>)</code></pre></div>
 <p>The easiest way to get to know the package is to create the folder structure (which include some example models):</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(shinyMixR,<span class="dt">quietly =</span> <span class="ot">TRUE</span>)
 <span class="kw">create_proj</span>()</code></pre></div>
@@ -165,26 +164,27 @@ devtools<span class="op">::</span><span class="kw">install_github</span>(<span c
 <p>Once a folder structure is in place and the project object is created, an overview can be created for the available models and, if models are submitted, high level results. It is also possible to display a collapsible d3 tree view of the models. This is mainly useful in case reference to models is provided to show the hierachy of the models within a project:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">overview</span>()</code></pre></div>
 <pre><code>##      models importance     description ref    data method    OBJF dOBJF
-## run1   run1          1 template models     theo_sd   saem 116.137      
-## run2   run2          1 template models     theo_sd   saem 116.137      
+## run1   run1          1 template models     theo_sd   saem 116.137    NA
+## run2   run2          1 template models     theo_sd   saem            NA
 ##      runtime
-## run1  32.827
-## run2    24.3</code></pre>
+## run1   24.52
+## run2</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">tree_overview</span>()</code></pre></div>
-<div id="htmlwidget-d077a98aaac50784f25d" style="width:672px;height:384px;" class="collapsibleTree html-widget"></div>
-<script type="application/json" data-for="htmlwidget-d077a98aaac50784f25d">{"x":{"data":{"name":"start","fill":"#edf8fb","SizeOfNode":14.05,"children":[{"name":"run1","fill":"#bfd3e6","SizeOfNode":9.93},{"name":"run2","fill":"#bfd3e6","SizeOfNode":9.93}]},"options":{"hierarchy":[1,2],"input":null,"attribute":"leafCount","linkLength":null,"fontSize":10,"tooltip":false,"collapsed":false,"zoomable":false,"margin":{"top":20,"bottom":20,"left":54.05,"right":45}}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-0ef0ad532ff437d5187a" style="width:672px;height:384px;" class="collapsibleTree html-widget"></div>
+<script type="application/json" data-for="htmlwidget-0ef0ad532ff437d5187a">{"x":{"data":{"name":"start","fill":"#edf8fb","SizeOfNode":14.05,"children":[{"name":"run1","fill":"#bfd3e6","SizeOfNode":9.93},{"name":"run2","fill":"#bfd3e6","SizeOfNode":9.93}]},"options":{"hierarchy":[1,2],"input":null,"attribute":"leafCount","linkLength":null,"fontSize":10,"tooltip":false,"collapsed":false,"zoomable":false,"margin":{"top":20,"bottom":20,"left":54.05,"right":45}}},"evals":[],"jsHooks":[]}</script>
 <p>Although the <code>nlmixr</code> package obiously has the possibilty to run nlmixr models, the shinyMixR package also have a function available named <code>run_nmx</code>. the main reason this function was written is the option to run the model in an external R session. This is necessary within the interface to overcome the application from freezing when a model is submitted. Also within an interactive R session it is convenient because you do not have to wait for a run to finish. An example how this can be used is given below:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">run_nmx</span>(<span class="st">&quot;run1&quot;</span>,<span class="dt">proj=</span>proj_obj)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">proj_obj &lt;-<span class="st"> </span><span class="kw">get_proj</span>()
+<span class="kw">run_nmx</span>(<span class="st">&quot;run1&quot;</span>,<span class="dt">proj=</span>proj_obj)
 <span class="co"># progress of a run is written to external text file</span>
 <span class="co"># this can be read-in for intermediate assessment</span>
 <span class="kw">readLines</span>(<span class="st">&quot;shinyMixR/temp/run1.prog.txt&quot;</span>)</code></pre></div>
 <p>The current version of the package has three functions for assessing the model results. The first function is to create a simple parameter table <code>par_table</code>. By default this function returns a data.frame. In case multiple models are selected, each column will have the results of the selected model. The results can also be written to a PDF (using latex) or html file using the <code>R3port</code> package:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">par_table</span>(proj_obj,<span class="kw">c</span>(<span class="st">&quot;run1&quot;</span>,<span class="st">&quot;run2&quot;</span>))</code></pre></div>
-<pre><code>##   Parameter            run1            run2
-## 1       tka  0.455 [ 43.3 ]  0.455 [ 43.3 ]
-## 2       tcl  -3.22 [ 2.49 ]  -3.22 [ 2.49 ]
-## 3        tv -0.784 [ 5.49 ] -0.784 [ 5.49 ]
-## 4   add.err  0.691 [   NA ]  0.691 [   NA ]</code></pre>
+<pre><code>##   Parameter            run1
+## 1       tka  0.455 [ 43.3 ]
+## 2       tcl  -3.22 [ 2.49 ]
+## 3        tv -0.784 [ 5.49 ]
+## 4   add.err  0.691 [   NA ]</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># par_table(proj_obj, models=&quot;run1&quot;, outnm=&quot;par.tex&quot;)</span></code></pre></div>
 <p>For assessing the goodness of fit, the <code>gof_plot</code> function can be used. This function will by default use the <code>nlmixr.xpose</code> package to create 4 different types of plots. It is also possible to directly create ggplot2 types of plots. By default the plots will be created within the R session but can also be written to pdf/html using the <code>R3port</code> package:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res  &lt;-<span class="st"> </span><span class="kw">readRDS</span>(<span class="st">&quot;./shinyMixR/run1.res.rds&quot;</span>)

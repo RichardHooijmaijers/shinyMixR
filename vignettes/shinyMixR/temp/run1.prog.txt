@@ -1,8 +1,8 @@
 Loading required package: nlme
 Loading required package: RxODE
 Compiling RxODE differential equations...done.
-clang++  -I/Library/Frameworks/R.framework/Resources/include -DNDEBUG   -I/usr/local/include  -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/nlmixr//include -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/StanHeaders//include -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/Rcpp//include -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/RcppArmadillo//include -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/RcppEigen//include -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/BH//include -fPIC  -Wall -g -O2  -c saem15852a5ae66d.cpp -o saem15852a5ae66d.o
-clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o saem15852a5ae66d.so saem15852a5ae66d.o /Users/richard/Documents/Rpackages/shinyMixR/V0.1.1/shinyMixR/vignettes/rx_a130e6d846dd025ce1d0a6d25b7007fc_.so -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
+clang++  -I/Library/Frameworks/R.framework/Resources/include -DNDEBUG   -I/usr/local/include  -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/nlmixr//include -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/StanHeaders//include -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/Rcpp//include -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/RcppArmadillo//include -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/RcppEigen//include -I/Library/Frameworks/R.framework/Versions/3.4/Resources/library/BH//include -fPIC  -Wall -g -O2  -c saem25d02fc6421e.cpp -o saem25d02fc6421e.o
+clang++ -dynamiclib -Wl,-headerpad_max_install_names -undefined dynamic_lookup -single_module -multiply_defined suppress -L/Library/Frameworks/R.framework/Resources/lib -L/usr/local/lib -o saem25d02fc6421e.so saem25d02fc6421e.o /Users/richard/Documents/GitHub/shinyMixR/vignettes/rx_a130e6d846dd025ce1d0a6d25b7007fc_.so -L/Library/Frameworks/R.framework/Resources/lib -lRblas -L/Library/Frameworks/R.framework/Resources/lib -lRlapack -L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0 -L/usr/local/gfortran/lib -lgfortran -lquadmath -lm -F/Library/Frameworks/R.framework/.. -framework R -Wl,-framework -Wl,CoreFoundation
 ld: warning: directory not found for option '-L/usr/local/gfortran/lib/gcc/x86_64-apple-darwin15/6.1.0'
 done.
 1:    0.1503  -3.3314  -0.6447   0.9500   1.9000   0.9500   9.6167
@@ -505,25 +505,5 @@ done.
 498:    0.4551  -3.2163  -0.7840   0.4366   0.0693   0.0184   0.4780
 499:    0.4551  -3.2163  -0.7841   0.4366   0.0693   0.0184   0.4779
 500:    0.4551  -3.2163  -0.7841   0.4368   0.0693   0.0184   0.4778
-Using sympy via SnakeCharmR
-## Calculate ETA-based prediction and error derivatives:
-Calculate Jacobian...................done.
-Calculate sensitivities.......
-done.
-## Calculate d(f)/d(eta) 
-## ...
-## done
-## ...
-## done
-The model-based sensitivities have been calculated.
-It will be cached for future runs.
-Diagonal form: sqrt
-     [,1]
-[1,]    1
-Calculate symbolic inverse...done
-Calculate symbolic determinant of inverse...done
-Calculate d(Omega)/d(Est) and d(Omega^-1)/d(Est)...
-.0
-...done.
 Calculating Table Variables...
 done

@@ -9,7 +9,6 @@ Although the main focus was to build an interface, many of the package functions
 Currently the package is under active development and can be installed using:
 
 ```R
-devtools::install_github("richardhooijmaijers/R3port")
 devtools::install_github("richardhooijmaijers/shinyMixR")
 ```
 

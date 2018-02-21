@@ -27,7 +27,6 @@ When working with this package, there are two important assumptions:
 To get started, first install the package using:
 
 ```R
-devtools::install_github("richardhooijmaijers/R3port")
 devtools::install_github("richardhooijmaijers/shinyMixR")
 ```
 
@@ -138,8 +137,12 @@ tree_overview()
 ```
 
 Although the `nlmixr` package obiously has the possibilty to run nlmixr models, the shinyMixR package also have a function available named `run_nmx`. the main reason this function was written is the option to run the model in an external R session. This is necessary within the interface to overcome the application from freezing when a model is submitted. Also within an interactive R session it is convenient because you do not have to wait for a run to finish. An example how this can be used is given below:
-
+```{r eval=TRUE, echo=FALSE}
+proj_obj <- get_proj()
+#run_nmx("run1",proj=proj_obj)
+```
 ```{r eval=FALSE}
+proj_obj <- get_proj()
 run_nmx("run1",proj=proj_obj)
 # progress of a run is written to external text file
 # this can be read-in for intermediate assessment
