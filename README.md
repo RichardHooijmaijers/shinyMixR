@@ -13,6 +13,10 @@ devtools::install_github("richardhooijmaijers/R3port")
 devtools::install_github("richardhooijmaijers/shinyMixR")
 ```
 
+## Documentation
+
+A short introduction to the package can be found [here](https://richardhooijmaijers.github.io/shinyMixR/index.html)
+
 ## License
 
 [MIT license](http://opensource.org/licenses/MIT)
