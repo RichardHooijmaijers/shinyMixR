@@ -33,7 +33,8 @@ run_nmx <- function(mod,proj,ext=TRUE,saverds=TRUE){
     # In this step it is not possible to place the results in proj object (need refresh function/button)
     # Decided to place everything in a temp script, furthermore have to add keep.source as option.
     dir.create("shinyMixR/temp",showWarnings = FALSE,recursive = TRUE)
-    escr <- paste0("library(nlmixr)\n","options(keep.source = TRUE)\n","source('",proj[[mod]]$model,"')\n",
+    escr <- paste0("library(nlmixr)\n","options(keep.source = TRUE)\n",
+                   "source('",normalizePath(proj[[mod]]$model,winslash = "/",mustWork = FALSE),"')\n",
                    "\nmodres <- nlmixr(",mod,",",meta$data,",est=\"",meta$est,"\",control=",meta$control,")\n")
     if(saverds) escr <- paste0(escr,"saveRDS(modres,file=\"./shinyMixR/",mod,".res.rds\")\n",
                                "saveRDS(list(OBJF=modres$objective,partbl=modres$par.fixed,omega=modres$omega,",
