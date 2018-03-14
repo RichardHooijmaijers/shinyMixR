@@ -25,9 +25,10 @@ get_proj <- function(moddir="./models",proj="./shinyMixR/project.rds",datdir="./
   datf  <- list.files(datdir)
   grepd <- " |^[[:digit:]]|\\!|\\#|\\$|\\%|\\&|\\'|\\(|\\)|\\-|\\;|\\=|\\@|\\[|\\]|\\^\\`\\{\\|\\}"
   if(any(grepl(grepd,datf))) warning("Data files with special characters found, take into acount that models that use these can crash")
+  # not relevant to read all data for running nlmixr in separate session (should be loaded in this session!)
   lapply(list.files(datdir,full.names = TRUE),function(x){
-    if(!grepl(grepd,x) & !exists(sub("\\.rds$","",basename(x)),envir=.GlobalEnv)){
-      assign(sub("\\.rds$","",basename(x)),readRDS(x),pos = .GlobalEnv)
+    if(!grepl(grepd,x) & !exists(sub("\\.rds$","",basename(x),ignore.case = TRUE),envir=.GlobalEnv)){
+      assign(sub("\\.rds$","",basename(x),ignore.case = TRUE),readRDS(x),pos = .GlobalEnv)
     }
   })
 

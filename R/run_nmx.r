@@ -35,6 +35,7 @@ run_nmx <- function(mod,proj,ext=TRUE,saverds=TRUE){
     dir.create("shinyMixR/temp",showWarnings = FALSE,recursive = TRUE)
     escr <- paste0("library(nlmixr)\n","options(keep.source = TRUE)\n",
                    "source('",normalizePath(proj[[mod]]$model,winslash = "/",mustWork = FALSE),"')\n",
+                   "if(!exists(\"",meta$data,"\", envir=.GlobalEnv)) ",meta$data," <- readRDS(\"./data/",meta$data,".rds\")",
                    "\nmodres <- nlmixr(",mod,",",meta$data,",est=\"",meta$est,"\",control=",meta$control,")\n")
     if(saverds) escr <- paste0(escr,"saveRDS(modres,file=\"./shinyMixR/",mod,".res.rds\")\n",
                                "saveRDS(list(OBJF=modres$objective,partbl=modres$par.fixed,omega=modres$omega,",
