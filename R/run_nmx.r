@@ -33,10 +33,16 @@ run_nmx <- function(mod,proj,ext=TRUE,saverds=TRUE){
     # In this step it is not possible to place the results in proj object (need refresh function/button)
     # Decided to place everything in a temp script, furthermore have to add keep.source as option.
     dir.create("shinyMixR/temp",showWarnings = FALSE,recursive = TRUE)
+
+    # Had to deal with control list in a different way because nested lists are not passed correctly in paste
+    cntrll <- trimws(readLines(proj[[mod]]$model))
+    cntrla <- grepl("^control *=|^control.*<-",cntrll)
+    if(any(cntrla)){cntrll <- gsub("^control *=|^control.*<-","",cntrll[cntrla])}else{cntrll <- "list()"}
+
     escr <- paste0("library(nlmixr)\n","options(keep.source = TRUE)\n",
                    "source('",normalizePath(proj[[mod]]$model,winslash = "/",mustWork = FALSE),"')\n",
                    "if(!exists(\"",meta$data,"\", envir=.GlobalEnv)) ",meta$data," <- readRDS(\"./data/",meta$data,".rds\")",
-                   "\nmodres <- nlmixr(",mod,",",meta$data,",est=\"",meta$est,"\",control=",meta$control,")\n")
+                   "\nmodres <- nlmixr(",mod,",",meta$data,",est=\"",meta$est,"\",control=",cntrll,")\n")
     if(saverds) escr <- paste0(escr,"saveRDS(modres,file=\"./shinyMixR/",mod,".res.rds\")\n",
                                "saveRDS(list(OBJF=modres$objective,partbl=modres$par.fixed,omega=modres$omega,",
                                "tottime=rowSums(modres$time)),file=\"./shinyMixR/",
