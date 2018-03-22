@@ -49,7 +49,9 @@ shinyUI( shinydashboard::dashboardPage(
       shinydashboard::tabItem(tabName = "tabRes",resUI()),
       # Settings tab
       shinydashboard::tabItem(tabName = "tabSettings",
-        selectInput("plotType","Plot types",c("xpose","user"),multiple=FALSE)
+        selectInput("plotType","Plot types",c("xpose","user"),multiple=FALSE),
+        sliderInput("fontEditor","Font size editor",min=6,max=18,value=14,step=1),
+        selectInput("themeEditor","Editor theme",shinyAce::getAceThemes(),selected="solarized_light",multiple=FALSE)
         #numericInput("plotHgt","Plot height",800)
       )
     )

@@ -4,7 +4,7 @@
 \alias{run_nmx}
 \title{Runs a nlmixr model}
 \usage{
-run_nmx(mod, proj, ext = TRUE, saverds = TRUE)
+run_nmx(mod, proj, ext = TRUE, saverds = TRUE, autoupdate = TRUE)
 }
 \arguments{
 \item{mod}{character with the model file present in project object}
@@ -14,6 +14,8 @@ run_nmx(mod, proj, ext = TRUE, saverds = TRUE)
 \item{ext}{logical indicating if the model should be run external in a separate r session}
 
 \item{saverds}{logical indicating if the model results should be saved in a rds file}
+
+\item{autoupdate}{logical indicating if the project object should automatically update}
 }
 \value{
 In case the model is not submitted in a separate R session, the results from nlmixr are returned otherwise

@@ -1,0 +1,19 @@
+library(nlmixr)
+options(keep.source = TRUE)
+if(!exists("{{{data}}}", envir=.GlobalEnv)) {
+  if(file.exists("./data/{{{data}}}.rds")){
+    data_nlm <- readRDS("./data/{{{data}}}.rds")
+  }else if(file.exists("./data/{{{data}}}.csv")){
+    data_nlm <- read.csv("./data/{{{data}}}.csv")
+  }
+}else{
+  data_nlm <- {{{data}}}
+}
+source("{{{modelloc}}}")
+modres <- nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{control}}})
+
+{{#saveres}}
+saveRDS(modres,file="./shinyMixR/{{{modelname}}}.res.rds")
+saveRDS(list(OBJF=modres$objective,partbl=modres$par.fixed,omega=modres$omega,
+                  tottime=rowSums(modres$time)),file="./shinyMixR/{{{modelname}}}.ressum.rds")
+{{/saveres}}

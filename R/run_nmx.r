@@ -8,6 +8,7 @@
 #' @param proj project object
 #' @param ext logical indicating if the model should be run external in a separate r session
 #' @param saverds logical indicating if the model results should be saved in a rds file
+#' @param autoupdate logical indicating if the project object should automatically update
 #'
 #' @details the meta data is obtained by compiling the model. The dataset, estimation method and control list are
 #'   then included in the nlmixr call. Meta data is included in the model function which is comparable with NONMEM.
@@ -22,9 +23,10 @@
 #' \dontrun{
 #'  run_nmx("run1",proj)
 #' }
-run_nmx <- function(mod,proj,ext=TRUE,saverds=TRUE){
+run_nmx <- function(mod,proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE){
 
   dnm     <- deparse(substitute(proj))
+  if(autoupdate) assign(dnm,get_proj())
   # Source model to obtain meta data (places meta object in env)
   source(proj[[mod]]$model,local=TRUE)
   meta <- eval(parse(text=c("nlmixr(",readLines(proj[[mod]]$model),")$meta")))
@@ -39,21 +41,18 @@ run_nmx <- function(mod,proj,ext=TRUE,saverds=TRUE){
     cntrla <- grepl("^control *=|^control.*<-",cntrll)
     if(any(cntrla)){cntrll <- gsub("^control *=|^control.*<-","",cntrll[cntrla])}else{cntrll <- "list()"}
 
-    escr <- paste0("library(nlmixr)\n","options(keep.source = TRUE)\n",
-                   "source('",normalizePath(proj[[mod]]$model,winslash = "/",mustWork = FALSE),"')\n",
-                   "if(!exists(\"",meta$data,"\", envir=.GlobalEnv)) ",meta$data," <- readRDS(\"./data/",meta$data,".rds\")",
-                   "\nmodres <- nlmixr(",mod,",",meta$data,",est=\"",meta$est,"\",control=",cntrll,")\n")
-    if(saverds) escr <- paste0(escr,"saveRDS(modres,file=\"./shinyMixR/",mod,".res.rds\")\n",
-                               "saveRDS(list(OBJF=modres$objective,partbl=modres$par.fixed,omega=modres$omega,",
-                               "tottime=rowSums(modres$time)),file=\"./shinyMixR/",
-                               mod,".ressum.rds\")")
+    tmpl <- readLines(paste0(system.file(package = "shinyMixR"),"/Other/run_nmx.tmp"))
+    rlst <- list(modelloc=normalizePath(proj[[mod]]$model,winslash = "/",mustWork = FALSE), data=meta$data,
+                 est=meta$est, control=cntrll, saveres=saverds, modelname=mod)
+
     tscr <- paste0("./shinyMixR/temp/script.",stringi::stri_rand_strings(1,6),".r")
-    writeLines(escr,tscr)
+    writeLines(whisker::whisker.render(tmpl,rlst),tscr)
     if(Sys.info()['sysname']=="Windows"){
       shell(paste0("Rscript ", tscr,  " > ./shinyMixR/temp/",mod,".prog.txt 2>&1"),wait=FALSE)
     }else{
       system(paste0("Rscript ", tscr,  " > ./shinyMixR/temp/",mod,".prog.txt 2>&1"),wait=FALSE)
     }
+    if(autoupdate) assign(dnm,proj,pos = .GlobalEnv)
   }else{
     modres  <- nlmixr(eval(parse(text=readLines(proj[[mod]]$model))), get(meta$data), est=meta$est,control=meta$control)
     ressum  <- list(OBJF=modres$objective,partbl=modres$par.fixed,omega=modres$omega,tottime=rowSums(modres$time))

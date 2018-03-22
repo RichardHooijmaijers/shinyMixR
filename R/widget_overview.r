@@ -20,7 +20,7 @@ overviewUI <- function(projlst) {
       textInput("descAdpt","Description",value=""),
       selectInput("refAdpt","Reference",c("",names(projlst)[names(projlst)!="meta"]),multiple=FALSE,selectize = TRUE),
       textInput("dataAdpt","Data",value=""),
-      selectInput("methodAdpt","method",c("saem","nlme")),
+      selectInput("methodAdpt","method",c("saem","nlme","nlme.mu","nlme.mu.cov","nlme.free")),
       actionButton("adptOview2", "Go",icon=icon("play"))
     ),
     shinydashboard::box(DT::dataTableOutput('oviewTable'),width=NULL,title = "Overview", solidHeader = TRUE, status = "primary",collapsible = TRUE),

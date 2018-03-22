@@ -51,6 +51,10 @@ shinyServer(function(input, output, session){
   # Run R scripts
   observeEvent(input$runScript,createRunScript(input,session))
 
+  # Settings
+  observeEvent(input$fontEditor,shinyAce::updateAceEditor(session, "editor", fontSize=input$fontEditor))
+  observeEvent(input$themeEditor,shinyAce::updateAceEditor(session, "editor", theme=input$themeEditor))
+
   # the test button
   # observeEvent(input$test,{print(c("this is a test",1:3))})
 

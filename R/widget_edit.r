@@ -21,7 +21,7 @@ editUI <- function(projlst) {
       textInput("descDupmod","Description",value=""),
       selectInput("refDupmod","Reference",c("",names(projlst)[names(projlst)!="meta"]),multiple=FALSE,selectize = TRUE),
       textInput("dataDupmod","Data",value=""),
-      selectInput("methodDupmod","method",c("saem","nlme")),
+      selectInput("methodDupmod","method",c("saem","nlme","nlme.mu","nlme.mu.cov","nlme.free")),
       actionButton("duplMdl2", "Go",icon=icon("play"))
     ),
     actionButton("newMdl", "New Model",icon=icon("file-text-o")),
