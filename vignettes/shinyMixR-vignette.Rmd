@@ -52,6 +52,9 @@ By default, a folder structure is created within the current directory. The foll
 - scripts: generic analysis scipts made available in the interface
 - shinyMixR: folder used by the interface to store temporarly files and results files
 
+The interface monitors what happens in these folders. This is important to know because new models and/or data can be copied into these folders or files can be removed. This will then be recognized within the app (after refreshing the overview).
+This way it is possible to work on data and models separately and plug it in to shinyMixR at a later stage. 
+
 Once there is a folder structure present the interface can be started:
 
 ```{r eval=FALSE}
@@ -145,11 +148,10 @@ tree_overview()
 
 Although the `nlmixr` package obiously has the possibilty to run nlmixr models, the shinyMixR package also have a function available named `run_nmx`. the main reason this function was written is the option to run the model in an external R session. This is necessary within the interface to overcome the application from freezing when a model is submitted. Also within an interactive R session it is convenient because you do not have to wait for a run to finish. An example how this can be used is given below:
 ```{r eval=TRUE, echo=FALSE}
-proj_obj <- get_proj()
+#proj_obj <- get_proj()
 #run_nmx("run1",proj=proj_obj)
 ```
 ```{r eval=FALSE}
-proj_obj <- get_proj()
 run_nmx("run1",proj=proj_obj)
 # progress of a run is written to external text file
 # this can be read-in for intermediate assessment
