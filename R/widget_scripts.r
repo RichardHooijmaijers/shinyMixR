@@ -12,11 +12,13 @@
 scriptsUI <- function() {
   tagList(
     fluidRow(
-      column(2,actionButton("runScript", "Run script",icon=icon("play"))),
-      column(3,selectInput("scriptModLst","Model(s)",names(proj_obj)[names(proj_obj)!="meta"],multiple=TRUE,size=10,selectize=FALSE)),
-      column(3,selectInput("scriptFilLst","Files",list.files("./scripts"),multiple=FALSE,size=10,selectize=FALSE))
+      column(3,actionButton("runScript", "Run script",icon=icon("play")),br(),br(),actionButton("showScript", "Show progress",icon=icon("spinner"))),
+      column(4,selectInput("scriptModLst","Model(s)",names(proj_obj)[names(proj_obj)!="meta"],multiple=TRUE,size=10,selectize=FALSE)),
+      column(4,selectInput("scriptFilLst","Files",list.files("./scripts"),multiple=FALSE,size=10,selectize=FALSE))
     ),
-    br(),br(),shinyBS::bsAlert("alertScript")
+    br(),br(),shinyBS::bsAlert("alertScript"),br(),
+    verbatimTextOutput("scriptProgrTxt"),
+    tags$head(tags$style("#scriptProgrTxt{overflow-y:scroll; max-height: 600px;}"))
   )
 }
 #------------------------------------------ createRunScript ------------------------------------------
@@ -28,9 +30,16 @@ createRunScript <- function(inp,session){
   tmpsc <- paste0("./shinyMixR/temp/",inp$scriptFilLst,".",stringi::stri_rand_strings(1,6),".r")
   writeLines(c(paste0("models <- c(", paste(shQuote(inp$scriptModLst),collapse = ", "),")"),scr),tmpsc)
   if(Sys.info()['sysname']=="Windows"){
-    shell(paste0("Rscript ", tmpsc,  " > ",tmpsc,".out 2>&1"),wait=FALSE)
+    shell(paste0("Rscript ", tmpsc,  " > ./shinyMixR/temp/scriptres.out 2>&1"),wait=FALSE)
   }else{
-    system(paste0("Rscript ", tmpsc,  " > ",tmpsc,".out 2>&1"),wait=FALSE)
+    system(paste0("Rscript ", tmpsc,  " > ./shinyMixR/temp/scriptres.out 2>&1"),wait=FALSE)
   }
   shinyBS::createAlert(session,"alertScript",content=paste("Script",inp$scriptFilLst,"submitted"),append=FALSE,alertId="alertScriptID",style="success")
+}
+#------------------------------------------ showScriptProgress ------------------------------------------
+#' @export
+# Function to read the script output file
+showScriptProgress <- function(inp,session){
+  scrlog   <- readLines("./shinyMixR/temp/scriptres.out")
+  cat(scrlog,sep="\n")
 }

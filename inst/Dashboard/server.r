@@ -50,6 +50,8 @@ shinyServer(function(input, output, session){
 
   # Run R scripts
   observeEvent(input$runScript,createRunScript(input,session))
+  scrprogr <- eventReactive(input$showScript,showScriptProgress())
+  output$scriptProgrTxt = renderPrint(scrprogr())
 
   # Settings
   observeEvent(input$fontEditor,shinyAce::updateAceEditor(session, "editor", fontSize=input$fontEditor))
