@@ -48,7 +48,7 @@ changeResults <- function(inp,session){
 # Function to combine (if applicable) and show the results of the selected result files
 showResults <- function(inp,session){
   shinyBS::closeAlert(session,"alertResultID")
-  if(inp$nameRes%in%gsub("\\.pdf|\\.html","",inp$resModAll)){
+  if(toupper(inp$nameRes)%in%toupper(gsub("\\.pdf|\\.html","",inp$resModAll))){
     shinyBS::createAlert(session,"alertResult",content="Combined result itself cannot be selected for report",append=FALSE,alertId="alertResultID",style="danger")
   }else if(inp$resModLst!="" && !is.null(inp$resModLst)){
     if(inp$typeRes=="PDF"){
