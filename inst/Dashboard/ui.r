@@ -11,8 +11,9 @@ assign("proj_obj",get_proj(),pos = .GlobalEnv)
 shinyUI( shinydashboard::dashboardPage(
 
   # Header of the app
+  title = "shinyMixR",
   shinydashboard::dashboardHeader(
-    title="ShinyMixR",
+    title = tags$img(src='logoSmall2.png',height=45),
     tags$li(HTML("<span id='projhead1'><span id='projhead2'></span></span>"),class="dropdown"),
     tags$li(img(src = 'logo2.png',height=42),class = "dropdown")
   ),

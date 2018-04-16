@@ -12,15 +12,16 @@
 resUI <- function() {
   tagList(
     fluidRow(
-      column(2,
+      column(3,
         actionButton("refreshRes", "Refresh",icon=icon("refresh")),br(),br(),
         actionButton("showAllRes", "Show results",icon=icon("book")),br(),
-        radioButtons("typeRes", "", choices = c("PDF","HTML"), inline = TRUE),br(),
+        radioButtons("typeRes", "", choices = c("HTML","PDF"), inline = TRUE),br(),
         textInput("nameRes","Name results",value="Report")
       ),
-      column(3,selectInput("resModLst","Model(s)",list.dirs("./analysis",recursive=FALSE),multiple=FALSE,size=10,selectize=FALSE)),
-      column(3,selectInput("resModAll","Result(s)","",multiple=TRUE,size=10,selectize=FALSE))
-    ),
+      column(4,selectInput("resModLst","Model(s)",list.dirs("./analysis",recursive=FALSE),multiple=FALSE,size=10,selectize=FALSE)),
+      column(4,selectInput("resModAll","Result(s)","",multiple=TRUE,size=10,selectize=FALSE))
+    ),br(),
+    HTML("<strong style='color: red;'>Latex including various packages is needed to create PDF output</strong>"),
     br(),br(),shinyBS::bsAlert("alertResult")
   )
 }

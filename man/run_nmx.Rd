@@ -4,7 +4,7 @@
 \alias{run_nmx}
 \title{Runs a nlmixr model}
 \usage{
-run_nmx(mod, proj, ext = TRUE, saverds = TRUE, autoupdate = TRUE)
+run_nmx(mod, proj = proj, ext = TRUE, saverds = TRUE, autoupdate = TRUE)
 }
 \arguments{
 \item{mod}{character with the model file present in project object}

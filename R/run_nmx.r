@@ -23,7 +23,7 @@
 #' \dontrun{
 #'  run_nmx("run1",proj)
 #' }
-run_nmx <- function(mod,proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE){
+run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE){
 
   dnm     <- deparse(substitute(proj))
   if(autoupdate) assign(dnm,get_proj())

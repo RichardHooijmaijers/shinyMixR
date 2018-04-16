@@ -4,10 +4,12 @@
 \alias{create_proj}
 \title{Creates a new project}
 \usage{
-create_proj(loc = ".")
+create_proj(loc = ".", overwrite = FALSE)
 }
 \arguments{
 \item{loc}{character with the location where the project should be created}
+
+\item{overwrite}{logical indicating if files should be overwritten if already exists}
 }
 \value{
 nothing will be returned by the function (only system commands are issued)

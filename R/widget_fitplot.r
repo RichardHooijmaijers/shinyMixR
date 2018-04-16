@@ -16,9 +16,10 @@ fitUI <- function() {
     actionButton("saveFit", "Save plot",icon=icon("save")),
     shinyBS::bsModal("modalSaveFit","Save results","saveFit",
       textInput("nameFit","Save as",value="IndFit"),
-      radioButtons("typeFit", "Save type", choices = c("PDF","HTML"), inline = TRUE),
+      radioButtons("typeFit", "Save type", choices = c("HTML","PDF"), inline = TRUE),
       checkboxInput("showFit","Show on save",value=FALSE),
-      actionButton("saveFit2", "Save",icon=icon("save"))
+      actionButton("saveFit2", "Save",icon=icon("save")),br(),
+      HTML("<strong style='color: red;'>Latex including various packages is needed to create PDF output</strong>")
     ),
     br(),br(),
     plotOutput("fitPlt",width="80%")

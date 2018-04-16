@@ -16,9 +16,10 @@ gofUI <- function() {
     actionButton("saveGOF", "Save plot",icon=icon("save")),
     shinyBS::bsModal("modalSaveGOF","Save results","saveGOF",
       textInput("nameGOF","Save as",value="GOF"),
-      radioButtons("typeGOF", "Save type", choices = c("PDF","HTML"), inline = TRUE),
+      radioButtons("typeGOF", "Save type", choices = c("HTML","PDF"), inline = TRUE),
       checkboxInput("showGOF","Show on save",value=FALSE),
-      actionButton("saveGOF2", "Save",icon=icon("save"))
+      actionButton("saveGOF2", "Save",icon=icon("save")),br(),
+      HTML("<strong style='color: red;'>Latex including various packages is needed to create PDF output</strong>")
     ),
     br(),br(),
     plotOutput("gofPlt",width="80%")

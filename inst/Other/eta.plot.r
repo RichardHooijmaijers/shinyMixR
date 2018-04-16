@@ -11,6 +11,6 @@ lapply(models,function(x){
       ggplot(dat,aes_string(pl)) + geom_histogram(fill="grey",color="black") + labs(title=pl)
     })
     dir.create(paste0("./analysis/",x),showWarnings=FALSE)
-    R3port::ltx_plot(pll,out=paste0("./analysis/",x,"/hist.eta.tex"),show=FALSE)
+    R3port::html_plot(pll,out=paste0("./analysis/",x,"/hist.eta.html"),show=FALSE)
   }
 })
