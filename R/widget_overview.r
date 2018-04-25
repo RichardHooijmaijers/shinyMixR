@@ -13,6 +13,7 @@ overviewUI <- function(projlst) {
   tagList(
     actionButton("refrOview", "Refresh",icon=icon("refresh")),
     actionButton("adptOview", "Adapt model notes",icon=icon("list")),
+    actionButton("delOview", "Delete model(s)",icon=icon("remove")),
     br(),br(),
     shinyBS::bsModal("modalAdptOview","Adapt model notes","",
       selectInput("modelAdpt","Model",c("",names(projlst)[names(projlst)!="meta"]),multiple=FALSE,selectize = TRUE),
@@ -20,8 +21,12 @@ overviewUI <- function(projlst) {
       textInput("descAdpt","Description",value=""),
       selectInput("refAdpt","Reference",c("",names(projlst)[names(projlst)!="meta"]),multiple=FALSE,selectize = TRUE),
       textInput("dataAdpt","Data",value=""),
-      selectInput("methodAdpt","method",c("saem","nlme","nlme.mu","nlme.mu.cov","nlme.free")),
+      selectInput("estAdpt","method",c("saem","nlme","nlme.mu","nlme.mu.cov","nlme.free")),
       actionButton("adptOview2", "Go",icon=icon("play"))
+    ),
+    shinyBS::bsModal("modalDelOview","Delete model(s)","",
+      checkboxInput("delAllMod","Delete all models and results",value=TRUE),
+      actionButton("delOview2", "Go",icon=icon("play"))
     ),
     shinydashboard::box(DT::dataTableOutput('oviewTable'),width=NULL,title = "Overview", solidHeader = TRUE, status = "primary",collapsible = TRUE),
     shinydashboard::box(
@@ -49,7 +54,7 @@ adaptOverview <- function(projlst,inp,session,type="modal"){
 # Adapt and write the model based on the new meta data changed by the user
 adaptModel <- function(projlst,inp,session){
   if(inp$modelAdpt!=""){
-    metanfo <- reactiveValuesToList(inp)[c("impAdpt","descAdpt","refAdpt","dataAdpt","methodAdpt")]
+    metanfo <- reactiveValuesToList(inp)[c("impAdpt","descAdpt","refAdpt","dataAdpt","estAdpt")]
     names(metanfo) <- sub("Adpt","",names(metanfo))
     # Had to place output of adpt_meta in object otherwise writeLines did not work
     towr <- adpt_meta(paste0("./models/",inp$modelAdpt,".r"),metanfo)
@@ -58,4 +63,21 @@ adaptModel <- function(projlst,inp,session){
     proxy = DT::dataTableProxy('oviewTable')
     DT::replaceData(proxy, overview(), rownames = FALSE)
   }
+}
+#------------------------------------------ delOverview ------------------------------------------
+#' @export
+# delete the the selected model(s)
+delOverview <- function(projlst,inp,session){
+  msel <- names(projlst)[names(projlst)!="meta"][inp$oviewTable_rows_selected]
+  if(inp$delAllMod) {
+    try(file.remove(paste0("shinyMixR/",msel,".res.rds")))
+    try(file.remove(paste0("shinyMixR/",msel,".ressum.rds")))
+    try(unlink(paste0("analysis/",msel),recursive = TRUE))
+  }
+  try(file.remove(paste0("models/",msel,".r")))
+  assign(deparse(substitute(projlst)),get_proj(),pos = .GlobalEnv,inherits=TRUE)
+  modnm <- names(get(deparse(substitute(projlst)),pos = .GlobalEnv))
+  updateSelectInput(session,"editLst",choices=c("",modnm[modnm!="meta"]))
+  for(i in c("runLst","gofLst","fitLst","parEstLst","scriptModLst")) updateSelectInput(session,i,choices=modnm[modnm!="meta"])
+  shinyBS::toggleModal(session,"modalDelOview","close")
 }

@@ -40,7 +40,7 @@ fit_plot <- function(dfrm,type="xpose",mdlnm=NULL,outnm=NULL,...){
   }else{
     if(is.null(mdlnm)) stop("in case output should be saved, mdlnm should be given")
     dir.create(paste0("./analysis/",mdlnm),showWarnings=FALSE)
-    if(grepl("\\.tex$",outnm)) R3port::ltx_plot(pl,out=paste0("./analysis/",mdlnm,"/",basename(outnm)),...)
-    if(grepl("\\.html$",outnm)) R3port::html_plot(pl,out=paste0("./analysis/",mdlnm,"/",basename(outnm)),...)
+    if(grepl("\\.tex$",outnm)) R3port::ltx_plot(pl+labs(title=mdlnm),title="Fit plots",out=paste0("./analysis/",mdlnm,"/",basename(outnm)),...)
+    if(grepl("\\.html$",outnm)) R3port::html_plot(pl+labs(title=mdlnm),title="Fit plots",out=paste0("./analysis/",mdlnm,"/",basename(outnm)),...)
   }
 }

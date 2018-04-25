@@ -17,7 +17,10 @@ partableUI <- function() {
       radioButtons("typePars", "Save type", choices = c("HTML","PDF"), inline = TRUE),
       checkboxInput("showPars","Show on save",value=FALSE),
       actionButton("savePars2", "Save",icon=icon("save")),br(),
-      HTML("<strong style='color: red;'>Latex including various packages is needed to create PDF output</strong>")
+      HTML("Modal will close when output is saved"),
+      conditionalPanel(condition="input.typePars =='PDF'",
+        HTML("<strong style='color: red;'>Latex including various packages is needed to create PDF output</strong>")
+      )
     ),
     shinydashboard::box(selectInput("parEstLst","Model(s)",names(proj_obj)[names(proj_obj)!="meta"],multiple=TRUE,size=10,selectize=FALSE)),
     shinydashboard::box(DT::dataTableOutput('parEstTbl'))

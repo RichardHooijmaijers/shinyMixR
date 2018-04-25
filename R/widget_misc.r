@@ -12,5 +12,5 @@ updateMdlchar <- function(session,metaf,pfix){
   updateTextInput(session,paste0("desc",pfix),value=metaf$desc)
   updateSelectInput(session,paste0("ref",pfix),selected=metaf$ref)
   updateTextInput(session,paste0("data",pfix),value=metaf$data)
-  updateSelectInput(session,paste0("method",pfix),selected=metaf$method)
+  updateSelectInput(session,paste0("est",pfix),selected=metaf$est)
 }

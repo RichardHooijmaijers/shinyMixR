@@ -41,7 +41,7 @@ par_table <- function(proj,models,outnm=NULL,...){
     res
   }else{
     dir.create(paste0("./analysis/",models[1]),showWarnings=FALSE)
-    if(grepl("\\.tex$",outnm)) R3port::ltx_list(res,out=paste0("./analysis/",models[1],"/",basename(outnm)),porder=FALSE,...)
-    if(grepl("\\.html$",outnm)) R3port::html_list(res,out=paste0("./analysis/",models[1],"/",basename(outnm)),porder=FALSE,...)
+    if(grepl("\\.tex$",outnm)) R3port::ltx_list(res,out=paste0("./analysis/",models[1],"/",basename(outnm)),porder=FALSE,title="Parameter table",...)
+    if(grepl("\\.html$",outnm)) R3port::html_list(res,out=paste0("./analysis/",models[1],"/",basename(outnm)),porder=FALSE,title="Parameter table",...)
   }
 }

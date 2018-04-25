@@ -10,10 +10,13 @@ if(!exists("{{{data}}}", envir=.GlobalEnv)) {
   data_nlm <- {{{data}}}
 }
 source("{{{modelloc}}}")
-modres <- nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{control}}})
+setwd("shinyMixR/temp")
+modres <- try(nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{control}}}))
 
 {{#saveres}}
-saveRDS(modres,file="./shinyMixR/{{{modelname}}}.res.rds")
-saveRDS(list(OBJF=modres$objective,partbl=modres$par.fixed,omega=modres$omega,
-                  tottime=rowSums(modres$time)),file="./shinyMixR/{{{modelname}}}.ressum.rds")
+if(length(class(modres))>1 && class(modres)!="try-error"){
+  saveRDS(modres,file="../{{{modelname}}}.res.rds")
+  saveRDS(list(OBJF=modres$objective,partbl=modres$par.fixed,omega=modres$omega,
+               tottime=rowSums(modres$time)),file="../{{{modelname}}}.ressum.rds")
+}
 {{/saveres}}

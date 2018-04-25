@@ -45,11 +45,11 @@ gof_plot <- function(dfrm,type="xpose",mdlnm=NULL,outnm=NULL,...){
     if(is.null(mdlnm)) stop("in case output should be saved, mdlnm should be given")
     dir.create(paste0("./analysis/",mdlnm),showWarnings=FALSE)
     if(grepl("\\.tex$",outnm)){
-      R3port::ltx_plot(gridExtra::grid.arrange(p1+ggtitle("A"),p2+ggtitle("B"),p3+ggtitle("C"),p4+ggtitle("D")),
-                       out=paste0("./analysis/",mdlnm,"/",basename(outnm)),...)
+      R3port::ltx_plot(gridExtra::grid.arrange(p1+ggtitle("A"),p2+ggtitle("B"),p3+ggtitle("C"),p4+ggtitle("D"),top=mdlnm),
+                       out=paste0("./analysis/",mdlnm,"/",basename(outnm)),title="GOF plots",...)
     }else if(grepl("\\.html$",outnm)){
-      R3port::html_plot(gridExtra::grid.arrange(p1+ggtitle("A"),p2+ggtitle("B"),p3+ggtitle("C"),p4+ggtitle("D")),
-                        out=paste0("./analysis/",mdlnm,"/",basename(outnm)),...)
+      R3port::html_plot(gridExtra::grid.arrange(p1+ggtitle("A"),p2+ggtitle("B"),p3+ggtitle("C"),p4+ggtitle("D"),top=mdlnm),
+                        out=paste0("./analysis/",mdlnm,"/",basename(outnm)),title="GOF plots",...)
     }
   }
 }

@@ -17,6 +17,7 @@ get_proj <- function(moddir="./models",proj="./shinyMixR/project.rds",datdir="./
   # Read in models and place in result objects
   dir.create(dirname(proj),showWarnings = FALSE,recursive = TRUE)
   mdln    <- normalizePath(list.files(moddir,pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE))
+  mdlnb   <- sub("\\.[r|R]","",basename(mdln))
   sumres  <- normalizePath(list.files("shinyMixR",pattern="run[[:digit:]]*\\.ressum\\.rds",full.names = TRUE))
   sumresi <- file.info(sumres)
   summdli <- file.info(mdln)
@@ -51,32 +52,35 @@ get_proj <- function(moddir="./models",proj="./shinyMixR/project.rds",datdir="./
     mdls   <- readRDS(proj)
     # for the list with models, check if new models are available or old models are deleted
     # and if models are updated after last refresh:
-    inproj <- unlist(sapply(mdls[names(mdls)[names(mdls)!="meta"]],"[",1))
-    todel  <- setdiff(inproj,mdln)
-    toadd  <- setdiff(mdln,inproj)
+    # inproj <- unlist(sapply(mdls[names(mdls)[names(mdls)!="meta"]],"[",1))
+    inproj <- names(mdls)[names(mdls)!="meta"]
+    todel  <- setdiff(tolower(inproj),tolower(mdlnb))
+    toadd  <- setdiff(tolower(mdlnb),tolower(inproj))
     if(length(todel)!=0){
-      themods <- sapply(mdls[names(mdls)[names(mdls)!="meta"]],function(x) x$model%in%todel)
-      mdls <- mdls[c(sort(names(themods[!themods])),"meta")]
+      #themods <- sapply(mdls[names(mdls)[names(mdls)!="meta"]],function(x) x$model%in%todel)
+      #mdls <- mdls[c(sort(names(themods[!themods])),"meta")]
+      mdls <- mdls[c(sort(inproj[!inproj%in%todel]),"meta")]
     }
     if(length(toadd)!=0){
-      mdls2 <- lapply(toadd,list)
-      names(mdls2) <- sub("\\.[r|R]","",basename(toadd))
+      mdls2 <- lapply(mdln[which(mdlnb%in%toadd)],list)
+      #names(mdls2) <- sub("\\.[r|R]","",basename(toadd))
+      names(mdls2) <- toadd
       for(i in 1:length(mdls2)){
         names(mdls2[[i]]) <- "model"
-        if(geteval) mdls2[[i]]$modeleval <- eval(parse(text=c("try(nlmixrUI(",readLines(toadd[i]),"))")))
+        if(geteval) mdls2[[i]]$modeleval <- eval(parse(text=c("try(nlmixrUI(",readLines(mdln[which(mdlnb%in%toadd)][i]),"))")))
       }
       mdls <- c(mdls,mdls2)
     }
+    # For model results and meta data, check if there are newer results than time of last save
     if(geteval){
       for(i in mdln){
         if(summdli$mtime[row.names(summdli)==i] > mdls$meta$lastrefresh)
           mdls[[sub("\\.[r|R]","",basename(i))]]$modeleval <- eval(parse(text=c("try(nlmixrUI(",readLines(i),"))")))
       }
     }
-    # For model results, check if there are newer results than time of last save
     for(i in sumres){
       if(sumresi$mtime[row.names(sumresi)==i] > mdls$meta$lastrefresh)
-        mdls[[sub("\\.ressum\\.rds","",basename(i))]]$results <- readRDS(i)
+        mdls[[sub("\\.ressum\\.rds","",basename(i))]]$results <- try(readRDS(i))
     }
     mdls$meta$lastrefresh <- Sys.time()
   }

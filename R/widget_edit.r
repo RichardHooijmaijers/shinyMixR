@@ -21,7 +21,7 @@ editUI <- function(projlst) {
       textInput("descDupmod","Description",value=""),
       selectInput("refDupmod","Reference",c("",names(projlst)[names(projlst)!="meta"]),multiple=FALSE,selectize = TRUE),
       textInput("dataDupmod","Data",value=""),
-      selectInput("methodDupmod","method",c("saem","nlme","nlme.mu","nlme.mu.cov","nlme.free")),
+      selectInput("estDupmod","method",c("saem","nlme","nlme.mu","nlme.mu.cov","nlme.free")),
       actionButton("duplMdl2", "Go",icon=icon("play"))
     ),
     actionButton("newMdl", "New Model",icon=icon("file-text-o")),
@@ -41,7 +41,7 @@ updateRunInputs <- function(projlst,session){
   modnm <- names(get(projlst,pos = .GlobalEnv))
   # Update all selection boxes when new model is made
   updateSelectInput(session,"editLst",choices=c("",modnm[modnm!="meta"]))
-  for(i in c("runLst","gofLst","fitLst","parEstLst")) updateSelectInput(session,i,choices=modnm[modnm!="meta"])
+  for(i in c("runLst","gofLst","fitLst","parEstLst","scriptModLst")) updateSelectInput(session,i,choices=modnm[modnm!="meta"])
   shinyBS::createAlert(session,"alertEdit",content="Model saved",append=FALSE,alertId="alertEditID",style="success")
 }
 #------------------------------------------ udpateEditList ------------------------------------------
@@ -59,6 +59,9 @@ updateEditList <- function(projlst,inp,session){
 saveModel <- function(projlst,inp,session){
   if(inp$editLst!=""){
     writeLines(inp$editor,projlst[[inp$editLst]]$model)
+    assign(deparse(substitute(projlst)),get_proj(),pos = .GlobalEnv,inherits=TRUE)
+    # shinyBS seems to have a (minor) bug. Alerts are not closed, should be done manual in cases
+    shinyBS::closeAlert(session, "alertEdit")
     shinyBS::createAlert(session,"alertEdit",content="Model saved",append=FALSE,alertId="alertEditID",style="success")
   }
 }
@@ -68,16 +71,21 @@ saveModel <- function(projlst,inp,session){
 duplModelModal <- function(projlst,inp,session){
   if(inp$editLst!=""){
     updateTextInput(session,"nameDupmod",value=incr_mdl(paste0(inp$editLst,".r"),"models"))
-    if(length(inp$editLst)!=0) meta <- projlst[[inp$editLst]]$modeleval$meta
-    updateMdlchar(session,meta,"Dupmod")
-    shinyBS::toggleModal(session,"modalDupl","open")
+    if(length(inp$editLst)!=0) meta <- try(projlst[[inp$editLst]]$modeleval$meta)
+    if(class(meta)=="try-error"){
+      shinyBS::closeAlert(session, "alertEdit")
+      shinyBS::createAlert(session,"alertEdit",content="Error in base model cannot be duplicated",append=FALSE,alertId="alertEditID",style="danger")
+    }else{
+      updateMdlchar(session,meta,"Dupmod")
+      shinyBS::toggleModal(session,"modalDupl","open")
+    }
   }
 }
 #------------------------------------------ DuplModelSave ------------------------------------------
 #' @export
 # Actually save the model to disk for duplicating model
 duplModelSave <- function(projlst,inp,session){
-  metanfo <- reactiveValuesToList(inp)[c("impDupmod","descDupmod","refDupmod","dataDupmod","methodDupmod")]
+  metanfo <- reactiveValuesToList(inp)[c("impDupmod","descDupmod","refDupmod","dataDupmod","estDupmod")]
   names(metanfo) <- sub("Dupmod","",names(metanfo))
   # Had to place output of adpt_meta in object otherwise writeLines did not work
   towr <- adpt_meta(paste0("./models/",inp$editLst,".r"),metanfo)
@@ -86,6 +94,8 @@ duplModelSave <- function(projlst,inp,session){
   shinyBS::toggleModal(session,"modalDupl","close")
   assign(deparse(substitute(projlst)),get_proj(),pos = .GlobalEnv,inherits=TRUE)
   updateRunInputs(deparse(substitute(projlst)),session)
+  shinyAce::updateAceEditor(session,"editor",value=paste(readLines(projlst[[sub("\\.[r|R]","",inp$nameDupmod)]]$model),collapse="\n"))
+  updateSelectInput(session,"editLst",selected=sub("\\.[r|R]","",inp$nameDupmod))
 }
 #------------------------------------------ newModelModal ------------------------------------------
 #' @export
@@ -106,5 +116,7 @@ newModelSave <- function(projlst,inp,session){
     shinyBS::toggleModal(session,"modalnewMdl","close")
     assign(deparse(substitute(projlst)),get_proj(),pos = .GlobalEnv,inherits=TRUE)
     updateRunInputs(deparse(substitute(projlst)),session)
+    shinyAce::updateAceEditor(session,"editor",value=paste(readLines(projlst[[sub("\\.[r|R]","",inp$nameNewmod)]]$model),collapse="\n"))
+    updateSelectInput(session,"editLst",selected=sub("\\.[r|R]","",inp$nameNewmod))
   }
 }

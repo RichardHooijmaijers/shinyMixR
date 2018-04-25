@@ -18,9 +18,13 @@ overview <- function(...){
   obj  <- get_proj(...)
   mdln <- names(obj)[names(obj)!="meta"]
   res1 <- lapply(mdln, function(x){
-    meta <- obj[[x]]$modeleval$meta
-    c(ifelse(is.null(meta$imp),NA,meta$imp), ifelse(is.null(meta$desc),"",meta$desc),ifelse(is.null(meta$ref),"",meta$ref),
-      ifelse(is.null(meta$data),"",meta$data),ifelse(is.null(meta$est),"",meta$est))
+    if(class(obj[[x]]$modeleval)=="try-error"){
+      c(NA,"","","","")
+    }else{
+      meta <- obj[[x]]$modeleval$meta
+      c(ifelse(is.null(meta$imp),NA,meta$imp), ifelse(is.null(meta$desc),"",meta$desc),ifelse(is.null(meta$ref),"",meta$ref),
+        ifelse(is.null(meta$data),"",meta$data),ifelse(is.null(meta$est),"",meta$est))
+    }
   })
   res2 <- lapply(obj[mdln], function(x){
     if(!is.null(x$results)) c(round(x$results$OBJF,3),round(x$results$tottime,3)) else c("","")

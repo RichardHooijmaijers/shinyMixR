@@ -19,7 +19,10 @@ fitUI <- function() {
       radioButtons("typeFit", "Save type", choices = c("HTML","PDF"), inline = TRUE),
       checkboxInput("showFit","Show on save",value=FALSE),
       actionButton("saveFit2", "Save",icon=icon("save")),br(),
-      HTML("<strong style='color: red;'>Latex including various packages is needed to create PDF output</strong>")
+      HTML("Modal will close when output is saved"),
+      conditionalPanel(condition="input.typeFit =='PDF'",
+        HTML("<strong style='color: red;'>Latex including various packages is needed to create PDF output</strong>")
+      )
     ),
     br(),br(),
     plotOutput("fitPlt",width="80%")

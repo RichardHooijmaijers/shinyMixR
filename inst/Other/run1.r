@@ -3,7 +3,7 @@ run1 <- function() {
   desc = "template models"
   ref  = ""
   imp  = 1
-  est  = "saem"
+  est  = "nlme"
   control<-list()
   ini({
     tka <- .5
