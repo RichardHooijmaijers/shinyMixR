@@ -26,16 +26,21 @@ scriptsUI <- function() {
 # Function to create and save a gof plots
 # save: logical indicating if the resulting plot should be saved
 createRunScript <- function(inp,session){
-  scr   <- readLines(paste0("./scripts/",inp$scriptFilLst))
-  tmpsc <- paste0("./shinyMixR/temp/",inp$scriptFilLst,".",stringi::stri_rand_strings(1,6),".r")
-  writeLines(c(paste0("models <- c(", paste(shQuote(inp$scriptModLst),collapse = ", "),")"),scr),tmpsc)
-  writeLines(paste("Run",inp$scriptFilLst,"for model(s)",paste(inp$scriptModLst,collapse = ", "),"in",getwd()),"./shinyMixR/temp/scriptres.out")
-  if(Sys.info()['sysname']=="Windows"){
-    shell(paste0("Rscript ", tmpsc,  " >> ./shinyMixR/temp/scriptres.out 2>&1"),wait=FALSE)
+  shinyBS::closeAlert(session,"alertScriptID")
+  if(is.null(inp$scriptModLst) | is.null(inp$scriptFilLst)){
+    shinyBS::createAlert(session,"alertScript",content="Select model and script to perform this action",append=FALSE,alertId="alertScriptID",style="danger")
   }else{
-    system(paste0("Rscript ", tmpsc,  " >> ./shinyMixR/temp/scriptres.out 2>&1"),wait=FALSE)
+    scr   <- readLines(paste0("./scripts/",inp$scriptFilLst))
+    tmpsc <- paste0("./shinyMixR/temp/",inp$scriptFilLst,".",stringi::stri_rand_strings(1,6),".r")
+    writeLines(c(paste0("models <- c(", paste(shQuote(inp$scriptModLst),collapse = ", "),")"),scr),tmpsc)
+    writeLines(paste("Run",inp$scriptFilLst,"for model(s)",paste(inp$scriptModLst,collapse = ", "),"in",getwd()),"./shinyMixR/temp/scriptres.out")
+    if(Sys.info()['sysname']=="Windows"){
+      shell(paste0("Rscript ", tmpsc,  " >> ./shinyMixR/temp/scriptres.out 2>&1"),wait=FALSE)
+    }else{
+      system(paste0("Rscript ", tmpsc,  " >> ./shinyMixR/temp/scriptres.out 2>&1"),wait=FALSE)
+    }
+    shinyBS::createAlert(session,"alertScript",content=paste("Script",inp$scriptFilLst,"submitted"),append=FALSE,alertId="alertScriptID",style="success")
   }
-  shinyBS::createAlert(session,"alertScript",content=paste("Script",inp$scriptFilLst,"submitted"),append=FALSE,alertId="alertScriptID",style="success")
 }
 #------------------------------------------ showScriptProgress ------------------------------------------
 #' @export
