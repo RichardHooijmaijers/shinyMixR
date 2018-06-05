@@ -4,7 +4,7 @@ run1 <- function() {
   ref  = ""
   imp  = 1
   est  = "nlme"
-  control<-list()
+  control = nlmeControl(pnlsTol=0.1)
   ini({
     tka <- .5
     tcl <- -3.2
