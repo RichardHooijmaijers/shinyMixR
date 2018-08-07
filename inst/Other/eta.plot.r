@@ -4,8 +4,10 @@
 library(ggplot2)
 lapply(models,function(x){
   dat  <- readRDS(paste0("./shinyMixR/",x,".res.rds"))
-  dat  <- dat[!duplicated(dat$ID),]
-  etav <- names(dat)[grep("eta\\.",names(dat))]
+  ## MLF: this is error prone since you don't have to name an eta eta.cl for instance...
+  ## dat  <- dat[!duplicated(dat$ID),]
+  ## etav <- names(dat)[grep("eta\\.",names(dat))]
+  etav <- nlme::ranef(dat)[, -1];
   if(length(etav)!=0){
     pll <- lapply(etav,function(pl){
       ggplot(dat,aes_string(pl)) + geom_histogram(fill="grey",color="black") + labs(title=pl)
