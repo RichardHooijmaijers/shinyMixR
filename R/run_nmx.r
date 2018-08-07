@@ -60,7 +60,7 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE){
     if(autoupdate) assign(dnm,proj,pos = .GlobalEnv)
   }else{
     modres  <- nlmixr(eval(parse(text=readLines(proj[[mod]]$model))), get(meta$data), est=meta$est,control=meta$control)
-    ressum  <- list(OBJF=modres$objective,partbl=modres$par.fixed,omega=modres$omega,tottime=rowSums(modres$time))
+    ressum  <- list(OBJF=modres$objective,partbl=modres$popDf,omega=modres$omega,tottime=rowSums(modres$time))
     if(saverds){
       saveRDS(modres,file=paste0("./shinyMixR/",mod,".res.rds"))
       saveRDS(ressum,file=paste0("./shinyMixR/",mod,".ressum.rds"))

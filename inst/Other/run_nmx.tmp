@@ -16,7 +16,7 @@ modres <- try(nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{
 {{#saveres}}
 if(length(class(modres))>1 && class(modres)!="try-error"){
   saveRDS(modres,file="../{{{modelname}}}.res.rds")
-  saveRDS(list(OBJF=modres$objective,partbl=modres$par.fixed,omega=modres$omega,
+  saveRDS(list(OBJF=modres$objective,partbl=modres$popDf,omega=modres$omega,
                tottime=rowSums(modres$time)),file="../{{{modelname}}}.ressum.rds")
 }
 {{/saveres}}

@@ -30,7 +30,7 @@ par_table <- function(proj,models,outnm=NULL,...){
   withres <- names(proj)[sapply(proj,function(x) !is.null(x$results))]
   tbls <- lapply(intersect(models,withres),function(x){
     tbl <- proj[[x]]$results$partbl
-    Est <- paste0(formatC(tbl$Estimate,digits=3,width=5,flag=" ")," [",formatC(tbl$CV,digits=3,width=5,flag=" ")," ]")
+    Est <- paste0(formatC(tbl$`Est.`,digits=3,width=5,flag=" ")," [",formatC(tbl$`%RSE`,digits=3,width=5,flag=" ")," ]")
     ret <- data.frame(Parameter=row.names(tbl),Est=Est)
     names(ret) <- c("Parameter",x)
     ret
