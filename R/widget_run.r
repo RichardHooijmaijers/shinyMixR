@@ -14,7 +14,10 @@ runUI <- function() {
     selectInput("runLst","Model(s)",names(proj_obj)[names(proj_obj)!="meta"],multiple=TRUE,selectize = TRUE),
     actionButton("runMdl", "Run Model(s)",icon=icon("play")),
     actionButton("showIt", "Show progress",icon=icon("spinner")),
+    checkboxInput("addCWRES","Add CWRES to output",value=TRUE),
+    checkboxInput("addNPDE","add NPDE to output",value=TRUE),
     br(),br(),
+    shinyBS::bsAlert("alertRunmdl"),br(),br(),
     verbatimTextOutput("progrTxt"),
     tags$head(tags$style("#progrTxt{overflow-y:scroll; max-height: 600px;}"))
   )
@@ -23,16 +26,18 @@ runUI <- function() {
 #' @export
 # Function to run one or multiple models async (to avoid freezing of app)
 # templog: location where the temporary log files or progress files are stored
-runMod <- function(projlst,inp,session,templog="./shinyMixR/temp"){
-  unlink(list.files(templog,pattern="run.*prog\\.txt$",full.names = TRUE))
-  if(!is.null(inp$runLst)) lapply(inp$runLst,function(mods) run_nmx(mods,projlst))
+runMod <- function(projlst,inp,session,projloc="."){
+  shinyBS::closeAlert(session,"alertRunmdlID")
+  unlink(list.files(paste0(projloc,"/shinyMixR/temp"),pattern="run.*prog\\.txt$",full.names = TRUE))
+  if(!is.null(inp$runLst)) lapply(inp$runLst,function(mods) run_nmx(mods,projlst,projloc=projloc,addcwres=inp$addCWRES,addnpde=inp$addNPDE))
+  shinyBS::createAlert(session,"alertRunmdl",content="model(s) submitted. Click 'Show progress' to see current status",append=FALSE,alertId="alertRunmdlID",style="success")
 }
 #------------------------------------------ modProgr ------------------------------------------
 #' @export
 # Function to read in and show the temporary log file for one or multiple runs
 # templog: location where the temporary log files or progress files are stored
-modProgr <- function(templog="./shinyMixR/temp"){
-  progFn   <- list.files(templog,pattern="prog\\.txt$",full.names = TRUE)
+modProgr <- function(projloc="."){
+  progFn   <- list.files(paste0(projloc,"/shinyMixR/temp"),pattern="prog\\.txt$",full.names = TRUE)
   progFnr  <- unlist(lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x))))
   cat(progFnr,sep="\n")
 }

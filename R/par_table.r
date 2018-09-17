@@ -7,6 +7,7 @@
 #' @param proj project object
 #' @param models character vector with model names to create table for
 #' @param outnm character with name of the output file (see details)
+#' @param projloc character with the base location of the shinyMixR project
 #' @param ... additional arguments passed to \code{\link[R3port]{ltx_plot}} or \code{\link[R3port]{html_plot}}
 #'
 #' @details In case a model is saved, a directory with the name of the model is created within the
@@ -26,11 +27,11 @@
 #' \dontrun{
 #'  par_table(proj)
 #' }
-par_table <- function(proj,models,outnm=NULL,...){
+par_table <- function(proj,models,outnm=NULL,projloc=".",...){
   withres <- names(proj)[sapply(proj,function(x) !is.null(x$results))]
   tbls <- lapply(intersect(models,withres),function(x){
     tbl <- proj[[x]]$results$partbl
-    Est <- paste0(formatC(tbl$`Est.`,digits=3,width=5,flag=" ")," [",formatC(tbl$`%RSE`,digits=3,width=5,flag=" ")," ]")
+    Est <- paste0(formatC(tbl$Estimate,digits=3,width=5,flag=" ")," [",formatC(tbl$`%RSE`,digits=3,width=5,flag=" ")," ]")
     ret <- data.frame(Parameter=row.names(tbl),Est=Est)
     names(ret) <- c("Parameter",x)
     ret
@@ -40,8 +41,8 @@ par_table <- function(proj,models,outnm=NULL,...){
   if(is.null(outnm)){
     res
   }else{
-    dir.create(paste0("./analysis/",models[1]),showWarnings=FALSE)
-    if(grepl("\\.tex$",outnm)) R3port::ltx_list(res,out=paste0("./analysis/",models[1],"/",basename(outnm)),porder=FALSE,title="Parameter table",...)
-    if(grepl("\\.html$",outnm)) R3port::html_list(res,out=paste0("./analysis/",models[1],"/",basename(outnm)),porder=FALSE,title="Parameter table",...)
+    dir.create(paste0(projloc,"/analysis/",models[1]),showWarnings=FALSE)
+    if(grepl("\\.tex$",outnm)) R3port::ltx_list(res,out=paste0(projloc,"/analysis/",models[1],"/",basename(outnm)),porder=FALSE,title="Parameter table",...)
+    if(grepl("\\.html$",outnm)) R3port::html_list(res,out=paste0(projloc,"/analysis/",models[1],"/",basename(outnm)),porder=FALSE,title="Parameter table",...)
   }
 }

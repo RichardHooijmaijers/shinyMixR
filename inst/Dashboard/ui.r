@@ -5,8 +5,8 @@
 # a shinyMixR and temp subfolder are created as it is necessary to place stuff in
 # the proj_obj is assigned in the global environment to easily switch between the interface and CLI
 setwd(.cwd)
-dir.create("shinyMixR/temp",showWarnings = FALSE,recursive = TRUE)
-assign("proj_obj",get_proj(),pos = .GlobalEnv)
+if(file.exists("shinyMixR")){assign("proj_obj",get_proj(),pos = .GlobalEnv)}else{assign("proj_obj",list(),pos = .GlobalEnv)}
+assign("projwd",getwd(),pos = .GlobalEnv)
 
 shinyUI( shinydashboard::dashboardPage(
 
@@ -14,7 +14,6 @@ shinyUI( shinydashboard::dashboardPage(
   title = "shinyMixR",
   shinydashboard::dashboardHeader(
     title = tags$img(src='logoSmall2.png',height=45),
-    tags$li(HTML("<span id='projhead1'><span id='projhead2'></span></span>"),class="dropdown"),
     tags$li(img(src = 'logo2.png',height=42),class = "dropdown")
   ),
 
@@ -52,7 +51,8 @@ shinyUI( shinydashboard::dashboardPage(
       shinydashboard::tabItem(tabName = "tabSettings",
         selectInput("plotType","Plot types",c("xpose","user"),multiple=FALSE),
         sliderInput("fontEditor","Font size editor",min=6,max=18,value=14,step=1),
-        selectInput("themeEditor","Editor theme",shinyAce::getAceThemes(),selected="solarized_light",multiple=FALSE)
+        selectInput("themeEditor","Editor theme",shinyAce::getAceThemes(),selected="solarized_light",multiple=FALSE),
+        checkboxInput("createsmf","Create shinyMixR folders after project selection",value=TRUE)
         #numericInput("plotHgt","Plot height",800)
       )
     )

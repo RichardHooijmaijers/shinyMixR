@@ -14,6 +14,11 @@ editUI <- function(projlst) {
     selectInput("editLst","Model(s)",c("",names(projlst)[names(projlst)!="meta"]),multiple=FALSE,selectize = TRUE),
     shinyAce::aceEditor("editor",value="",mode="r",theme = "solarized_light",height="600px",fontSize = 14),
     actionButton("saveMdl", "Save Model",icon=icon("save")),
+    actionButton("saveMdlAs", "Save Model as",icon=icon("save")),
+    shinyBS::bsModal("modalsaveAs","Save as","",size="small",
+      textInput("nameSaveasmod","Name model",value=""),
+      actionButton("saveMdlAs2", "Save",icon=icon("save"))
+    ),
     actionButton("duplMdl", "Duplicate Model",icon=icon("copy")),
     shinyBS::bsModal("modalDupl","Duplicate model","",
       textInput("nameDupmod","Name new model",value=""),
@@ -59,18 +64,41 @@ updateEditList <- function(projlst,inp,session){
 saveModel <- function(projlst,inp,session){
   if(inp$editLst!=""){
     writeLines(inp$editor,projlst[[inp$editLst]]$model)
-    assign(deparse(substitute(projlst)),get_proj(),pos = .GlobalEnv,inherits=TRUE)
+    assign(deparse(substitute(projlst)),get_proj(projloc=projwd),pos = .GlobalEnv,inherits=TRUE)
     # shinyBS seems to have a (minor) bug. Alerts are not closed, should be done manual in cases
     shinyBS::closeAlert(session, "alertEdit")
     shinyBS::createAlert(session,"alertEdit",content="Model saved",append=FALSE,alertId="alertEditID",style="success")
   }
+}
+#------------------------------------------ saveModelAsM ------------------------------------------
+#' @export
+# Open the save as modal
+saveModelAsM <- function(session) shinyBS::toggleModal(session,"modalsaveAs","open")
+#------------------------------------------ saveModelAs ------------------------------------------
+#' @export
+# Save the new model with a new name
+saveModelAs <- function(projlst,inp,session){
+  if(!grepl("run[[:digit:]]*\\.[r|R]",inp$nameSaveasmod)){
+    shinyBS::toggleModal(session,"modalsaveAs","close")
+    shinyBS::closeAlert(session, "alertEdit")
+    shinyBS::createAlert(session,"alertEdit",content="naming of models should be 'run[digit(s)].r' (all lower case)",append=FALSE,alertId="alertEditID",style="danger")
+  }else{
+    # (if necessary) change function name to savename
+    towr <- sub(inp$editLst,sub("\\.[r|R]","",inp$nameSaveasmod),inp$editor)
+    writeLines(towr,paste0(projwd,"/models/",inp$nameSaveasmod))
+    shinyBS::toggleModal(session,"modalsaveAs","close")
+    assign(deparse(substitute(projlst)),get_proj(projloc=projwd),pos = .GlobalEnv,inherits=TRUE)
+    updateRunInputs(deparse(substitute(projlst)),session)
+    shinyAce::updateAceEditor(session,"editor",value=paste(readLines(projlst[[sub("\\.[r|R]","",inp$nameSaveasmod)]]$model),collapse="\n"))
+    updateSelectInput(session,"editLst",selected=sub("\\.[r|R]","",inp$nameSaveasmod))
+  }  
 }
 #------------------------------------------ duplModelModal ------------------------------------------
 #' @export
 # Correctly open the modal in case duplicate model is selected
 duplModelModal <- function(projlst,inp,session){
   if(inp$editLst!=""){
-    updateTextInput(session,"nameDupmod",value=incr_mdl(paste0(inp$editLst,".r"),"models"))
+    updateTextInput(session,"nameDupmod",value=incr_mdl(paste0(inp$editLst,".r"),paste0(projwd,"/models")))
     if(length(inp$editLst)!=0) meta <- try(projlst[[inp$editLst]]$modeleval$meta)
     if(class(meta)=="try-error"){
       shinyBS::closeAlert(session, "alertEdit")
@@ -88,11 +116,11 @@ duplModelSave <- function(projlst,inp,session){
   metanfo <- reactiveValuesToList(inp)[c("impDupmod","descDupmod","refDupmod","dataDupmod","estDupmod")]
   names(metanfo) <- sub("Dupmod","",names(metanfo))
   # Had to place output of adpt_meta in object otherwise writeLines did not work
-  towr <- adpt_meta(paste0("./models/",inp$editLst,".r"),metanfo)
+  towr <- adpt_meta(paste0(projwd,"/models/",inp$editLst,".r"),metanfo)
   towr <- sub(inp$editLst,sub("\\.[r|R]","",inp$nameDupmod),towr)
-  writeLines(towr,paste0("./models/",inp$nameDupmod))
+  writeLines(towr,paste0(projwd,"/models/",inp$nameDupmod))
   shinyBS::toggleModal(session,"modalDupl","close")
-  assign(deparse(substitute(projlst)),get_proj(),pos = .GlobalEnv,inherits=TRUE)
+  assign(deparse(substitute(projlst)),get_proj(projloc=projwd),pos = .GlobalEnv,inherits=TRUE)
   updateRunInputs(deparse(substitute(projlst)),session)
   shinyAce::updateAceEditor(session,"editor",value=paste(readLines(projlst[[sub("\\.[r|R]","",inp$nameDupmod)]]$model),collapse="\n"))
   updateSelectInput(session,"editLst",selected=sub("\\.[r|R]","",inp$nameDupmod))
@@ -102,7 +130,7 @@ duplModelSave <- function(projlst,inp,session){
 # Correctly open the modal in case new model is selected
 newModelModal <- function(inp,session){
   toincr <- ifelse(inp$editLst=="","run1.r",paste0(inp$editLst,".r"))
-  updateTextInput(session,"nameNewmod",value=incr_mdl(toincr,"models"))
+  updateTextInput(session,"nameNewmod",value=incr_mdl(toincr,paste0(projwd,"/models")))
   shinyBS::toggleModal(session,"modalnewMdl","open")
 }
 #------------------------------------------ NewModelSave ------------------------------------------
@@ -112,9 +140,9 @@ newModelSave <- function(projlst,inp,session){
   mdl <- try(readLines(system.file(paste0("Other/",inp$templNewmod,".r"),package="shinyMixR")))
   if(class(mdl)!="try-error"){
     mdl <- sub("run1",sub("\\.[r|R]","",inp$nameNewmod),mdl)
-    writeLines(mdl,paste0("models/",inp$nameNewmod))
+    writeLines(mdl,paste0(projwd,"/models/",inp$nameNewmod))
     shinyBS::toggleModal(session,"modalnewMdl","close")
-    assign(deparse(substitute(projlst)),get_proj(),pos = .GlobalEnv,inherits=TRUE)
+    assign(deparse(substitute(projlst)),get_proj(projloc=projwd),pos = .GlobalEnv,inherits=TRUE)
     updateRunInputs(deparse(substitute(projlst)),session)
     shinyAce::updateAceEditor(session,"editor",value=paste(readLines(projlst[[sub("\\.[r|R]","",inp$nameNewmod)]]$model),collapse="\n"))
     updateSelectInput(session,"editLst",selected=sub("\\.[r|R]","",inp$nameNewmod))

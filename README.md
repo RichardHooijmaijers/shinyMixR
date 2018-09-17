@@ -15,6 +15,7 @@ devtools::install_github("richardhooijmaijers/shinyMixR")
 ## Documentation
 
 A short introduction to the package can be found [here](https://richardhooijmaijers.github.io/shinyMixR/index.html)
+It is advised for existing users to read `news.md` to see all the latest changes to the package.
 
 ## License
 

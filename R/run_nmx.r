@@ -9,6 +9,9 @@
 #' @param ext logical indicating if the model should be run external in a separate r session
 #' @param saverds logical indicating if the model results should be saved in a rds file
 #' @param autoupdate logical indicating if the project object should automatically update
+#' @param projloc character with the base location of the shinyMixR project
+#' @param addcwres logical indicating if CWRES should be added to the output
+#' @param addnpde logical indicating if NPDE should be added to the output
 #'
 #' @details the meta data is obtained by compiling the model. The dataset, estimation method and control list are
 #'   then included in the nlmixr call. Meta data is included in the model function which is comparable with NONMEM.
@@ -23,23 +26,23 @@
 #' \dontrun{
 #'  run_nmx("run1",proj)
 #' }
-run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE){
+run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=".",addcwres=TRUE,addnpde=TRUE){
 
   dnm     <- deparse(substitute(proj))
-  if(autoupdate) assign(dnm,get_proj())
+  if(autoupdate) assign(dnm,get_proj(projloc=projloc))
   # Source model to obtain meta data (places meta object in env)
-  source(proj[[mod]]$model,local=TRUE)
+  sret <- try(source(proj[[mod]]$model,local=TRUE))
   meta <- try(eval(parse(text=c("nlmixr(",readLines(proj[[mod]]$model),")$meta"))))
-  if(class(meta)=="try-error"){
+  if(class(meta)=="try-error" || class(sret)=="try-error"){
     cat("Error in model syntax please check before running\n")
-    if(ext) writeLines(meta, paste0("./shinyMixR/temp/",mod,".prog.txt"))
+    if(ext) writeLines(meta, paste0(projloc,"/shinyMixR/temp/",mod,".prog.txt"))
     return()
   }
 
   if(ext){
     # In this step it is not possible to place the results in proj object (need refresh function/button)
     # Decided to place everything in a temp script, furthermore have to add keep.source as option.
-    dir.create("shinyMixR/temp",showWarnings = FALSE,recursive = TRUE)
+    dir.create(paste0(projloc,"/shinyMixR/temp"),showWarnings = FALSE,recursive = TRUE)
 
     # Had to deal with control list in a different way because nested lists are not passed correctly in paste
     cntrll <- trimws(readLines(proj[[mod]]$model))
@@ -48,22 +51,22 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE){
 
     tmpl <- readLines(paste0(system.file(package = "shinyMixR"),"/Other/run_nmx.tmp"))
     rlst <- list(modelloc=normalizePath(proj[[mod]]$model,winslash = "/",mustWork = FALSE), data=meta$data,
-                 est=meta$est, control=cntrll, saveres=saverds, modelname=mod)
+                 est=meta$est, control=cntrll, saveres=saverds, modelname=mod,locproj=projloc,addcwres=addcwres,addnpde=addnpde)
 
-    tscr <- paste0("./shinyMixR/temp/script.",stringi::stri_rand_strings(1,6),".r")
+    tscr <- paste0(projloc,"/shinyMixR/temp/script.",stringi::stri_rand_strings(1,6),".r")
     writeLines(whisker::whisker.render(tmpl,rlst),tscr)
     if(Sys.info()['sysname']=="Windows"){
-      shell(paste0("Rscript ", tscr,  " > ./shinyMixR/temp/",mod,".prog.txt 2>&1"),wait=FALSE)
+      shell(paste0("Rscript \"", tscr,  "\" > \"",projloc,"/shinyMixR/temp/",mod,".prog.txt\" 2>&1"),wait=FALSE)
     }else{
-      system(paste0("Rscript ", tscr,  " > ./shinyMixR/temp/",mod,".prog.txt 2>&1"),wait=FALSE)
+      system(paste0("Rscript \"", tscr,  "\" > \"",projloc,"/shinyMixR/temp/",mod,".prog.txt\" 2>&1"),wait=FALSE)
     }
     if(autoupdate) assign(dnm,proj,pos = .GlobalEnv)
   }else{
-    modres  <- nlmixr(eval(parse(text=readLines(proj[[mod]]$model))), get(meta$data), est=meta$est,control=meta$control)
-    ressum  <- list(OBJF=modres$objective,partbl=modres$popDf,omega=modres$omega,tottime=rowSums(modres$time))
+    modres  <- nlmixr(eval(parse(text=readLines(proj[[mod]]$model))), get(meta$data), est=meta$est,control=meta$control,tableControl(cwres=addcwres, npde=addnpde))
+    ressum  <- list(OBJF=modres$objective,partbl=modres$popDf,partblf=modres$par.fixed,omega=modres$omega,tottime=rowSums(modres$time))
     if(saverds){
-      saveRDS(modres,file=paste0("./shinyMixR/",mod,".res.rds"))
-      saveRDS(ressum,file=paste0("./shinyMixR/",mod,".ressum.rds"))
+      saveRDS(modres,file=paste0(projloc,"/shinyMixR/",mod,".res.rds"))
+      saveRDS(ressum,file=paste0(projloc,"/shinyMixR/",mod,".ressum.rds"))
     }
     proj[[mod]]$results <- ressum
     assign(dnm,proj,pos = .GlobalEnv)

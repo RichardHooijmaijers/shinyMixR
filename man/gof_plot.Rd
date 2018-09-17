@@ -4,7 +4,8 @@
 \alias{gof_plot}
 \title{Create goodness of fit plots}
 \usage{
-gof_plot(dfrm, type = "xpose", mdlnm = NULL, outnm = NULL, ...)
+gof_plot(dfrm, type = "xpose", mdlnm = NULL, outnm = NULL,
+  projloc = ".", ...)
 }
 \arguments{
 \item{dfrm}{data frame as created by the nlmixr function}
@@ -15,6 +16,8 @@ gof_plot(dfrm, type = "xpose", mdlnm = NULL, outnm = NULL, ...)
 \item{mdlnm}{character with name of the model}
 
 \item{outnm}{character with name of the output file (see details)}
+
+\item{projloc}{character with the base location of the shinyMixR project}
 
 \item{...}{additional arguments passed to \code{\link[R3port]{ltx_plot}} or \code{\link[R3port]{html_plot}}}
 }

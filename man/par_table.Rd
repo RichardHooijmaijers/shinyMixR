@@ -4,7 +4,7 @@
 \alias{par_table}
 \title{Create parameter table}
 \usage{
-par_table(proj, models, outnm = NULL, ...)
+par_table(proj, models, outnm = NULL, projloc = ".", ...)
 }
 \arguments{
 \item{proj}{project object}
@@ -12,6 +12,8 @@ par_table(proj, models, outnm = NULL, ...)
 \item{models}{character vector with model names to create table for}
 
 \item{outnm}{character with name of the output file (see details)}
+
+\item{projloc}{character with the base location of the shinyMixR project}
 
 \item{...}{additional arguments passed to \code{\link[R3port]{ltx_plot}} or \code{\link[R3port]{html_plot}}}
 }

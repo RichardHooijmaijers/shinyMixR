@@ -9,6 +9,7 @@
 #'   "xpose" and "user" are supported for xpose or ggplot style of plots
 #' @param mdlnm character with name of the model
 #' @param outnm character with name of the output file (see details)
+#' @param projloc character with the base location of the shinyMixR project
 #' @param ... additional arguments passed to \code{\link[R3port]{ltx_plot}} or \code{\link[R3port]{html_plot}}
 #'
 #' @details In case a model is saved, a directory with the name of the model is created within the
@@ -26,7 +27,7 @@
 #' \dontrun{
 #'  fit_plot(res)
 #' }
-fit_plot <- function(dfrm,type="xpose",mdlnm=NULL,outnm=NULL,...){
+fit_plot <- function(dfrm,type="xpose",mdlnm=NULL,outnm=NULL,projloc=".",...){
   if(type=="xpose"){
     xpdb <- xpose.nlmixr::xpose_data_nlmixr(dfrm)
     pl   <- xpose::ind_plots(xpdb, nrow=3, ncol=4)
@@ -39,8 +40,8 @@ fit_plot <- function(dfrm,type="xpose",mdlnm=NULL,outnm=NULL,...){
     pl
   }else{
     if(is.null(mdlnm)) stop("in case output should be saved, mdlnm should be given")
-    dir.create(paste0("./analysis/",mdlnm),showWarnings=FALSE)
-    if(grepl("\\.tex$",outnm)) R3port::ltx_plot(pl+labs(title=mdlnm),title="Fit plots",out=paste0("./analysis/",mdlnm,"/",basename(outnm)),...)
-    if(grepl("\\.html$",outnm)) R3port::html_plot(pl+labs(title=mdlnm),title="Fit plots",out=paste0("./analysis/",mdlnm,"/",basename(outnm)),...)
+    dir.create(paste0(projloc,"/analysis/",mdlnm),showWarnings=FALSE)
+    if(grepl("\\.tex$",outnm)) R3port::ltx_plot(pl+labs(title=mdlnm),title="Fit plots",out=paste0(projloc,"/analysis/",mdlnm,"/",basename(outnm)),...)
+    if(grepl("\\.html$",outnm)) R3port::html_plot(pl+labs(title=mdlnm),title="Fit plots",out=paste0(projloc,"/analysis/",mdlnm,"/",basename(outnm)),...)
   }
 }

@@ -32,7 +32,6 @@ overview <- function(...){
   res <- data.frame(cbind(mdln,do.call(rbind,res1),do.call(rbind,res2)),stringsAsFactors = FALSE)
   if(nrow(res)!=0){
     names(res) <- c("models","importance","description","ref","data","method","OBJF","runtime")
-    #res$dOBJF  <- sapply(res$models,function(x) round(as.numeric(res$OBJF[which(res$models==x)]) - as.numeric(res$OBJF[which(res$models==res$ref[res$models==x])]),4))
     dOBJF      <- lapply(res$models,function(x) round(as.numeric(res$OBJF[which(res$models==x)]) - as.numeric(res$OBJF[which(res$models==res$ref[res$models==x])]),4))
     res$dOBJF  <- sapply(dOBJF,function(x) ifelse(length(x)==0,NA,x))
     res        <- res[,c("models","importance","description","ref","data","method","OBJF","dOBJF","runtime")]

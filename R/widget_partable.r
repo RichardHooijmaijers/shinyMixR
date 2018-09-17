@@ -30,14 +30,14 @@ partableUI <- function() {
 #' @export
 # Function to create parameter table for one or multiple result files
 # saveit: logical indicating if the resulting table should be saved
-parTable <- function(inp,session,saveit=FALSE){
-   obj     <- get_proj()
+parTable <- function(inp,session,projloc=".",saveit=FALSE){
+   obj     <- get_proj(projloc=projloc)
    if(!saveit){
      par_table(obj,models=inp$parEstLst)
    }else{
      savnm  <- ifelse(inp$typePars=="PDF",paste0(inp$namePars,".tex"),paste0(inp$namePars,".html"))
-     par_table(obj,models=inp$parEstLst,outnm=savnm,show=inp$showPars)
+     par_table(obj,models=inp$parEstLst,outnm=savnm,show=inp$showPars,projloc=projloc)
      shinyBS::toggleModal(session,"modalSavePars","close")
-     updateSelectInput(session,"resModLst",choices=list.dirs("./analysis",recursive=FALSE))
+     updateSelectInput(session,"resModLst",choices=list.dirs(paste0(projloc,"/analysis"),recursive=FALSE))
    }
 }

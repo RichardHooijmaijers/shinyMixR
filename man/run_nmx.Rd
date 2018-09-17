@@ -4,7 +4,8 @@
 \alias{run_nmx}
 \title{Runs a nlmixr model}
 \usage{
-run_nmx(mod, proj = proj, ext = TRUE, saverds = TRUE, autoupdate = TRUE)
+run_nmx(mod, proj = proj, ext = TRUE, saverds = TRUE, autoupdate = TRUE,
+  projloc = ".", addcwres = TRUE, addnpde = TRUE)
 }
 \arguments{
 \item{mod}{character with the model file present in project object}
@@ -16,6 +17,12 @@ run_nmx(mod, proj = proj, ext = TRUE, saverds = TRUE, autoupdate = TRUE)
 \item{saverds}{logical indicating if the model results should be saved in a rds file}
 
 \item{autoupdate}{logical indicating if the project object should automatically update}
+
+\item{projloc}{character with the base location of the shinyMixR project}
+
+\item{addcwres}{logical indicating if CWRES should be added to the output}
+
+\item{addnpde}{logical indicating if NPDE should be added to the output}
 }
 \value{
 In case the model is not submitted in a separate R session, the results from nlmixr are returned otherwise

@@ -4,13 +4,12 @@
 \alias{get_proj}
 \title{Read in and update model results in project object}
 \usage{
-get_proj(moddir = "./models", proj = "./shinyMixR/project.rds",
-  datdir = "./data", geteval = TRUE)
+get_proj(projloc = ".", geteval = TRUE)
 }
 \arguments{
-\item{moddir}{character with the directory that includes the model files}
+\item{projloc}{character with the base location of the shinyMixR project}
 
-\item{proj}{character with the rds files that includes the model information}
+\item{geteval}{logical indicating if the model functions should be evaluated}
 }
 \description{
 This function creates or updates a project object with models and/or results emerged from nlmixr runs

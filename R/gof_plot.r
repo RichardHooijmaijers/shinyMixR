@@ -9,6 +9,7 @@
 #'   "xpose" and "user" are supported for xpose or ggplot style of plots
 #' @param mdlnm character with name of the model
 #' @param outnm character with name of the output file (see details)
+#' @param projloc character with the base location of the shinyMixR project
 #' @param ... additional arguments passed to \code{\link[R3port]{ltx_plot}} or \code{\link[R3port]{html_plot}}
 #'
 #' @details In case a model is saved, a directory with the name of the model is created within the
@@ -26,30 +27,30 @@
 #' \dontrun{
 #'  gof_plot(res)
 #' }
-gof_plot <- function(dfrm,type="xpose",mdlnm=NULL,outnm=NULL,...){
+gof_plot <- function(dfrm,type="xpose",mdlnm=NULL,outnm=NULL,projloc=".",...){
   if(type=="xpose"){
     xpdb <- xpose.nlmixr::xpose_data_nlmixr(dfrm)
     p1   <- xpose::dv_vs_pred(xpdb)
     p2   <- xpose::dv_vs_ipred(xpdb)
-    p3   <- xpose::res_vs_pred(xpdb)
-    p4   <- xpose::res_vs_idv(xpdb)
+    p3   <- xpose::res_vs_pred(xpdb,res=ifelse(is.null(dfrm$CWRES),"RES","CWRES"))
+    p4   <- xpose::res_vs_idv(xpdb,res=ifelse(is.null(dfrm$CWRES),"RES","CWRES"))
   }else if(type=="user"){
     p1  <- ggplot(dfrm,aes(DV,PRED)) + geom_point(alpha=.6)  + geom_abline(intercept=0,slope=1,colour="darkblue",linetype=2)
     p2  <- ggplot(dfrm,aes(DV,IPRED)) + geom_point(alpha=.6) + geom_abline(intercept=0,slope=1,colour="darkblue",linetype=2)
-    p3  <- ggplot(dfrm,aes(TIME,CWRES)) + geom_point(alpha=.6) + geom_hline(yintercept=0,colour="darkblue",linetype=2)
-    p4  <- ggplot(dfrm,aes(PRED,CWRES)) + geom_point(alpha=.6) + geom_hline(yintercept=0,colour="darkblue",linetype=2)
+    p3  <- ggplot(dfrm,aes_string("TIME",ifelse(is.null(dfrm$CWRES),"RES","CWRES"))) + geom_point(alpha=.6) + geom_hline(yintercept=0,colour="darkblue",linetype=2)
+    p4  <- ggplot(dfrm,aes_string("PRED",ifelse(is.null(dfrm$CWRES),"RES","CWRES"))) + geom_point(alpha=.6) + geom_hline(yintercept=0,colour="darkblue",linetype=2)
   }
   if(is.null(outnm)){
     gridExtra::grid.arrange(p1+ggtitle("A"),p2+ggtitle("B"),p3+ggtitle("C"),p4+ggtitle("D"))
   }else{
     if(is.null(mdlnm)) stop("in case output should be saved, mdlnm should be given")
-    dir.create(paste0("./analysis/",mdlnm),showWarnings=FALSE)
+    dir.create(paste0(projloc,"/analysis/",mdlnm),showWarnings=FALSE)
     if(grepl("\\.tex$",outnm)){
       R3port::ltx_plot(gridExtra::grid.arrange(p1+ggtitle("A"),p2+ggtitle("B"),p3+ggtitle("C"),p4+ggtitle("D"),top=mdlnm),
-                       out=paste0("./analysis/",mdlnm,"/",basename(outnm)),title="GOF plots",...)
+                       out=paste0(projloc,"/analysis/",mdlnm,"/",basename(outnm)),title="GOF plots",...)
     }else if(grepl("\\.html$",outnm)){
       R3port::html_plot(gridExtra::grid.arrange(p1+ggtitle("A"),p2+ggtitle("B"),p3+ggtitle("C"),p4+ggtitle("D"),top=mdlnm),
-                        out=paste0("./analysis/",mdlnm,"/",basename(outnm)),title="GOF plots",...)
+                        out=paste0(projloc,"/analysis/",mdlnm,"/",basename(outnm)),title="GOF plots",...)
     }
   }
 }

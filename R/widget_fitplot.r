@@ -32,14 +32,14 @@ fitUI <- function() {
 #' @export
 # Function to create and save a fit plot
 # save: logical indicating if the resulting plot should be saved
-fitPlot <- function(inp,session,saveit=FALSE){
-  res <- readRDS(paste0("./shinyMixR/",inp$fitLst[1],".res.rds"))
+fitPlot <- function(inp,session,projloc=".",saveit=FALSE){
+  res <- readRDS(paste0(projloc,"/shinyMixR/",inp$fitLst[1],".res.rds"))
   if(!saveit){
-    fit_plot(res,type=inp$plotType)
+    fit_plot(res,type=inp$plotType,projloc=projloc)
   }else{
     savnm  <- ifelse(inp$typeFit=="PDF",paste0(inp$nameFit,".tex"),paste0(inp$nameFit,".html"))
-    fit_plot(res,type=inp$plotType,mdlnm=inp$fitLst,outnm=savnm,show=inp$showFit)
+    fit_plot(res,type=inp$plotType,mdlnm=inp$fitLst,outnm=savnm,projloc=projloc,show=inp$showFit)
     shinyBS::toggleModal(session,"modalSaveFit","close")
-    updateSelectInput(session,"resModLst",choices=list.dirs("./analysis",recursive=FALSE))
+    updateSelectInput(session,"resModLst",choices=list.dirs(paste0(projloc,"/analysis"),recursive=FALSE))
   }
 }

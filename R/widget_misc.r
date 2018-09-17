@@ -8,9 +8,9 @@
 # pfix: character with the postfix of a widget
 updateMdlchar <- function(session,metaf,pfix){
   print(metaf$imp)
-  updateSliderInput(session,paste0("imp",pfix),value=metaf$imp)
-  updateTextInput(session,paste0("desc",pfix),value=metaf$desc)
-  updateSelectInput(session,paste0("ref",pfix),selected=metaf$ref)
-  updateTextInput(session,paste0("data",pfix),value=metaf$data)
-  updateSelectInput(session,paste0("est",pfix),selected=metaf$est)
+  updateSliderInput(session,paste0("imp",pfix),value=ifelse(is.null(metaf$imp),"",metaf$imp))
+  updateTextInput(session,paste0("desc",pfix),value=ifelse(is.null(metaf$desc),"",metaf$desc))
+  updateSelectInput(session,paste0("ref",pfix),selected=ifelse(is.null(metaf$ref),"",metaf$ref))
+  updateTextInput(session,paste0("data",pfix),value=ifelse(is.null(metaf$data),"",metaf$data))
+  updateSelectInput(session,paste0("est",pfix),selected=ifelse(is.null(metaf$est),"",metaf$est))
 }

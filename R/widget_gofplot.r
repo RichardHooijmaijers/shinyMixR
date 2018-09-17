@@ -32,14 +32,14 @@ gofUI <- function() {
 #' @export
 # Function to create and save a gof plots
 # save: logical indicating if the resulting plot should be saved
-gofPlot <- function(inp,session,saveit=FALSE){
-  res <- readRDS(paste0("./shinyMixR/",inp$gofLst[1],".res.rds"))
+gofPlot <- function(inp,session,projloc=".",saveit=FALSE){
+  res <- readRDS(paste0(projloc,"/shinyMixR/",inp$gofLst[1],".res.rds"))
   if(!saveit){
-    gof_plot(res,type=inp$plotType)
+    gof_plot(res,type=inp$plotType,projloc=projloc)
   }else{
     savnm  <- ifelse(inp$typeGOF=="PDF",paste0(inp$nameGOF,".tex"),paste0(inp$nameGOF,".html"))
-    gof_plot(res,type=inp$plotType,mdlnm=inp$gofLst,outnm=savnm,show=inp$showGOF)
+    gof_plot(res,type=inp$plotType,mdlnm=inp$gofLst,outnm=savnm,projloc=projloc,show=inp$showGOF)
     shinyBS::toggleModal(session,"modalSaveGOF","close")
-    updateSelectInput(session,"resModLst",choices=list.dirs("./analysis",recursive=FALSE))
+    updateSelectInput(session,"resModLst",choices=list.dirs(paste0(projloc,"/analysis"),recursive=FALSE))
   }
 }
