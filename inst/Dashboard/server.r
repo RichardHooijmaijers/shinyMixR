@@ -21,7 +21,7 @@ shinyServer(function(input, output, session){
   output$treeOut <- collapsibleTree::renderCollapsibleTree(tree())
 
   # Overview - other
-  observeEvent(input$refrOview,refreshOverview())
+  observeEvent(input$refrOview,refreshOverview(proj_obj,session))
   observeEvent(input$adptOview,adaptOverview(proj_obj,input,session,"modal"))
   observeEvent(input$adptOview2,adaptModel(proj_obj,input,session))
   observeEvent(input$delOview,shinyBS::toggleModal(session,"modalDelOview","open"))

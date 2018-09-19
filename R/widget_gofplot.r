@@ -40,6 +40,6 @@ gofPlot <- function(inp,session,projloc=".",saveit=FALSE){
     savnm  <- ifelse(inp$typeGOF=="PDF",paste0(inp$nameGOF,".tex"),paste0(inp$nameGOF,".html"))
     gof_plot(res,type=inp$plotType,mdlnm=inp$gofLst,outnm=savnm,projloc=projloc,show=inp$showGOF)
     shinyBS::toggleModal(session,"modalSaveGOF","close")
-    updateSelectInput(session,"resModLst",choices=list.dirs(paste0(projloc,"/analysis"),recursive=FALSE))
+    updateSelectInput(session,"resModLst",choices=list.dirs(paste0(projloc,"/analysis"),recursive=FALSE,full.names=FALSE))
   }
 }

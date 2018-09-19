@@ -40,6 +40,6 @@ fitPlot <- function(inp,session,projloc=".",saveit=FALSE){
     savnm  <- ifelse(inp$typeFit=="PDF",paste0(inp$nameFit,".tex"),paste0(inp$nameFit,".html"))
     fit_plot(res,type=inp$plotType,mdlnm=inp$fitLst,outnm=savnm,projloc=projloc,show=inp$showFit)
     shinyBS::toggleModal(session,"modalSaveFit","close")
-    updateSelectInput(session,"resModLst",choices=list.dirs(paste0(projloc,"/analysis"),recursive=FALSE))
+    updateSelectInput(session,"resModLst",choices=list.dirs(paste0(projloc,"/analysis"),recursive=FALSE,full.names=FALSE))
   }
 }

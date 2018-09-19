@@ -52,16 +52,36 @@ changeResults <- function(inp,session,projloc="."){
 # Function to combine (if applicable) and show the results of the selected result files
 showResults <- function(inp,session,projloc="."){
   shinyBS::closeAlert(session,"alertResultID")
-  if(toupper(inp$nameRes)%in%toupper(gsub("\\.pdf|\\.html","",inp$resModAll))){
-    shinyBS::createAlert(session,"alertResult",content="Combined result itself cannot be selected for report",append=FALSE,alertId="alertResultID",style="danger")
-  }else if(inp$resModLst!="" && !is.null(inp$resModLst)){
+  if(inp$resModLst!="" && !is.null(inp$resModLst)){
     if(inp$typeRes=="PDF"){
-      R3port::ltx_combine(list(paste0(projloc,"/analysis/",inp$resModLst,"/",sub("\\.pdf$",".tex.rawtex",inp$resModAll))),
-                          out=paste0(projloc,"/analysis/",inp$resModLst,"/",inp$nameRes,".tex"),show=TRUE)
+      if(length(inp$resModAll)==1){
+        if(Sys.info()['sysname']=="Darwin"){
+          try(system(paste0("open \"",projloc,"/analysis/",inp$resModLst,"/",inp$resModAll,"\""),wait=FALSE))
+        }else if(Sys.info()['sysname']=="Linux"){
+          try(system(paste0("xdg-open '",projloc,"/analysis/",inp$resModLst,"/",inp$resModAll,"'")))
+        }else if(Sys.info()['sysname']=="Windows"){
+          try(shell(paste0("\"",projloc,"/analysis/",inp$resModLst,"/",inp$resModAll,"\""),wait=FALSE))
+        }
+      }else{
+        ftr <- paste0(projloc,"/analysis/",inp$resModLst,"/",sub("\\.pdf$",".tex.rawtex",inp$resModAll))
+        ftr <- ftr[file.exists(ftr)]
+        R3port::ltx_combine(list(ftr),out=paste0(projloc,"/analysis/",inp$resModLst,"/",inp$nameRes,".tex"),show=TRUE)
+      }
     }else if(inp$typeRes=="HTML"){
-      R3port::html_combine(list(paste0(projloc,"/analysis/",inp$resModLst,"/",sub("\\.html$",".html.rawhtml",inp$resModAll))),
-                           out=paste0(projloc,"/analysis/",inp$resModLst,"/",inp$nameRes,".html"),show=TRUE,
-                           template=paste0(system.file(package="R3port"),"/bootstrap.html"))
+      if(length(inp$resModAll)==1){
+        if(Sys.info()['sysname']=="Darwin"){
+          try(system(paste0("open '",normalizePath(paste0(projloc,"/analysis/",inp$resModLst,"/",inp$resModAll)),"'"),wait=FALSE))
+        }else{
+          utils::browseURL(paste0("file://",normalizePath(paste0(projloc,"/analysis/",inp$resModLst,"/",inp$resModAll))))
+        }
+      }else{
+        ftr <- paste0(projloc,"/analysis/",inp$resModLst,"/",sub("\\.html$",".html.rawhtml",inp$resModAll))
+        print(ftr)
+        ftr <- ftr[file.exists(ftr)]
+        print(ftr)
+        R3port::html_combine(list(ftr),out=paste0(projloc,"/analysis/",inp$resModLst,"/",inp$nameRes,".html"),show=TRUE,
+                             template=paste0(system.file(package="R3port"),"/bootstrap.html"))
+      }
     }
   }else{
     shinyBS::createAlert(session,"alertResult",content="Select folder for report",append=FALSE,alertId="alertResultID",style="danger")

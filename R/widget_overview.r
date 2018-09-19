@@ -93,31 +93,37 @@ delOverview <- function(projlst,inp,session){
 #' @export
 # select different project folder
 selectProjFolder <- function(projlst,inp,session){
-
-  projwd <- ifelse(length(shinyFiles::parseDirPath(c("Root"=.cwd), inp$projloc))==0,".",shinyFiles::parseDirPath(c("Root"=.cwd), inp$projloc))
-  projwd <- normalizePath(projwd,winslash="/")
-  if(inp$createsmf) create_proj(projwd) 
-  removeUI(selector = "#projTitle2")
-  insertUI(selector = "#projTitle1", ui=HTML(paste("<span id='projTitle2'>Overview - ",sub(normalizePath(.cwd,winslash="/"),".",projwd),"</span>")))
-  assign("projwd",projwd,pos = .GlobalEnv)
-  assign(deparse(substitute(projlst)),get_proj(projloc=projwd),pos = .GlobalEnv,inherits=TRUE)
-  updateSelectInput(session,"editLst",choices=c("",names(projlst)[names(proj_obj)!="meta"]))
-  for(i in c("runLst","gofLst","fitLst","parEstLst","scriptModLst")) updateSelectInput(session,i,choices=names(projlst)[names(projlst)!="meta"])
-  updateSelectInput(session,"scriptFilLst",choices=list.files(paste0(projwd,"/scripts")))
-  updateSelectInput(session,"resModLst",choices=list.dirs(paste0(projwd,"/analysis"),recursive=FALSE,full.names=FALSE))
-  if(file.exists(paste0(projwd,"/shinyMixR"))){
-    oview <- overview(projloc=projwd)
-    proxy = DT::dataTableProxy('oviewTable')
-    DT::replaceData(proxy, oview, rownames = FALSE)
+  if(class(inp$projloc)[1]=="list"){
+    projwd <- ifelse(length(shinyFiles::parseDirPath(c("Root"=.cwd), inp$projloc))==0,".",shinyFiles::parseDirPath(c("Root"=.cwd), inp$projloc))
+    projwd <- normalizePath(projwd,winslash="/")
+    create_proj(projwd)
+    removeUI(selector = "#projTitle2")
+    insertUI(selector = "#projTitle1", ui=HTML(paste("<span id='projTitle2'>Overview - ",sub(normalizePath(.cwd,winslash="/"),".",projwd),"</span>")))
+    assign("projwd",projwd,pos = .GlobalEnv)
+    assign(deparse(substitute(projlst)),get_proj(projloc=projwd),pos = .GlobalEnv,inherits=TRUE)
+    updateSelectInput(session,"editLst",choices=c("",names(projlst)[names(projlst)!="meta"]))
+    for(i in c("runLst","gofLst","fitLst","parEstLst","scriptModLst")) updateSelectInput(session,i,choices=names(projlst)[names(projlst)!="meta"])
+    updateSelectInput(session,"scriptFilLst",choices=list.files(paste0(projwd,"/scripts")))
+    updateSelectInput(session,"resModLst",choices=list.dirs(paste0(projwd,"/analysis"),recursive=FALSE,full.names=FALSE))
+    if(file.exists(paste0(projwd,"/shinyMixR"))){
+      oview <- overview(projloc=projwd)
+      proxy = DT::dataTableProxy('oviewTable')
+      DT::replaceData(proxy, oview, rownames = FALSE)
+    }
   }
 }
 #------------------------------------------ refreshOverview ------------------------------------------
 #' @export
 # refresh overview
-refreshOverview <- function(){
+refreshOverview <- function(projlst,session){
   if(file.exists(paste0(projwd,"/shinyMixR"))){
+    assign(deparse(substitute(projlst)),get_proj(projloc=projwd),pos = .GlobalEnv)
     oview <- overview(projloc=projwd)
     proxy = DT::dataTableProxy('oviewTable')
     DT::replaceData(proxy, oview, rownames = FALSE)
+    updateSelectInput(session,"editLst",choices=c("",names(projlst)[names(projlst)!="meta"]))
+    for(i in c("runLst","gofLst","fitLst","parEstLst","scriptModLst")) updateSelectInput(session,i,choices=names(projlst)[names(projlst)!="meta"])
+    updateSelectInput(session,"scriptFilLst",choices=list.files(paste0(projwd,"/scripts")))
+    updateSelectInput(session,"resModLst",choices=list.dirs(paste0(projwd,"/analysis"),recursive=FALSE,full.names=FALSE))
   }
 }
