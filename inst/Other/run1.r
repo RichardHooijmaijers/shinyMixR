@@ -1,10 +1,10 @@
 run1 <- function() {
   data = "theo_sd"
-  desc = "template models"
+  desc = "case example base run"
   ref  = ""
   imp  = 1
-  est  = "nlme"
-  control = nlmeControl(pnlsTol=0.1)
+  est  = "saem"
+  control = list()
   ini({
     tka <- .5
     tcl <- -3.2
@@ -18,9 +18,6 @@ run1 <- function() {
     ka <- exp(tka + eta.ka)
     cl <- exp(tcl + eta.cl)
     v <- exp(tv + eta.v)
-    d/dt(depot) = -ka * depot
-    d/dt(center) = ka * depot - cl / v * center
-    cp = center / v
-    cp ~ add(add.err)
+    linCmt() ~ add(add.err)
   })
 }

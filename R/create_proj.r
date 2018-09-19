@@ -22,7 +22,6 @@ create_proj <- function(loc=".", overwrite=FALSE){
     sapply(dirs,dir.create,showWarnings = FALSE)
     # Now place in some default models and data
     if(!file.exists(paste0(loc,"/models/run1.r")) | overwrite)      file.copy(paste0(system.file(package = "shinyMixR"),"/Other/run1.r"),paste0(loc,"/models/run1.r"))
-    if(!file.exists(paste0(loc,"/models/run2.r")) | overwrite)      file.copy(paste0(system.file(package = "shinyMixR"),"/Other/run2.r"),paste0(loc,"/models/run2.r"))
     if(!file.exists(paste0(loc,"/data/theo_sd.rds")) | overwrite)   file.copy(paste0(system.file(package = "shinyMixR"),"/Other/theo_sd.rds"),paste0(loc,"/data/theo_sd.rds"))
     if(!file.exists(paste0(loc,"/scritps/eta.plot.r")) | overwrite) file.copy(paste0(system.file(package = "shinyMixR"),"/Other/eta.plot.r"),paste0(loc,"/scripts/eta.plot.r"))
     if(!file.exists(paste0(loc,"/scritps/vpc.plot.r")) | overwrite) file.copy(paste0(system.file(package = "shinyMixR"),"/Other/vpc.plot.r"),paste0(loc,"/scripts/vpc.plot.r"))
