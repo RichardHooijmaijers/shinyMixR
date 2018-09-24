@@ -52,7 +52,7 @@ changeResults <- function(inp,session,projloc="."){
 # Function to combine (if applicable) and show the results of the selected result files
 showResults <- function(inp,session,projloc="."){
   shinyBS::closeAlert(session,"alertResultID")
-  if(inp$resModLst!="" && !is.null(inp$resModLst)){
+  if(inp$resModLst!="" && !is.null(inp$resModLst) && !is.null(inp$resModAll)){
     if(inp$typeRes=="PDF"){
       if(length(inp$resModAll)==1){
         if(Sys.info()['sysname']=="Darwin"){
@@ -84,6 +84,6 @@ showResults <- function(inp,session,projloc="."){
       }
     }
   }else{
-    shinyBS::createAlert(session,"alertResult",content="Select folder for report",append=FALSE,alertId="alertResultID",style="danger")
+    shinyBS::createAlert(session,"alertResult",content="Select folder and results for report",append=FALSE,alertId="alertResultID",style="danger")
   }
 }
