@@ -19,7 +19,7 @@ create_proj <- function(loc=".", overwrite=FALSE){
   # First create the folder structure
   dirs <- paste0(loc,c("/analysis","/data","/models","/shinyMixR","/scripts"))
   if(!all(dirs%in%list.files(loc,full.names = TRUE))){
-    sapply(dirs,dir.create,showWarnings = FALSE)
+    sapply(dirs,dir.create,showWarnings = FALSE,recursive=TRUE)
     # Now place in some default models and data
     if(!file.exists(paste0(loc,"/models/run1.r")) | overwrite)      file.copy(paste0(system.file(package = "shinyMixR"),"/Other/run1.r"),paste0(loc,"/models/run1.r"))
     if(!file.exists(paste0(loc,"/data/theo_sd.rds")) | overwrite)   file.copy(paste0(system.file(package = "shinyMixR"),"/Other/theo_sd.rds"),paste0(loc,"/data/theo_sd.rds"))

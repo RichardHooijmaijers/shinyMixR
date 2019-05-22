@@ -4,9 +4,11 @@
 \alias{run_shinymixr}
 \title{Runs the shiny app for nlmixr}
 \usage{
-run_shinymixr(...)
+run_shinymixr(wd = getwd(), ...)
 }
 \arguments{
+\item{wd}{character with the working directory to start from (wd will be set to this location)}
+
 \item{...}{arguments passed to the shiny runApp function}
 }
 \description{

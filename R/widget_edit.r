@@ -36,7 +36,7 @@ editUI <- function(projlst) {
       actionButton("newMdl2", "Go",icon=icon("play"))
     ),
     br(),br(),shinyBS::bsAlert("alertEdit")
-  )
+)
 }
 #------------------------------------------ updateRunInputs ------------------------------------------
 #' @export
@@ -91,7 +91,7 @@ saveModelAs <- function(projlst,inp,session){
     updateRunInputs(deparse(substitute(projlst)),session)
     shinyAce::updateAceEditor(session,"editor",value=paste(readLines(projlst[[sub("\\.[r|R]","",inp$nameSaveasmod)]]$model),collapse="\n"))
     updateSelectInput(session,"editLst",selected=sub("\\.[r|R]","",inp$nameSaveasmod))
-  }  
+  }
 }
 #------------------------------------------ duplModelModal ------------------------------------------
 #' @export
