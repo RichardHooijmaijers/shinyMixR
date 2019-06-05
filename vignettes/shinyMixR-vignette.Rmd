@@ -44,7 +44,7 @@ library(shinyMixR,quietly = TRUE)
 create_proj()
 ```
 
-By default, a folder structure is created within the current directory. The following folders are created:
+By default, a folder structure is created within the current directory. It is however also possible to create a project in any other folder (e.g. `create_proj(loc='/anypath')`). The following folders are created:
 
 - analysis: in this folder all plots and tables are saved in a structured way to make them accesible to the interface
 - data: data files used by the models in R data format (.rds) 
@@ -152,7 +152,7 @@ Although the `nlmixr` package obiously has the possibilty to run nlmixr models, 
 #run_nmx("run1",proj=proj_obj)
 ```
 ```{r eval=FALSE}
-run_nmx("run1",proj=proj_obj)
+run_nmx("run1")
 # progress of a run is written to external text file
 # this can be read-in for intermediate assessment
 readLines("shinyMixR/temp/run1.prog.txt")
