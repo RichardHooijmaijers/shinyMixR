@@ -2,22 +2,40 @@
 % Please edit documentation in R/run_shinymixr.r
 \name{run_shinymixr}
 \alias{run_shinymixr}
-\title{Runs the shiny app for nlmixr}
+\title{Creates and run the interface}
 \usage{
-run_shinymixr(wd = getwd(), ...)
+run_shinymixr(widgets = getwidg()$widgets, wd = getwd(),
+  outloc = tempdir(), init = getwidg()$init, runapp = TRUE, ...)
 }
 \arguments{
-\item{wd}{character with the working directory to start from (wd will be set to this location)}
+\item{widgets}{character vector with the names of the widget scripts that should be included}
+
+\item{wd}{character with the working directory}
+
+\item{outloc}{location of the output shiny app files}
+
+\item{init}{external file with code for server initialization}
+
+\item{runapp}{logical indicating if the created shiny app should be run}
 
 \item{...}{arguments passed to the shiny runApp function}
 }
+\value{
+will create necessary files and if indicated run a shiny application
+}
 \description{
-Runs the shiny app for nlmixr
+Creates and run the interface
+}
+\details{
+The widget script should follow some basic rules. At least a list should be available (info) that
+  contains information regarding the name, title and icon used for the widget. Furthermore a function defining
+  the ui as taglist (widgetui) and a function defining the server logic (widgetserver) should be available.
+  An example of a widgetscript can be found in the package documentation
 }
 \examples{
 
 \dontrun{
- run_shinymixr()
+ run_shinymixr(c("widget1.r","widget2.r"))
 }
 }
 \author{

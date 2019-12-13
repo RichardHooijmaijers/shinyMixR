@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Creates model overview — overview • shinyMixR</title>
+<title>Get the meta data out of a model function — get_meta • shinyMixR</title>
 
 
 <!-- jquery -->
@@ -33,9 +33,8 @@
 
 
 
-<meta property="og:title" content="Creates model overview — overview" />
-<meta property="og:description" content="Create an overview of the models within a project. This overview includes the meta data
-of the models and if results are available, also the objective function and run-times" />
+<meta property="og:title" content="Get the meta data out of a model function — get_meta" />
+<meta property="og:description" content="This function gets only the meta data from a function" />
 <meta name="twitter:card" content="summary" />
 
 
@@ -121,47 +120,40 @@ of the models and if results are available, also the objective function and run-
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Creates model overview</h1>
+    <h1>Get the meta data out of a model function</h1>
     
-    <div class="hidden name"><code>overview.Rd</code></div>
+    <div class="hidden name"><code>get_meta.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create an overview of the models within a project. This overview includes the meta data
-of the models and if results are available, also the objective function and run-times</p>
+    <p>This function gets only the meta data from a function</p>
     </div>
 
-    <pre class="usage"><span class='fu'>overview</span>(<span class='no'>...</span>)</pre>
+    <pre class="usage"><span class='fu'>get_meta</span>(<span class='no'>mdl</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>...</th>
-      <td><p>additional arguments passed to <code><a href='get_proj.html'>get_proj</a></code></p></td>
+      <th>mdl</th>
+      <td><p>character with the path of the model function</p></td>
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>a data frame is returned with the overview</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 </div><span class='co'># NOT RUN {</span>
- <span class='fu'>overview</span>()
+  <span class='fu'>get_meta</span>(<span class='st'>"run1.r"</span>)
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
-    <h2>Author</h2>
-    <p>Richard Hooijmaijers</p>
   </div>
 </div>
 

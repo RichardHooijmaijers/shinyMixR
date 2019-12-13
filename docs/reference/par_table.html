@@ -8,10 +8,12 @@
 
 <title>Create parameter table — par_table • shinyMixR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,11 +32,12 @@
 
 
 
-<meta property="og:title" content="Create parameter table — par_table" />
 
+<meta property="og:title" content="Create parameter table — par_table" />
 <meta property="og:description" content="Creates a table with the final estimates and percentage CV for all parameters in an nlmixr output
 file. This can be done for one or multiple models for easy comparison" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -64,7 +67,7 @@ file. This can be done for one or multiple models for easy comparison" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinyMixR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -99,7 +102,6 @@ file. This can be done for one or multiple models for easy comparison" />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/RichardHooijmaijers/shinyMixR">
@@ -125,14 +127,12 @@ file. This can be done for one or multiple models for easy comparison" />
     </div>
 
     <div class="ref-description">
-    
     <p>Creates a table with the final estimates and percentage CV for all parameters in an nlmixr output
 file. This can be done for one or multiple models for easy comparison</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>par_table</span>(<span class='no'>proj</span>, <span class='no'>models</span>, <span class='kw'>outnm</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>projloc</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -157,12 +157,11 @@ file. This can be done for one or multiple models for easy comparison</p>
       <td><p>additional arguments passed to <code><a href='https://www.rdocumentation.org/packages/R3port/topics/ltx_plot'>ltx_plot</a></code> or <code><a href='https://www.rdocumentation.org/packages/R3port/topics/html_plot'>html_plot</a></code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>in case no outnm is defined a ggplot object will be returned otherwise
   the results are saved to disk</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>In case a model is saved, a directory with the name of the model is created within the
@@ -171,7 +170,6 @@ file. This can be done for one or multiple models for easy comparison</p>
   However, this means that output is alwasy saved in this directly regardless of the location of outnm
   In case multiple models are selected the result will be written to the name of the first model in the
   models vector.</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -183,11 +181,8 @@ file. This can be done for one or multiple models for easy comparison</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

@@ -8,10 +8,12 @@
 
 <title>Create fit plot — fit_plot • shinyMixR</title>
 
+
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,11 +32,12 @@
 
 
 
-<meta property="og:title" content="Create fit plot — fit_plot" />
 
+<meta property="og:title" content="Create fit plot — fit_plot" />
 <meta property="og:description" content="Creates a fit plot either using the xpose.nlmixr package or using a
 default ggplot call" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -64,7 +67,7 @@ default ggplot call" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinyMixR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -99,7 +102,6 @@ default ggplot call" />
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/RichardHooijmaijers/shinyMixR">
@@ -125,15 +127,13 @@ default ggplot call" />
     </div>
 
     <div class="ref-description">
-    
     <p>Creates a fit plot either using the xpose.nlmixr package or using a
 default ggplot call</p>
-    
     </div>
 
     <pre class="usage"><span class='fu'>fit_plot</span>(<span class='no'>dfrm</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"xpose"</span>, <span class='kw'>mdlnm</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>outnm</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>projloc</span> <span class='kw'>=</span> <span class='st'>"."</span>, <span class='no'>...</span>)</pre>
-    
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -163,19 +163,17 @@ default ggplot call</p>
       <td><p>additional arguments passed to <code><a href='https://www.rdocumentation.org/packages/R3port/topics/ltx_plot'>ltx_plot</a></code> or <code><a href='https://www.rdocumentation.org/packages/R3port/topics/html_plot'>html_plot</a></code></p></td>
     </tr>
     </table>
-    
+
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>in case no outnm is defined a ggplot object will be returned otherwise
   the results are saved to disk</p>
-    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>In case a model is saved, a directory with the name of the model is created within the
   analysis folder of the current project. Then within this folder the file is saved as outnm.
   This method was chosen so the interface can easily index applicable files for a certain model.
   However, this means that output is alwasy saved in this directly regardless of the location of outnm</p>
-    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
@@ -187,11 +185,8 @@ default ggplot call</p>
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-      
       <li><a href="#value">Value</a></li>
-
       <li><a href="#details">Details</a></li>
-      
       <li><a href="#examples">Examples</a></li>
     </ul>
 

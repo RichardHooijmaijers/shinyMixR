@@ -63,7 +63,10 @@ run_shinymixr(launch.browser = TRUE)
 
 The interface will be started and a project object will be created in the global environment in which all information is kept/managed. If correct, the interface will open in the default browser and the following will be seen:
 
-<img src="screen1.png" width="700">
+```{r echo=FALSE,out.width="700px"}
+knitr::include_graphics("screen1.png")
+```
+
 
 On the left side, there is sidebar with various menu items. The content of the main body will open with the model overview but  will change based on the selected menu item in the sidebar. The sidebar can be collapsed by clicking the three lines in the top bar, providing more room for the main body. 
 
@@ -73,44 +76,61 @@ The overview page can be used to see which models are present in a project, the 
 
 ## Edit models
 
-<img src="screen2.png" width="300">
+```{r echo=FALSE,out.width="300px"}
+knitr::include_graphics("screen2.png")
+```
 
 The edit tab can be used to edit existing models within an editor including syntax coloring (using `shinyAce`). It is also possible to create new models using various templates or to duplicate existing models.
 
 ## Run models
 
-<img src="screen3.png" width="300">
+```{r echo=FALSE,out.width="300px"}
+knitr::include_graphics("screen3.png")
+```
+
 
 The run tab can be used to run models within a project. It is possible to run one or multiple models at once. Also it is possible to assess the intermediate output or progress for an nlmixr run.
 
 ## Parameter estimates
 
-<img src="screen4.png" width="300">
+```{r echo=FALSE,out.width="300px"}
+knitr::include_graphics("screen4.png")
+```
 
 The parameter estimates tab can be used to generate a table with parameter estimates. In case multiple models are selected the table will show the results of each run in a separate column. This page is reactive which means that in case a different model is selected, the table is directly updated. There is also the possiblity to save the table to a latex/pdf or html file
 
 ## Goodness of fit
 
-<img src="screen5.png" width="300">
+```{r echo=FALSE,out.width="300px"}
+knitr::include_graphics("screen5.png")
+```
 
 The goodness of fit tab can be used to generate a combination of 4 goodness of fit plots combined. By default nlmixr.xpose is used but direct ggplot can also be used by specifying this in the settings. Also here the plots can be saved to a latex/pdf or html file
 
 ## Fit plots
 
-<img src="screen6.png" width="300">
+```{r echo=FALSE,out.width="300px"}
+knitr::include_graphics("screen6.png")
+```
+
 
 The fit plots tab can be used to generate a individual fit plots. The same options are present here as for the goodness of fit plots.
 
 ## Scripts
 
-<img src="screen7.png" width="300">
+```{r echo=FALSE,out.width="300px"}
+knitr::include_graphics("screen7.png")
+```
+
 
 It is possible to write your own scripts that can be used to analyse model results. This script can be used to process the result for one or multiple models at once (the interface will include the name of the selected models in the script).
 An example of how such a script will look like is included in the package
 
 ## Results
 
-<img src="screen8.png" width="300">
+```{r echo=FALSE,out.width="300px"}
+knitr::include_graphics("screen8.png")
+```
 
 It is possible to view and combine the results from the models within a project within the last tab
 
@@ -152,7 +172,7 @@ Although the `nlmixr` package obiously has the possibilty to run nlmixr models, 
 #run_nmx("run1",proj=proj_obj)
 ```
 ```{r eval=FALSE}
-run_nmx("run1")
+run_nmx("run2")
 # progress of a run is written to external text file
 # this can be read-in for intermediate assessment
 readLines("shinyMixR/temp/run1.prog.txt")

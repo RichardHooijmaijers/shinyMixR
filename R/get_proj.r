@@ -14,6 +14,7 @@
 #'   proj <- get_proj()
 #' }
 get_proj <- function(projloc=".",geteval=TRUE){
+
   # Read in models and place in result objects
   dir.create(paste0(projloc,"/shinyMixR"),showWarnings = FALSE,recursive = TRUE)
   mdln    <- normalizePath(list.files(paste0(projloc,"/models"),pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE))
@@ -43,7 +44,9 @@ get_proj <- function(projloc=".",geteval=TRUE){
     }else{
       for(i in 1:length(mdln)){
         names(mdls[[i]]) <- "model"
-        if(geteval) mdls[[i]]$modeleval <- try(eval(parse(text=c("nlmixrUI(",readLines(mdln[i]),")"))))
+        #if(geteval) mdls[[i]]$modeleval <- try(eval(parse(text=c("nlmixrUI(",readLines(mdln[i]),")"))))
+        mdls[[i]]$modeleval <- list()
+        if(geteval) mdls[[i]]$modeleval$meta <- try(get_meta(mdln[i]))
       }
     }
     for(i in sumres) mdls[[sub("\\.ressum\\.rds","",basename(i))]]$results <- readRDS(i)
@@ -64,7 +67,8 @@ get_proj <- function(projloc=".",geteval=TRUE){
       names(mdls2) <- toadd
       for(i in 1:length(mdls2)){
         names(mdls2[[i]]) <- "model"
-        if(geteval) mdls2[[i]]$modeleval <- try(eval(parse(text=c("nlmixrUI(",readLines(mdln[which(mdlnb%in%toadd)][i]),")"))))
+        #if(geteval) mdls2[[i]]$modeleval <- try(eval(parse(text=c("nlmixrUI(",readLines(mdln[which(mdlnb%in%toadd)][i]),")"))))
+        if(geteval) mdls2[[i]]$modeleval$meta <- try(get_meta(mdln[which(mdlnb%in%toadd)][i]))
       }
       mdls <- c(mdls,mdls2)
     }
@@ -72,7 +76,8 @@ get_proj <- function(projloc=".",geteval=TRUE){
     if(geteval){
       for(i in mdln){
         if(summdli$mtime[row.names(summdli)==i] > mdls$meta$lastrefresh)
-          mdls[[sub("\\.[r|R]","",basename(i))]]$modeleval <- try(eval(parse(text=c("nlmixrUI(",readLines(i),")"))))
+          #mdls[[sub("\\.[r|R]","",basename(i))]]$modeleval <- try(eval(parse(text=c("nlmixrUI(",readLines(i),")"))))
+          mdls[[sub("\\.[r|R]","",basename(i))]]$modeleval$meta <- try(get_meta(i))
       }
     }
     for(i in sumres){

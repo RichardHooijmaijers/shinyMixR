@@ -6,12 +6,14 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Runs the shiny app for nlmixr — run_shinymixr • shinyMixR</title>
+<title>Creates and run the interface — run_shinymixr • shinyMixR</title>
+
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootswatch/3.3.7/flatly/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
@@ -30,10 +32,11 @@
 
 
 
-<meta property="og:title" content="Runs the shiny app for nlmixr — run_shinymixr" />
 
-<meta property="og:description" content="Runs the shiny app for nlmixr" />
+<meta property="og:title" content="Creates and run the interface — run_shinymixr" />
+<meta property="og:description" content="Creates and run the interface" />
 <meta name="twitter:card" content="summary" />
+
 
 
 
@@ -63,7 +66,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">shinyMixR</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -98,7 +101,6 @@
   </a>
 </li>
       </ul>
-      
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/RichardHooijmaijers/shinyMixR">
@@ -118,44 +120,69 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Runs the shiny app for nlmixr</h1>
+    <h1>Creates and run the interface</h1>
     
     <div class="hidden name"><code>run_shinymixr.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    
-    <p>Runs the shiny app for nlmixr</p>
-    
+    <p>Creates and run the interface</p>
     </div>
 
-    <pre class="usage"><span class='fu'>run_shinymixr</span>(<span class='kw'>wd</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/getwd'>getwd</a></span>(), <span class='no'>...</span>)</pre>
-    
+    <pre class="usage"><span class='fu'>run_shinymixr</span>(<span class='kw'>widgets</span> <span class='kw'>=</span> <span class='fu'><a href='getwidg.html'>getwidg</a></span>()$<span class='no'>widgets</span>, <span class='kw'>wd</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/getwd'>getwd</a></span>(),
+  <span class='kw'>outloc</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/tempfile'>tempdir</a></span>(), <span class='kw'>init</span> <span class='kw'>=</span> <span class='fu'><a href='getwidg.html'>getwidg</a></span>()$<span class='no'>init</span>, <span class='kw'>runapp</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>, <span class='no'>...</span>)</pre>
+
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
+      <th>widgets</th>
+      <td><p>character vector with the names of the widget scripts that should be included</p></td>
+    </tr>
+    <tr>
       <th>wd</th>
-      <td><p>character with the working directory to start from (wd will be set to this location)</p></td>
+      <td><p>character with the working directory</p></td>
+    </tr>
+    <tr>
+      <th>outloc</th>
+      <td><p>location of the output shiny app files</p></td>
+    </tr>
+    <tr>
+      <th>init</th>
+      <td><p>external file with code for server initialization</p></td>
+    </tr>
+    <tr>
+      <th>runapp</th>
+      <td><p>logical indicating if the created shiny app should be run</p></td>
     </tr>
     <tr>
       <th>...</th>
       <td><p>arguments passed to the shiny runApp function</p></td>
     </tr>
     </table>
-    
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>will create necessary files and if indicated run a shiny application</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The widget script should follow some basic rules. At least a list should be available (info) that
+  contains information regarding the name, title and icon used for the widget. Furthermore a function defining
+  the ui as taglist (widgetui) and a function defining the server logic (widgetserver) should be available.
+  An example of a widgetscript can be found in the package documentation</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'>
 </div><span class='co'># NOT RUN {</span>
- <span class='fu'>run_shinymixr</span>()
+ <span class='fu'>run_shinymixr</span>(<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"widget1.r"</span>,<span class='st'>"widget2.r"</span>))
 <span class='co'># }</span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
-            
+      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 
