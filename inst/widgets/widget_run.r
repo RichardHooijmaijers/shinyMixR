@@ -19,6 +19,13 @@ widgetui <- function() {
   )
 }
 widgetserver <- function(input,output,session){
+  # Adapt model list based on selected project location
+  observeEvent(input$tabs,{
+    if(input$tabs=="run"){
+      updateSelectInput(session, "runmod_runLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$runmod_runLst)
+    }
+  },ignoreInit=TRUE)
+
   # Run model
   observeEvent(input$runmod_runMdl,{
     unlink(list.files(paste0("shinyMixR/temp"),pattern=".*prog\\.txt$",full.names = TRUE))

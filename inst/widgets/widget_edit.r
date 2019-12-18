@@ -67,7 +67,7 @@ widgetserver <- function(input,output,session){
                              textInput("editor_descsaveas","Description",value=""),
                              selectInput("editor_refsaveas","Reference",c("",names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"]),multiple=FALSE,selectize = TRUE),
                              textInput("editor_datasaveas","Data",value=""),
-                             selectInput("editor_estsaveas","method",c("saem","nlme","nlme.mu","nlme.mu.cov","nlme.free")),
+                             selectInput("editor_estsaveas","method",c("saem","nlme","nlme.mu","nlme.mu.cov","nlme.free","focei")),
                              actionButton("editor_saveas2","Save",icon=icon("save")))
   observeEvent(input$editor_saveas, {
     if(length(proj_obj)==0) assign("proj_obj",get_proj(),pos = .GlobalEnv,inherits=TRUE)
@@ -80,7 +80,7 @@ widgetserver <- function(input,output,session){
     updateSelectInput(session,"editor_estsaveas",selected=newmeta$est)
     showModal(editorsaveas)
   },ignoreInit=TRUE)
-  
+
   saveasfunc <- function(){
     metanfo <- reactiveValuesToList(input)[c("editor_impsaveas","editor_descsaveas","editor_refsaveas","editor_datasaveas","editor_estsaveas")]
     names(metanfo) <- gsub("editor_|saveas","",names(metanfo))
