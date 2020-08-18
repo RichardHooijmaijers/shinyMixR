@@ -46,7 +46,7 @@ widgetserver <- function(input,output,session){
     },
     valueFunc = function() {
       progFn  <- list.files("shinyMixR/temp",pattern="prog\\.txt$",full.names = TRUE)
-      paste(unlist(lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x)))),collapse="\n")
+      paste(unlist(lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x, warn = FALSE)))),collapse="\n")
     }
   )
   output$runmod_progrTxt <- renderText(runmodmonit())

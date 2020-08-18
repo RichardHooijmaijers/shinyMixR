@@ -20,6 +20,7 @@ Imports:
   xpose,
   xpose.nlmixr,
   shinydashboard,
+  shinyWidgets,
   stringi,
   R3port,
   whisker,

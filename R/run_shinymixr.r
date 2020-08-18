@@ -52,9 +52,9 @@ run_shinymixr <- function(widgets=getwidg()$widgets,wd=getwd(),outloc=tempdir(),
   # write everything to file and start app if applicable
   uilst <- list(widget_tabs = do.call(paste,c(lapply(allitems,"[[",1),sep=",\n      ")),
                 widget_ui   = do.call(paste,c(lapply(allitems,"[[",2),sep=",\n      ")))
-  uif   <- readLines(system.file("dashboard/ui.tmpl",package="shinyMixR"))
+  uif   <- readLines(system.file("Dashboard/ui.tmpl",package="shinyMixR"))
   uif   <- whisker::whisker.render(uif,data=c(uilst,setwd=paste0("setwd('",normalizePath(wd,winslash = "/"),"')")))
-  srvf  <- readLines(system.file("dashboard/server.tmpl",package="shinyMixR"))
+  srvf  <- readLines(system.file("Dashboard/server.tmpl",package="shinyMixR"))
   srvf  <- whisker::whisker.render(srvf,data=list(server_logic=paste(initsc,do.call(paste,c(lapply(allitems,"[[",5),sep="\n  ")))))
 
   if(!file.exists(outloc)) dir.create(outloc)
@@ -63,8 +63,8 @@ run_shinymixr <- function(widgets=getwidg()$widgets,wd=getwd(),outloc=tempdir(),
   cat(uif,file=paste0(outloc,"/ui.r"),sep="\n")
   cat(srvf,file=paste0(outloc,"/server.r"),sep="\n")
   dir.create(paste0(outloc,"/www"),showWarnings = FALSE)
-  file.copy(system.file("dashboard/logonlmixr.png",package="shinyMixR"),paste0(outloc,"/www/logonlmixr.png"))
-  file.copy(system.file("dashboard/logoshinyMixR.png",package="shinyMixR"),paste0(outloc,"/www/logoshinyMixR.png"))
+  file.copy(system.file("Dashboard/logonlmixr.png",package="shinyMixR"),paste0(outloc,"/www/logonlmixr.png"))
+  file.copy(system.file("Dashboard/logoshinyMixR.png",package="shinyMixR"),paste0(outloc,"/www/logoshinyMixR.png"))
 
   if(runapp){
     # Decided not to provide ability to run in separate R session (although can be done with callr). The main reason is that it
