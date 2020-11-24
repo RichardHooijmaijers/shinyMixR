@@ -4,8 +4,7 @@
 \alias{fit_plot}
 \title{Create fit plot}
 \usage{
-fit_plot(dfrm, type = "xpose", mdlnm = NULL, outnm = NULL,
-  projloc = ".", ...)
+fit_plot(dfrm, type = "xpose", mdlnm = NULL, outnm = NULL, projloc = ".", ...)
 }
 \arguments{
 \item{dfrm}{data frame as created by the nlmixr function}

@@ -4,8 +4,14 @@
 \alias{run_shinymixr}
 \title{Creates and run the interface}
 \usage{
-run_shinymixr(widgets = getwidg()$widgets, wd = getwd(),
-  outloc = tempdir(), init = getwidg()$init, runapp = TRUE, ...)
+run_shinymixr(
+  widgets = getwidg()$widgets,
+  wd = getwd(),
+  outloc = tempdir(),
+  init = getwidg()$init,
+  runapp = TRUE,
+  ...
+)
 }
 \arguments{
 \item{widgets}{character vector with the names of the widget scripts that should be included}

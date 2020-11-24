@@ -4,8 +4,7 @@
 \alias{gof_plot}
 \title{Create goodness of fit plots}
 \usage{
-gof_plot(dfrm, type = "xpose", mdlnm = NULL, outnm = NULL,
-  projloc = ".", ...)
+gof_plot(dfrm, type = "xpose", mdlnm = NULL, outnm = NULL, projloc = ".", ...)
 }
 \arguments{
 \item{dfrm}{data frame as created by the nlmixr function}
