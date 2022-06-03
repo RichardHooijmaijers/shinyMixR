@@ -1,4 +1,11 @@
 # Currently only add the project object when initializing the app
+if("nlmixr2" %in% rownames(installed.packages())){
+  library(nlmixr2)
+}else if("nlmixr" %in% rownames(installed.packages())){
+  library(nlmixr)
+}else{
+  cat("You need either the 'nlmixr' or 'nlmixr2' package to run models. This step will crash\n")
+}
 #cat("time now is",difftime(Sys.time(),strt,units="secs"),"\n")
 #cat("starting up took",Sys.time()-strt,"\n")
 assign("proj_obj",get_proj(),pos = .GlobalEnv)

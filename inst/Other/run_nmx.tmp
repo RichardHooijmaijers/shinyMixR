@@ -1,4 +1,10 @@
-library(nlmixr)
+if("nlmixr2" %in% rownames(installed.packages())){
+  library(nlmixr2)
+}else if("nlmixr" %in% rownames(installed.packages())){
+  library(nlmixr)
+}else{
+  cat("You need either the 'nlmixr' or 'nlmixr2' package to run models. This step will crash\n")
+}
 options(keep.source = TRUE)
 if(!exists("{{{data}}}", envir=.GlobalEnv)) {
   if(file.exists("{{{locproj}}}/data/{{{data}}}.rds")){
@@ -16,7 +22,12 @@ modres <- try(nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{
 {{#saveres}}
 if(length(class(modres))>1 && class(modres)!="try-error"){
   saveRDS(modres,file="../{{{modelname}}}.res.rds")
-  saveRDS(list(OBJF=modres$objective,partbl=modres$popDf,partblf=modres$par.fixed,omega=modres$omega,
-               tottime=rowSums(modres$time)),file="../{{{modelname}}}.ressum.rds")
+  if("nlmixr2" %in% rownames(installed.packages())){
+    saveRDS(list(OBJF=modres$objective,partbl=modres$parFixedDf,partblf=modres$parFixed,omega=modres$omega,
+                 tottime=rowSums(modres$time)),file="../{{{modelname}}}.ressum.rds")
+  }else{
+    saveRDS(list(OBJF=modres$objective,partbl=modres$popDf,partblf=modres$par.fixed,omega=modres$omega,
+                 tottime=rowSums(modres$time)),file="../{{{modelname}}}.ressum.rds")
+  }
 }
 {{/saveres}}

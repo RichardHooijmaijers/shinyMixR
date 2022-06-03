@@ -63,7 +63,11 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
     if(autoupdate) assign(dnm,proj,pos = .GlobalEnv)
   }else{
     modres  <- nlmixr(eval(parse(text=readLines(proj[[mod]]$model))), get(meta$data), est=meta$est,control=meta$control,tableControl(cwres=addcwres, npde=addnpde))
-    ressum  <- list(OBJF=modres$objective,partbl=modres$popDf,partblf=modres$par.fixed,omega=modres$omega,tottime=rowSums(modres$time))
+    if("nlmixr2" %in% rownames(installed.packages())){
+      ressum  <- list(OBJF=modres$objective,partbl=modres$parFixedDf,partblf=modres$parFixed,omega=modres$omega,tottime=rowSums(modres$time))
+    }else{
+      ressum  <- list(OBJF=modres$objective,partbl=modres$popDf,partblf=modres$par.fixed,omega=modres$omega,tottime=rowSums(modres$time))
+    }
     if(saverds){
       saveRDS(modres,file=paste0(projloc,"/shinyMixR/",mod,".res.rds"))
       saveRDS(ressum,file=paste0(projloc,"/shinyMixR/",mod,".ressum.rds"))

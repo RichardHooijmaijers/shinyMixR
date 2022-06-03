@@ -11,6 +11,7 @@ shinyUI(shinydashboard::dashboardPage(
 
   # Header of the app
   title = "shinyMixR",
+  skin = "black",
   shinydashboard::dashboardHeader(
     title = tags$img(src='logoshinyMixR.png',height=45),
     tags$li(img(src = 'logonlmixr.png',height=42),class = "dropdown")
@@ -27,6 +28,7 @@ shinyUI(shinydashboard::dashboardPage(
   # body of the app
   shinydashboard::dashboardBody(
     tags$head(tags$style(HTML('.sidebar-menu > li > a{padding: 5px 5px 5px 15px;}'))),
+    tags$head(tags$style(HTML('.skin-black .main-sidebar{background-color:#e5e5e5;} .content-wrapper{background-color:#f2f2f2;} .skin-black .main-sidebar a{color:#595959;} .skin-black .main-header .navbar{background-color:#f2f2f2;} .skin-black .main-header>.logo {background-color:#f2f2f2;}'))),
     shinydashboard::tabItems(
       {{{widget_ui}}}
     )

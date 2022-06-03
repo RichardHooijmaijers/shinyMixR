@@ -1,3 +1,12 @@
+# shinyMixR 0.3
+
+Within this version some updates have been implemented, see below the most important changes:
+
+- Applied different style for the shinydashboard
+- Corrected behaviour of some modals
+- Support for both the original nlmixr package (for backwards compatibility) and the latest nlmixr2 package
+
+
 # shinyMixR 0.2
 
 Within this version some major updates have been implemented, see below the most important changes:

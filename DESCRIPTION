@@ -1,6 +1,6 @@
 Package: shinyMixR
 Title: Shiny dashboard interface for nlmixr
-Version: 0.2.0
+Version: 0.3.0
 Authors@R: c(person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = c("aut", "cre","cph")),
              person("Teun", "Post", email = "teunpost@gmail.com",role = c("aut","cph")),
              person("LAPP Consultants",email = "info@lapp.nl", role=c("fnd","cph")),
@@ -12,20 +12,22 @@ Description: The package is developed as an interface for the nlmixr package. Fu
 Depends:
   R (>= 3.4.0),
   shiny,
-  nlmixr,
   ggplot2
 Imports:
   gridExtra,
   collapsibleTree,
   shinyAce,
   DT,
-  xpose,
-  xpose.nlmixr,
   shinydashboard,
   shinyWidgets,
   stringi,
   R3port,
-  whisker,
+  whisker
+Suggests:
+  xpose,
+  xpose.nlmixr,
+  nlmixr,
+  nlmixr2,
   nlme
 License: MIT+LICENSE
 Encoding: UTF-8

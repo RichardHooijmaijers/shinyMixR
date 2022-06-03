@@ -31,6 +31,7 @@ widgetserver <- function(input,output,session){
     }else{
       savnm  <- ifelse(inp$gof_typeout=="PDF",paste0(inp$gof_savename,".tex"),paste0(inp$gof_savename,".html"))
       gof_plot(res,type=input$settings_plott,mdlnm=inp$gof_gofLst,outnm=savnm,show=inp$gof_showres)
+      removeModal()
     }
   }
   gofplm <- eventReactive(input$gof_make,gofpl(input))

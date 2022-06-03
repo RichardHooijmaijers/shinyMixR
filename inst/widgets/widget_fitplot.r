@@ -31,6 +31,7 @@ widgetserver <- function(input,output,session){
     }else{
       savnm  <- ifelse(inp$fit_typeout=="PDF",paste0(inp$fit_savename,".tex"),paste0(inp$fit_savename,".html"))
       fit_plot(res,type=input$settings_plott,mdlnm=inp$fit_fitLst,outnm=savnm,show=inp$fit_showres)
+      removeModal()
     }
   }
   fitplm <- eventReactive(input$fit_make,fitpl(input))
