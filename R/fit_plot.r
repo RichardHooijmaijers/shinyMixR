@@ -29,7 +29,11 @@
 #' }
 fit_plot <- function(dfrm,type="xpose",mdlnm=NULL,outnm=NULL,projloc=".",...){
   if(type=="xpose"){
-    xpdb <- xpose.nlmixr::xpose_data_nlmixr(dfrm)
+    if("nlmixr2" %in% rownames(installed.packages())){
+      xpdb <- xpose.nlmixr2::xpose_data_nlmixr2(dfrm)
+    }else{
+      xpdb <- xpose.nlmixr::xpose_data_nlmixr(dfrm)
+    }
     pl   <- xpose::ind_plots(xpdb, nrow=3, ncol=4)
   }else if(type=="user"){
     pl   <- ggplot(dfrm,aes(x=TIME)) + geom_point(aes(y=DV)) +

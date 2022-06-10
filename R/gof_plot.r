@@ -29,7 +29,11 @@
 #' }
 gof_plot <- function(dfrm,type="xpose",mdlnm=NULL,outnm=NULL,projloc=".",...){
   if(type=="xpose"){
-    xpdb <- xpose.nlmixr::xpose_data_nlmixr(dfrm)
+    if("nlmixr2" %in% rownames(installed.packages())){
+      xpdb <- xpose.nlmixr2::xpose_data_nlmixr2(dfrm)
+    }else{
+      xpdb <- xpose.nlmixr::xpose_data_nlmixr(dfrm)
+    }
     p1   <- xpose::dv_vs_pred(xpdb)
     p2   <- xpose::dv_vs_ipred(xpdb)
     p3   <- xpose::res_vs_pred(xpdb,res=ifelse(is.null(dfrm$CWRES),"RES","CWRES"))
