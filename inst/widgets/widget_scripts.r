@@ -35,7 +35,7 @@ widgetserver <- function(input,output,session){
         dir.create(paste0("shinyMixR/temp"),showWarnings = FALSE,recursive = TRUE)
         scr   <- readLines(paste0("scripts/",input$script_scrLst))
         tmpsc <- paste0("shinyMixR/temp/",input$script_scrLst,".",stringi::stri_rand_strings(1,6),".r")
-        writeLines(c(paste0("setwd('",normalizePath("."),"')"),paste0("models <- c(", paste(shQuote(input$script_modLst),collapse = ", "),")"),scr),tmpsc)
+        writeLines(c(paste0("setwd('",normalizePath(".",winslash = "/"),"')"),paste0("models <- c(", paste(shQuote(input$script_modLst),collapse = ", "),")"),scr),tmpsc)
         writeLines(paste("Run",input$script_scrLst,"for model(s)",paste(input$script_modLst,collapse = ", "),"in",normalizePath(".")),paste0("shinyMixR/temp/scriptres.out"))
         if(Sys.info()['sysname']=="Windows"){
           shell(paste0("Rscript \"", tmpsc,  "\" >> \"",normalizePath("."),"/shinyMixR/temp/scriptres.out\" 2>&1"),wait=FALSE)
