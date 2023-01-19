@@ -1,5 +1,5 @@
 # Script to create combined results
-library(xpose.nlmixr)
+library(xpose.nlmixr2)
 library(shinyMixR)
 lapply(models,function(x){
 
@@ -13,7 +13,7 @@ lapply(models,function(x){
 
   gof_plot(res, outnm=paste0("./analysis/",x,"/02gofall.html"),mdlnm=x,show=FALSE)
   fit_plot(res, outnm=paste0("./analysis/",x,"/03indfit.html"),mdlnm=x,show=FALSE)
-  pl1 <- prm_vs_iteration(xpdb)
+  if(!is.null(xpdb$files)) pl1 <- prm_vs_iteration(xpdb) else pl1 <- list()
   pl2 <- absval_res_vs_idv(xpdb, res = 'IWRES')
   pl3 <- absval_res_vs_pred(xpdb, res = 'IWRES')
   pl4 <- res_distrib(xpdb)
@@ -26,7 +26,7 @@ lapply(models,function(x){
     })
     R3port::html_plot(pll,out=paste0("./analysis/",x,"/05hist.eta.html"),show=FALSE,title="ETA distribution")
   }
-  R3port::html_plot(nlmixr::vpc(res,nsim=500,show=list(obs_dv=TRUE)),out=paste0("./analysis/",x,"/06vpc.plot.html"),show=FALSE,title="VPC")
+  R3port::html_plot(nlmixr::vpcPlot(res,n=500,show=list(obs_dv=TRUE)),out=paste0("./analysis/",x,"/06vpc.plot.html"),show=FALSE,title="VPC")
 
   R3port::html_combine(combine=paste0("./analysis/",x),out="report.html",show=TRUE,
                        template=paste0(system.file(package="R3port"),"/bootstrap.html"),toctheme=TRUE)
