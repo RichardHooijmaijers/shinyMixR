@@ -4,7 +4,17 @@
 \alias{par_table}
 \title{Create parameter table}
 \usage{
-par_table(proj, models, outnm = NULL, projloc = ".", ...)
+par_table(
+  proj,
+  models,
+  outnm = NULL,
+  projloc = ".",
+  bsv = FALSE,
+  shrink = FALSE,
+  backt = FALSE,
+  formatting = FALSE,
+  ...
+)
 }
 \arguments{
 \item{proj}{project object}
@@ -15,10 +25,18 @@ par_table(proj, models, outnm = NULL, projloc = ".", ...)
 
 \item{projloc}{character with the base location of the shinyMixR project}
 
+\item{bsv}{logical indicating if between subject variability (BSV) should be added to table}
+
+\item{shrink}{logical indicating if shrinkage should be added to table}
+
+\item{backt}{logical indicating if the backtransformed parameters should be returned oposed to the original values}
+
+\item{formatting}{logical indicating if the formatting should be applied to present the table (not implemented for latex output)}
+
 \item{...}{additional arguments passed to \code{\link[R3port]{ltx_plot}} or \code{\link[R3port]{html_plot}}}
 }
 \value{
-in case no outnm is defined a ggplot object will be returned otherwise
+in case no outnm is defined a data frame will be returned otherwise
   the results are saved to disk
 }
 \description{
@@ -36,7 +54,7 @@ In case a model is saved, a directory with the name of the model is created with
 \examples{
 
 \dontrun{
- par_table(proj)
+ par_table(proj,"run1")
 }
 }
 \author{

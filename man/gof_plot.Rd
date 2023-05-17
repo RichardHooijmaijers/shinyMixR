@@ -4,7 +4,18 @@
 \alias{gof_plot}
 \title{Create goodness of fit plots}
 \usage{
-gof_plot(dfrm, type = "xpose", mdlnm = NULL, outnm = NULL, projloc = ".", ...)
+gof_plot(
+  dfrm,
+  type = "xpose",
+  mdlnm = NULL,
+  colby = NULL,
+  ptype = "all",
+  outnm = NULL,
+  projloc = ".",
+  title = NULL,
+  linscale = FALSE,
+  ...
+)
 }
 \arguments{
 \item{dfrm}{data frame as created by the nlmixr function}
@@ -14,9 +25,18 @@ gof_plot(dfrm, type = "xpose", mdlnm = NULL, outnm = NULL, projloc = ".", ...)
 
 \item{mdlnm}{character with name of the model}
 
+\item{colby}{character vector of length one specifying the variable to color on (for now can be only one variable)}
+
+\item{ptype}{The type of plots to create. Currently the following is accepted:
+"all", "ipred.dv", "pred.dv", "idv.res", "pred.res"}
+
 \item{outnm}{character with name of the output file (see details)}
 
 \item{projloc}{character with the base location of the shinyMixR project}
+
+\item{title}{character with the title to place above the plot}
+
+\item{linscale}{Logical indicating if the scales should be set to linear for DV, PRED and IPRED plots}
 
 \item{...}{additional arguments passed to \code{\link[R3port]{ltx_plot}} or \code{\link[R3port]{html_plot}}}
 }

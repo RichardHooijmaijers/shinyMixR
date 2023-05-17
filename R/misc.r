@@ -11,13 +11,30 @@ sigdigs <- function(x,sdig=3){
   dp <- ifelse(dp<0 | is.na(dp) | is.infinite(dp),0,dp)
   sprintf(paste("%.",dp,"f", sep=""), x)
 }
-#------------------------------------------ getwidg ------------------------------------------
-#' get list of widgets
+
+#------------------------------------------ myalert ------------------------------------------
+#' wrapper function for sweetalert in shinywidgets
 #'
 #' This function gets list of widgets to include in run_shinymixr
 #' @export
-getwidg <- function(){
-  w <- c("widget_overview.r","widget_edit.r","widget_run.r","widget_pars.r","widget_gofplot.r","widget_fitplot.r",
-       "widget_scripts.r","widget_results.r","widget_settings.r")
-  list(widgets=paste0(system.file("widgets",package="shinyMixR"),"/",w),init=paste0(system.file("widgets",package="shinyMixR"),"/widget_init.r"))
+myalert <- function(text,type,...){
+  shinyWidgets::sendSweetAlert(text = text,type = type,
+    showClass=list(backdrop='swal2-noanimation',popup=''),width="30%",
+    padding="1em",title=NULL,...)
+    # ,icon=''
+}
+
+#------------------------------------------ theme_shinyMixR ------------------------------------------
+#' theme for ggplot output in the shinyMixR package
+#'
+#' This function provides a custom theme for ggplot output
+#' @param fontsize numeric with the default fontsize passed through to theme
+#' @export
+theme_shinyMixR <- function(fontsize=12){
+  ret <- theme_bw(base_size = fontsize) + 
+    theme(panel.border     = element_rect(color="grey30", size=0.75),
+          panel.grid.major = element_line(color="grey70",size=.25,linetype = "dotted"),
+          panel.grid.minor = element_blank(),
+          axis.ticks       = element_line(color="grey50"))
+  return(ret)
 }

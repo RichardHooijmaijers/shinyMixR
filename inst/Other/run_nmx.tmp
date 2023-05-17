@@ -15,6 +15,10 @@ if(!exists("{{{data}}}", envir=.GlobalEnv)) {
 }else{
   data_nlm <- {{{data}}}
 }
+if("{{subs}}"!=""){
+  data_nlm <- subset(data_nlm,{{{subs}}})
+}
+
 source("{{{modelloc}}}")
 setwd("{{{locproj}}}/shinyMixR/temp")
 modres <- try(nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{control}}},table=tableControl(cwres={{{addcwres}}}, npde={{{addnpde}}})))
@@ -23,7 +27,7 @@ modres <- try(nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{
 if(length(class(modres))>1 && class(modres)!="try-error"){
   saveRDS(modres,file="../{{{modelname}}}.res.rds")
   if("nlmixr2" %in% rownames(installed.packages())){
-    saveRDS(list(OBJF=modres$objective,partbl=modres$parFixedDf,partblf=modres$parFixed,omega=modres$omega,
+    saveRDS(list(OBJF=modres$objective,CONDNR=modres$conditionNumberCor,partbl=modres$parFixedDf,partblf=modres$parFixed,omega=modres$omega,
                  tottime=rowSums(modres$time)),file="../{{{modelname}}}.ressum.rds")
   }else{
     saveRDS(list(OBJF=modres$objective,partbl=modres$popDf,partblf=modres$par.fixed,omega=modres$omega,
@@ -31,3 +35,4 @@ if(length(class(modres))>1 && class(modres)!="try-error"){
   }
 }
 {{/saveres}}
+cat("run finished!\n")

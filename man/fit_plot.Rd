@@ -4,13 +4,44 @@
 \alias{fit_plot}
 \title{Create fit plot}
 \usage{
-fit_plot(dfrm, type = "xpose", mdlnm = NULL, outnm = NULL, projloc = ".", ...)
+fit_plot(
+  dfrm,
+  type = "xpose",
+  by = "ID",
+  idv = "TIME",
+  obs = "DV",
+  pred = "PRED",
+  ipred = "IPRED",
+  grp = "ID",
+  logy = TRUE,
+  scales = "fixed",
+  mdlnm = NULL,
+  outnm = NULL,
+  projloc = ".",
+  ...
+)
 }
 \arguments{
 \item{dfrm}{data frame as created by the nlmixr function}
 
 \item{type}{character defining the type of plot that should be created. currently
 "xpose" and "user" are supported for xpose or ggplot style of plots}
+
+\item{by}{character vector with variables for facetting}
+
+\item{idv}{independent variable or x variable}
+
+\item{obs}{variable with observed data points}
+
+\item{pred}{variable with predicted data points}
+
+\item{ipred}{variable with individual predicted data points}
+
+\item{grp}{variable for grouping (mainly to draw separate lines)}
+
+\item{logy}{logical if y-axis should be displayed on log scale}
+
+\item{scales}{character of length one defining the scale parameter of ggplot (e.g. "fixed", "free","free_y",etc)}
 
 \item{mdlnm}{character with name of the model}
 

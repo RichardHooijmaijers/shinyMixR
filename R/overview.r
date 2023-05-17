@@ -18,7 +18,7 @@ overview <- function(...){
   obj  <- get_proj(...)
   mdln <- names(obj)[names(obj)!="meta"]
   res1 <- lapply(mdln, function(x){
-    if(class(obj[[x]]$modeleval)=="try-error"){
+    if(class(obj[[x]]$modeleval)=="try-error" || class(obj[[x]]$modeleval$meta)=="try-error"){
       c(NA,"","","","")
     }else{
       meta <- obj[[x]]$modeleval$meta
@@ -35,6 +35,7 @@ overview <- function(...){
     dOBJF      <- lapply(res$models,function(x) round(as.numeric(res$OBJF[which(res$models==x)]) - as.numeric(res$OBJF[which(res$models==res$ref[res$models==x])]),4))
     res$dOBJF  <- sapply(dOBJF,function(x) ifelse(length(x)==0,NA,x))
     res        <- res[,c("models","importance","description","ref","data","method","OBJF","dOBJF","runtime")]
+    res        <- res[order(res$models),]
   }
   res
 }

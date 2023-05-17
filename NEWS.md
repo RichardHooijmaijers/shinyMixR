@@ -1,3 +1,17 @@
+# shinyMixR 0.4
+
+Within this version some updates have been implemented, see below the most important changes:
+
+- Implemented shiny modules for the back-bone structure of the app
+- Used the bs4Dash package to create the dashboard instead of shinydashboard
+- Added more functionality to the existing widgets and included new widgets:
+  - in parameter table provide options to include BSV, shrinkage and back-transformation 
+  - in gof plots added the option to subset and perform pre-coding, adjust plot size and option to color by a variable
+  - in fit plots added the option to subset and perform pre-coding, adjust plot size and more options to select variables and adjust scaling
+  - Added a data exploration widget to create exploratory (interactive) plots and show underlying data
+- Moved the scripting functionality from a widget to a button in the overview and added options to include arguments for scripts
+- Moved the reporting functionality from a widget to a button in the overview
+
 # shinyMixR 0.3
 
 Within this version some updates have been implemented, see below the most important changes:
@@ -32,7 +46,6 @@ Various bug fixes and new features are included. Most important adaptations are 
 # shinyMixR 0.1.3
 
 First github release
-
 
 # shinyMixR 0.1.1 - 0.1.2
 
