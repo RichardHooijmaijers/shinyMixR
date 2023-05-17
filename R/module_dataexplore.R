@@ -88,8 +88,8 @@ module_dataexplore_ui <- function(id) {
         # General
         tabPanel("General",
           selectInput(ns("nondups"),  "Non-duplicated:", choices = "",multiple=FALSE),
-          textInput(ns("subst"), "Subset", value = ""),
-          textInput(ns("precod"), "Pre-code", value = ""),
+          textInput(ns("subset"), "Subset", value = ""),
+          textInput(ns("precode"), "Pre-code", value = ""),
           textInput(ns("ptitle"), "Title", value = "title"),
           textInput(ns("xlab"), "X label", value = ""),
           textInput(ns("ylab"), "Y label", value = ""),
@@ -120,7 +120,7 @@ module_dataexplore_ui <- function(id) {
 			        numericInput(ns("vref"), "Vertical reference line:", NA),
 			        hr(),
               #numericInput(ns("npage"), "Number of pages:", 1),
-              checkboxInput(ns("attrl"),"Use attributes", value = FALSE)
+              #checkboxInput(ns("attrl"),"Use attributes", value = FALSE)
 			      )
 		      )
         )
@@ -162,7 +162,7 @@ module_dataexplore_server <- function(id,tabswitch) {
         set1 <- lapply(set1,function(x) {
           updateSelectInput(session,x,choices=c("[empty]",names(dataIn)),selected=ifelse(input[[x]]=="","[empty]",input[[x]]))
         })
-        updateSelectInput(session,"explore_nondups",choices=c("",names(dataIn)),selected="")
+        updateSelectInput(session,"nondups",choices=c("",names(dataIn)),selected="")
       }
     }
     observeEvent(input$mdls,{updfunc()},ignoreInit=TRUE)
@@ -204,8 +204,8 @@ module_dataexplore_server <- function(id,tabswitch) {
     # Update the dataTable (necessary as different input can be selected, create table when plot is created)
     upDT  <- eventReactive(input$maketbl,{
       if(!is.null(input$mdls)){
-        if(!is.null(input$precod) && input$precod!="")     eval(parse(text=input$precod))
-        if(!is.null(input$subst)  && input$subst!="")      eval(parse(text=paste0("dataIn <- subset(dataIn,",input$subst,")")))
+        if(!is.null(input$precode) && input$precode!="")     eval(parse(text=input$precode))
+        if(!is.null(input$subset)  && input$subset!="")    eval(parse(text=paste0("dataIn <- subset(dataIn,",input$subset,")")))
         if(!is.null(input$nondups)  && input$nondups!="")  eval(parse(text=paste0("dataIn <- subset(dataIn, !duplicated(",input$nondups,"))")))
         dataIn
       }

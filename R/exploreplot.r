@@ -26,11 +26,12 @@ exploreplot <- function(inputlist){
   if((inputlist$Xlog==TRUE &  inputlist$Xfact==TRUE) | inputlist$Ylog==TRUE &  inputlist$Yfact==TRUE) stop("Cannot set log scale in case a factor is used ")
 
   # take into account that colour is used to map colour/fill and shape is used to map shape and linetype
+  inputlist$attrl <- FALSE
   if(inputlist$attrl==TRUE) {ggstr <- "dataIn <- assign_attr(dataIn,attrl)"}else{ggstr <- NULL} # paste(ggstr,"+\n ",lay1)
-  if(inputlist$subst=="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(dataIn)")
-  if(inputlist$subst=="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn, !duplicated(",inputlist$nondups,")))")
-  if(inputlist$subst!="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn,",inputlist$subst,"))")
-  if(inputlist$subst!="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn, !duplicated(",inputlist$nondups,") & ",inputlist$subst,"))")
+  if(inputlist$subset=="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(dataIn)")
+  if(inputlist$subset=="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn, !duplicated(",inputlist$nondups,")))")
+  if(inputlist$subset!="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn,",inputlist$subset,"))")
+  if(inputlist$subset!="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn, !duplicated(",inputlist$nondups,") & ",inputlist$subset,"))")
 
   addlay <- function(ageom,ayval,axval,agroup,acolour,ashape,asize,alabel,astats,afcol,afsize,afalph){
     if(astats!='[empty]' &  ageom%in%c("boxplot","bar","histogram","smooth","jitter","text")) stop("Stats can only be displayed as 'line' or 'point'")
@@ -115,9 +116,9 @@ exploreplot <- function(inputlist){
   if(inputlist$ptitle!='') add <- c(add,ggtitle=paste0("ggtitle('",inputlist$ptitle,"')"))
 
   # set manual color scale or fill in case one of the layers has colors (AND it is set as factor!!)
-  cond1 <- inputlist$colour1!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour1),inputlist$precod)
-  cond2 <- inputlist$colour2!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour2),inputlist$precod)
-  cond3 <- inputlist$colour3!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour3),inputlist$precod)
+  cond1 <- inputlist$colour1!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour1),inputlist$precode)
+  cond2 <- inputlist$colour2!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour2),inputlist$precode)
+  cond3 <- inputlist$colour3!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour3),inputlist$precode)
   cond4 <- inputlist$colour1!='[empty]' & inputlist$geoms1%in%c("boxplot","bar","histogram")
   cond5 <- inputlist$colour2!='[empty]' & inputlist$geoms2%in%c("boxplot","bar","histogram")
   cond6 <- inputlist$colour3!='[empty]' & inputlist$geoms3%in%c("boxplot","bar","histogram")
@@ -132,6 +133,6 @@ exploreplot <- function(inputlist){
   finstr <- paste0(finstr,"+\n ","shinyMixR::theme_shinyMixR(fontsize=",inputlist$fontsize,")")
   # Add functionality for multipage plotting
   # if(inputlist$npage>1) finstr <- paste0("ggpage(\n",finstr,",\n pages=",inputlist$npage,")")
-  if(inputlist$precod!='') finstr <- paste(inputlist$precod,"\n",finstr)
+  if(inputlist$precode!='') finstr <- paste(inputlist$precode,"\n",finstr)
   return(finstr)
 }
