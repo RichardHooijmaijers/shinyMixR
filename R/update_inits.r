@@ -22,10 +22,13 @@ update_inits <- function(mod,res,out){
   modnm <- ls()[!ls()%in%c("mod","res","out")]
   ores  <- readRDS(res)
 
-  # Get parameters from original model
-  eomod <- ini(get(modnm))
-  opar  <- eomod$ini[eomod$ini$fix==FALSE,c("name","est")]
-  opar  <- setNames(signif(opar$est,4),opar$name)
+  # Get parameters from original model - changes necessary for nlmixr2 2.0.9
+  #eomod <- ini(get(modnm))
+  eomod  <- get(modnm)
+  eomod2 <- eval(ini(eomod))
+  eomod2 <- attr(eomod2,"lotriEst")
+  opar   <- eomod2[eomod2$fix==FALSE,c("name","est")]
+  opar   <- setNames(signif(opar$est,4),opar$name)
 
   # Get parameters from final estimates
   rpar  <- ores$ui$iniDf

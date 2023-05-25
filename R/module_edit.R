@@ -62,7 +62,7 @@ module_edit_server <- function(id,tabswitch,settings) {
           mdl <- sub("run1",sub("\\.[r|R]","",input$namenew),mdl)
           writeLines(mdl,paste0("models/",input$namenew))
           assign("proj_obj",get_proj(),pos = .GlobalEnv,inherits=TRUE)
-          updateSelectInput(session,"editLst",choices = names(get("proj_obj",pos = .GlobalEnv)),selected=sub("\\.[r|R]","",input$namenew))
+          updateSelectInput(session,"editLst",choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=sub("\\.[r|R]","",input$namenew))
           shinyAce::updateAceEditor(session,"editor",value=paste(readLines(paste0("models/",input$namenew)),collapse="\n"))
           removeModal()
         }
@@ -81,10 +81,11 @@ module_edit_server <- function(id,tabswitch,settings) {
 
     # Handle meta data (we need to pass the selected model as a reactive)
     selectedmodel <- reactive(input$editLst)
-    upd <- module_metadata_server("adapt_meta_ed","save",sellmod=selectedmodel)
+    selectedcont  <- reactive(input$editor)
+    upd <- module_metadata_server("adapt_meta_ed","save",sellmod=selectedmodel,sellcont=selectedcont)
     observeEvent(upd(),{
       if(!is.null(upd())){
-        updateSelectInput(session,"editLst",choices = names(get("proj_obj",pos = .GlobalEnv)),selected=sub("\\.[r|R]","",upd()))
+        updateSelectInput(session,"editLst",choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=sub("\\.[r|R]","",upd()))
         shinyAce::updateAceEditor(session,"editor",value=paste(readLines(proj_obj[[sub("\\.[r|R]","",upd())]]$model),collapse="\n"))
         myalert(upd(),type = "success")
       } 

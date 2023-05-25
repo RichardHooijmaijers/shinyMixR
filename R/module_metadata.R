@@ -20,9 +20,10 @@ module_metadata_ui <- function(id,type) {
 #' @param type character with the type of action (either "save" or "overview")
 #' @param selline reactive with the selected line for a model (for type "overview")
 #' @param sellmod reactive with the selected model (for type "save")
+#' @param sellcont reactive with the content of the selected model (for type "save")
 #' @noRd 
 #' @export
-module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL){
+module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NULL){
   moduleServer(id, function(input, output, session){
     
     # Function for the modal
@@ -88,8 +89,18 @@ module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL){
         # Had to place output of adpt_meta in object otherwise writeLines did not work
         # Added assign projlst so latest changes are saved and are used when multiple changes are made
         # return value is set and can be used in calling module to replace data in overview
-        if(type=="save") toret <- c(name=paste0("models/",sellmod(),".r"), val=input$mdladpt, saveas=paste0("models/",input$mdladpt))
-        if(type!="save") toret <- c(name=paste0("models/",input$mdladpt,".r"), val="Update DT", saveas=paste0("models/",input$mdladpt,".r"))
+        if(!grepl("run[[:digit:]]*\\.[r|R]",input$mdladpt)){
+          myalert("model could not be saved, please make sure names is defined as 'run[digit]'",type="error")
+          return()
+        }
+        if(type=="save"){
+          tmpmod <- tempfile()
+          writeLines(sellcont(),tmpmod)
+          #toret  <- c(name=paste0("models/",sellmod(),".r"), val=input$mdladpt, saveas=paste0("models/",input$mdladpt))
+          toret  <- c(name=tmpmod, val=input$mdladpt, saveas=paste0("models/",input$mdladpt))
+        }else{
+          toret <- c(name=paste0("models/",input$mdladpt,".r"), val="Update DT", saveas=paste0("models/",input$mdladpt,".r"))
+        } 
         towr <- adpt_meta(toret['name'],metanfo)
         if(type=="save") towr <- sub(sellmod(),sub("\\.[r|R]","",input$mdladpt),towr)
         writeLines(towr,toret['saveas'])

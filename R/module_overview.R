@@ -45,7 +45,7 @@ module_overview_server <- function(id) {
       overview_ov <- data.frame(models="",importance="",description="",ref="",data="",method="",OBJF="",dOBJF=NA,runtime="")
     }
     proxy = DT::dataTableProxy("overview_tbl")
-    output$overview_tbl = DT::renderDataTable(overview_ov,rownames=FALSE,extension=c("Buttons"), options=list(scrollX=TRUE,dom="Bfrtip",buttons=c('colvis','csv'),pageLength=25))
+    output$overview_tbl = DT::renderDataTable(overview_ov,rownames=FALSE,extension=c("Buttons"), options=list(scrollX=TRUE,dom="Bfrtip",buttons=c('colvis','csv'),pageLength=100,lengthMenu=c(10,100,1000,10000)))
     # filter="bottom", --> bug with filters/module/modal
 
     # Create tree
