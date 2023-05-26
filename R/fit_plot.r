@@ -37,11 +37,11 @@
 #' }
 fit_plot <- function(dfrm,type="xpose",by="ID",idv="TIME",obs="DV",pred="PRED",ipred="IPRED",grp="ID",logy=TRUE,scales="fixed",mdlnm=NULL,outnm=NULL,projloc=".",...){
   if(!all(c(idv,obs,pred)%in%names(dfrm)))     stop("Please provide correct 'idv', 'obs', 'pred'")
-  if(!is.null(by) && !by%in%names(dfrm))       stop("Please provide correct 'by'")
+  if(!is.null(by) && !all(by%in%names(dfrm)))  stop("Please provide correct 'by'")
   if(!is.null(ipred) && !ipred%in%names(dfrm)) stop("Please provide correct 'ipred'")
   
   if(type=="xpose"){
-    if(by!="ID" || idv!="TIME" || obs!="DV" || pred!="PRED" || ipred!="IPRED" || grp!="ID") stop("Changing variables does not work with xpose type of plots")
+    if((length(by)==1 && by!="ID") || length(by)>1 || idv!="TIME" || obs!="DV" || pred!="PRED" || ipred!="IPRED" || grp!="ID") stop("Changing variables does not work with xpose type of plots")
     if("nlmixr2" %in% rownames(installed.packages())){
       xpdb <- xpose.nlmixr2::xpose_data_nlmixr2(dfrm)
     }else{

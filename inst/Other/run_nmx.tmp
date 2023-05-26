@@ -24,7 +24,7 @@ setwd("{{{locproj}}}/shinyMixR/temp")
 modres <- try(nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{control}}},table=tableControl(cwres={{{addcwres}}}, npde={{{addnpde}}})))
 
 {{#saveres}}
-if(length(class(modres))>1 && class(modres)!="try-error"){
+if(length(class(modres))>1 && !"try-error"%in%class(modres)){
   saveRDS(modres,file="../{{{modelname}}}.res.rds")
   if("nlmixr2" %in% rownames(installed.packages())){
     saveRDS(list(OBJF=modres$objective,CONDNR=modres$conditionNumberCor,partbl=modres$parFixedDf,partblf=modres$parFixed,omega=modres$omega,

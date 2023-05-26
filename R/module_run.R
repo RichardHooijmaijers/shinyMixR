@@ -37,8 +37,8 @@ module_run_server <- function(id,tabswitch) {
     observeEvent(input$runMdl,{
       unlink(list.files(paste0("shinyMixR/temp"),pattern=".*prog\\.txt$",full.names = TRUE))
       # Perform tests before running
-      if(!is.null(input$runLst)){
-        proj     <- get("proj_obj",pos = .GlobalEnv)
+       if(!is.null(input$runLst)){
+         proj     <- get("proj_obj",pos = .GlobalEnv)
         checkall <- unlist(sapply(input$runLst,function(x){
           chk    <- proj[[x]]$model
           chksrc <- try(source(chk,local=TRUE),silent=TRUE)
@@ -49,7 +49,7 @@ module_run_server <- function(id,tabswitch) {
           }
         }))
         if(length(checkall)>0){
-          myalert(paste("The following issues occured:",paste0(names(checkall),": ",checkall,collapse=", ")),type = "error")
+           myalert(paste("The following issues occured:",paste0(names(checkall),": ",checkall,collapse=", ")),type = "error")
         }else{
           myalert("model(s) submitted, wait for progress log to pop-up!",type = "succes")
           addcwres <- ifelse("Add CWRES to output"%in%input$addExtra,TRUE,FALSE)

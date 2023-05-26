@@ -19,9 +19,9 @@ sigdigs <- function(x,sdig=3){
 #' @export
 myalert <- function(text,type,...){
   shinyWidgets::sendSweetAlert(text = text,type = type,
-    showClass=list(backdrop='swal2-noanimation',popup=''),width="30%",
+    showClass=list(backdrop='swal2-noanimation'),width="30%",
     padding="1em",title=NULL,...)
-    # ,icon=''
+    # ,icon='' # ,popup='' # note that popup='' does no longer work in R4.3.0 because if statements should return a length one vector (posted github issue @26/5/23 to shinyWidgets)
 }
 
 #------------------------------------------ theme_shinyMixR ------------------------------------------

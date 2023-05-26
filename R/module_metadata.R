@@ -89,7 +89,7 @@ module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NU
         # Had to place output of adpt_meta in object otherwise writeLines did not work
         # Added assign projlst so latest changes are saved and are used when multiple changes are made
         # return value is set and can be used in calling module to replace data in overview
-        if(!grepl("run[[:digit:]]*\\.[r|R]",input$mdladpt)){
+        if(type=="save" && !grepl("run[[:digit:]]*\\.[r|R]",input$mdladpt)){
           myalert("model could not be saved, please make sure names is defined as 'run[digit]'",type="error")
           return()
         }
