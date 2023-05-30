@@ -22,7 +22,10 @@ Imports:
   shinyWidgets,
   stringi,
   R3port,
-  whisker
+  whisker,
+  plotly,
+  cowplot,
+  shinyjs
 Suggests:
   xpose,
   xpose.nlmixr,
@@ -33,4 +36,4 @@ Suggests:
 License: MIT+LICENSE
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
