@@ -41,6 +41,7 @@ install_fun <- function(pkg=TRUE,test=TRUE){
   allres <- paste("Test resulst for",Sys.info()['user'],"\n")
   if("pkgres"%in%ls())  allres <- c(allres,pkgres)
   if("tstres"%in%ls())  allres <- c(allres,tstres)
+  allres <- c(allres,"\n\n",capture.output(sessionInfo()))
   writeLines(allres,paste0(path.expand('~'),"/InstallationResults.log"))
   
   cat(paste0("Done! Results for the test can be found here: ",paste0(path.expand('~'),"/InstallationResults.log"),
