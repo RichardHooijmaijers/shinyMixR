@@ -109,7 +109,7 @@ module_edit_server <- function(id,tabswitch,settings) {
           myalert("Could not update initials",type = "error")
         }else{
           assign("proj_obj",get_proj(),pos = .GlobalEnv,inherits=TRUE)
-          updateSelectInput(session,"editLst",choices = names(get("proj_obj",pos = .GlobalEnv)),selected=sub("\\.[r|R]","",input$tosave))
+          updateSelectInput(session,"editLst",choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=sub("\\.[r|R]","",input$tosave))
           shinyAce::updateAceEditor(session,"editor",value=paste(readLines(proj_obj[[sub("\\.[r|R]","",input$tosave)]]$model),collapse="\n"))
           myalert("Initials updated",type = "success")
         }
