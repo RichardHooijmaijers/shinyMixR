@@ -122,8 +122,8 @@ exploreplot <- function(inputlist){
   cond4 <- inputlist$colour1!='[empty]' & inputlist$geoms1%in%c("boxplot","bar","histogram")
   cond5 <- inputlist$colour2!='[empty]' & inputlist$geoms2%in%c("boxplot","bar","histogram")
   cond6 <- inputlist$colour3!='[empty]' & inputlist$geoms3%in%c("boxplot","bar","histogram")
-  if(cond1 | cond2 | cond3) add <- c(add,custcol="scale_color_manual(values=col_lapp())")
-  if(cond4 | cond5 | cond6) add <- c(add,custcol="scale_color_manual(values=col_lapp()) + scale_fill_manual(values=col_lapp())")
+  if(cond1 | cond2 | cond3) add <- c(add,custcol="scale_color_manual(values=scales::brewer_pal('qual','Paired')(12))")
+  if(cond4 | cond5 | cond6) add <- c(add,custcol="scale_color_manual(values=scales::brewer_pal('qual','Paired')(12)) + scale_fill_manual(values=scales::brewer_pal('qual','Paired')(12))")
 
   # Create final return string
   finstr <- paste(ggstr,"+\n ",lay1)
