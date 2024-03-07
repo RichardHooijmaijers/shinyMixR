@@ -27,7 +27,7 @@ module_pt_ui <- function(id) {
 #' @param tabswitch reactive value that monitors the tabswitch
 #' @noRd 
 #' @export
-module_pt_server <- function(id,tabswitch) {
+module_pt_server <- function(id, tabswitch, r) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location
     observeEvent(tabswitch(),{
@@ -51,8 +51,13 @@ module_pt_server <- function(id,tabswitch) {
     }
     output$EstTbl = DT::renderDataTable(parTable(input),rownames=FALSE,options=list(paging=FALSE,searching=FALSE), escape=FALSE, 
       caption = tags$caption(style = "caption-side: bottom;",em("Table shows by default the final estimate and the %RSE in square brackets. In case BSV is checked, it will be added in curly braces as CV%. In case shrinkage is checked it will be added after the BSV. In case back-transformed parameters, the estimate is back-transformed and the 95% CI is added in parenthesis")))
+    
     proxy2 = DT::dataTableProxy('EstTbl')
-    observeEvent(input$EstLst, DT::replaceData(proxy2, parTable(input), rownames = FALSE))
+    
+    observe({
+      req(r$model_updated)
+      DT::replaceData(proxy2, parTable(input), rownames = FALSE)
+    })
 
     # Save results
     parsave <- function(){

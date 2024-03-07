@@ -23,7 +23,7 @@ module_run_ui <- function(id) {
 #' @param tabswitch reactive value that monitors the tabswitch
 #' @noRd 
 #' @export
-module_run_server <- function(id,tabswitch) {
+module_run_server <- function(id, tabswitch, r) {
   moduleServer(id, function(input, output, session) {
     #print("Im here")
     # Adapt/update model list 
@@ -74,6 +74,14 @@ module_run_server <- function(id,tabswitch) {
         paste(unlist(lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x, warn = FALSE)))),collapse="\n")
       }
     )
+    
+    observe({
+      # check if "run finished" prevails in runmodmonit()
+      if(grepl("run finished", runmodmonit())){
+        r$model_updated <- isolate(r$model_updated) + 1
+      }
+    })
+    
     output$progrTxt <- renderText(runmodmonit())
     # Monitor all external runs
     rv <- reactiveValues(montbl=NULL)
