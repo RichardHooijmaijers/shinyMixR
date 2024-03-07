@@ -2,6 +2,7 @@
 #' Creates and run the interface
 #'
 #' @param wd character with the working directory
+#' @param dry_run logical, if TRUE, the function will not launch the app, but will only create the necessary files
 #' @param ... arguments passed to the shiny runApp function
 #'
 #' @export
@@ -12,7 +13,7 @@
 #' \dontrun{
 #'  run_shinymixr(".")
 #' }
-run_shinymixr <- function(wd=getwd(),...){
+run_shinymixr <- function(wd = getwd(), dry_run = FALSE, ...){
   if(!file.exists(paste0(wd,"/shinyMixR/app/www"))) try(dir.create(paste0(wd,"/shinyMixR/app/www"),recursive = TRUE))
   #if(!file.exists(paste0(wd,"/shinyMixR/app/R")))   try(dir.create(paste0(wd,"/shinyMixR/app/R"),recursive = TRUE))
   if(!file.exists(paste0(wd,"/shinyMixR/temp")))    try(dir.create(paste0(wd,"/shinyMixR/temp"),recursive=TRUE))
@@ -28,5 +29,9 @@ run_shinymixr <- function(wd=getwd(),...){
     
   # Clean up stuff before running the app (check if feasible or not)
   try(unlink(list.files(paste0(wd,"/shinyMixR/temp"),pattern=".*prog\\.txt$",full.names = TRUE)))
-  shiny::runApp(paste0(wd,"/shinyMixR/app"),...)
+  if (dry_run == TRUE) {
+    return()
+  } else {
+    shiny::runApp(paste0(wd,"/shinyMixR/app"),...)
+  }
 }

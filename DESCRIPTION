@@ -32,7 +32,9 @@ Suggests:
   xpose.nlmixr2,
   nlmixr,
   nlmixr2,
-  nlme
+  nlme,
+  testthat,
+  shinytest2
 License: MIT+LICENSE
 Encoding: UTF-8
 LazyData: true
