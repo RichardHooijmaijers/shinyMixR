@@ -82,6 +82,10 @@ module_run_server <- function(id, tabswitch, r) {
       }
     })
     
+    exportTestValues(
+      model_updated = r$model_updated
+    )
+    
     output$progrTxt <- renderText(runmodmonit())
     # Monitor all external runs
     rv <- reactiveValues(montbl=NULL)
