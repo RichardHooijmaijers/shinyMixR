@@ -4,10 +4,12 @@
 \alias{run_shinymixr}
 \title{Creates and run the interface}
 \usage{
-run_shinymixr(wd = getwd(), ...)
+run_shinymixr(wd = getwd(), dry_run = FALSE, ...)
 }
 \arguments{
 \item{wd}{character with the working directory}
+
+\item{dry_run}{logical, if TRUE, the function will not launch the app, but will only create the necessary files}
 
 \item{...}{arguments passed to the shiny runApp function}
 }

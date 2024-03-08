@@ -25,6 +25,7 @@ module_pt_ui <- function(id) {
 #------------------------------------------ module_pt_server ------------------------------------------
 #' Parameter table module for server
 #' @param tabswitch reactive value that monitors the tabswitch
+#' @param r reactive values object that is defined top-level
 #' @noRd 
 #' @export
 module_pt_server <- function(id, tabswitch, r) {
