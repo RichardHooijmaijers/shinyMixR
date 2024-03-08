@@ -5,7 +5,7 @@
         "filter": "none",
         "vertical": false,
         "caption": "<caption style=\"caption-side: bottom;\">\n  <em>Table shows by default the final estimate and the %RSE in square brackets. In case BSV is checked, it will be added in curly braces as CV%. In case shrinkage is checked it will be added after the BSV. In case back-transformed parameters, the estimate is back-transformed and the 95% CI is added in parenthesis<\/em>\n<\/caption>",
-        "container": "<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Res<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
+        "container": "<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Parameter<\/th>\n      <th>run1<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
         "options": {
           "paging": false,
           "searching": false,
