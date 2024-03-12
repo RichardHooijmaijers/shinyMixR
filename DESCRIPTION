@@ -33,13 +33,11 @@ Suggests:
   nlmixr,
   nlmixr2,
   nlme,
-  RxODE,
   testthat,
   shinytest2
 Remotes:
   nlmixrdevelopment/xpose.nlmixr,
-  nlmixrdevelopment/nlmixr,
-  nlmixrdevelopment/RxODE
+  nlmixrdevelopment/nlmixr
 License: MIT+LICENSE
 Encoding: UTF-8
 LazyData: true

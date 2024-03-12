@@ -38,12 +38,21 @@ jobs:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
+          
+      - name: Install Rtools
+        if: runner.os == 'Windows'
+        run: |
+          wget https://cran.r-project.org/bin/windows/Rtools/rtools40v2-x86_64.exe
+          .\rtools40v2-x86_64.exe /VERYSILENT /SUPPRESSMSGBOXES /DIR="C:\Rtools"
+          echo ::add "C:\Rtools\bin" to PATH
+          echo ::endgroup::
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: |
             rcmdcheck
             local::.
+            nlmixrdevelopment/RxODE
 
       - uses: r-lib/actions/check-r-package@v2
 
