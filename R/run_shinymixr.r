@@ -4,7 +4,8 @@
 #' @param wd character with the working directory
 #' @param dry_run logical, if TRUE, the function will not launch the app, but will only create the necessary files
 #' @param ... arguments passed to the shiny runApp function
-#'
+#' @importFrom shiny runApp
+#' @import bs4Dash ggplot2 gridExtra
 #' @export
 #' @return runs the shinyMixR interface
 #' @author Richard Hooijmaijers
