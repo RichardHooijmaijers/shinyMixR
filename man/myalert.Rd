@@ -6,6 +6,13 @@
 \usage{
 myalert(text, type, ...)
 }
+\arguments{
+\item{text}{character with the text to display}
+
+\item{type}{character with the type of alert to display}
+
+\item{...}{other arguments passed to class}
+}
 \description{
 This function gets list of widgets to include in run_shinymixr
 }
