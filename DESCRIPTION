@@ -35,6 +35,8 @@ Suggests:
   nlme,
   testthat,
   shinytest2
+Remotes:
+  nlmixrdevelopment/xpose.nlmixr
 License: MIT+LICENSE
 Encoding: UTF-8
 LazyData: true
