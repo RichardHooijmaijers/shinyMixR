@@ -36,7 +36,8 @@ Suggests:
   testthat,
   shinytest2
 Remotes:
-  nlmixrdevelopment/xpose.nlmixr
+  nlmixrdevelopment/xpose.nlmixr,
+  nlmixrdevelopment/nlmixr
 License: MIT+LICENSE
 Encoding: UTF-8
 LazyData: true
