@@ -1,5 +1,9 @@
 # shinyMixR: Shiny dashboard interface for nlmixr
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/richardhooijmaijers/shinyMixR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/richardhooijmaijers/shinyMixR/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
 The shinyMixR package is initially developed as a graphical interface for the `nlmixr` package and provides full support for `nlmixr2`.
 The package include a shiny (dashboard) interface and helps in managing, running, editing and analysing nlmixr models.
 Although the main focus was to build an interface, many of the package functions are also directly available for usage in an interactive R session.
