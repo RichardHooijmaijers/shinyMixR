@@ -28,16 +28,11 @@ Imports:
   shinyjs
 Suggests:
   xpose,
-  xpose.nlmixr,
   xpose.nlmixr2,
-  nlmixr,
   nlmixr2,
   nlme,
   testthat,
   shinytest2
-Remotes:
-  nlmixrdevelopment/xpose.nlmixr,
-  nlmixrdevelopment/nlmixr
 License: MIT+LICENSE
 Encoding: UTF-8
 LazyData: true
