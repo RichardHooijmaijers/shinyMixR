@@ -25,15 +25,19 @@ Imports:
   whisker,
   plotly,
   cowplot,
-  shinyjs
+  shinyjs,
+  ps
 Suggests:
-  xpose,
-  xpose.nlmixr2,
-  nlmixr2,
-  nlme,
-  testthat,
-  shinytest2
+    xpose,
+    xpose.nlmixr2,
+    nlmixr2,
+    nlme,
+    testthat,
+    shinytest2,
+    knitr,
+    rmarkdown
 License: MIT+LICENSE
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.2.3
+VignetteBuilder: knitr
