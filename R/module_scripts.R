@@ -78,9 +78,9 @@ module_scripts_server <- function(id,files=NULL,scripts=NULL,loc="temp") {
       runRscript <- function(id,script,allinputs){
         writeLines(paste("Run",allinputs$scripts,"for file(s)",paste(allinputs$files,collapse = ", ")),paste0(normalizePath(loc),"/scriptres",uid(),".out"))
           if(Sys.info()['sysname']=="Windows"){
-            shell(paste0("Rscript \"", script,  "\" >> \"",normalizePath(loc),"/scriptres",id,".out\" 2>&1"),wait=FALSE)
+            shell(paste0("$R_HOME/bin/Rscript \"", script,  "\" >> \"",normalizePath(loc),"/scriptres",id,".out\" 2>&1"),wait=FALSE)
           }else{
-            system(paste0("Rscript \"", script,  "\" >> \"",normalizePath(loc),"/scriptres",id,".out\" 2>&1"),wait=FALSE)
+            system(paste0("$R_HOME/bin/Rscript \"", script,  "\" >> \"",normalizePath(loc),"/scriptres",id,".out\" 2>&1"),wait=FALSE)
           }
       }
 
