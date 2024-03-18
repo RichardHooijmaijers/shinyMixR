@@ -1,86 +1,21 @@
 {
-  "output": {
-    "partable-EstTbl": {
-      "x": {
-        "filter": "none",
-        "vertical": false,
-        "caption": "<caption style=\"caption-side: bottom;\">\n  <em>Table shows by default the final estimate and the %RSE in square brackets. In case BSV is checked, it will be added in curly braces as CV%. In case shrinkage is checked it will be added after the BSV. In case back-transformed parameters, the estimate is back-transformed and the 95% CI is added in parenthesis<\/em>\n<\/caption>",
-        "container": "<table class=\"display\">\n  <thead>\n    <tr>\n      <th>Parameter<\/th>\n      <th>run1<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>",
-        "options": {
-          "paging": false,
-          "searching": false,
-          "columnDefs": [
-
-          ],
-          "order": [
-
-          ],
-          "autoWidth": false,
-          "orderClasses": false,
-          "ajax": {
-            "type": "POST",
-            "data": "function(d) {\nd.search.caseInsensitive = true;\nd.search.smart = true;\nd.escape = false;\nvar encodeAmp = function(x) { x.value = x.value.replace(/&/g, \"%26\"); }\nencodeAmp(d.search);\n$.each(d.columns, function(i, v) {encodeAmp(v.search);});\n}"
-          },
-          "serverSide": true,
-          "processing": true
-        },
-        "selection": {
-          "mode": "multiple",
-          "selected": null,
-          "target": "row",
-          "selectable": null
-        }
-      },
-      "evals": [
-        "options.ajax.data"
+  "export": {
+    "partable-params": {
+      "Parameter": [
+        "OBJF",
+        "COND. NR",
+        "tka",
+        "tcl",
+        "tv",
+        "add.err"
       ],
-      "jsHooks": [
-
-      ],
-      "deps": [
-        {
-          "name": "jquery",
-          "version": "3.6.0",
-          "src": {
-            "href": "jquery-3.6.0"
-          },
-          "meta": null,
-          "script": "jquery-3.6.0.min.js",
-          "stylesheet": null,
-          "head": null,
-          "attachment": null,
-          "all_files": true
-        },
-        {
-          "name": "dt-core",
-          "version": "1.13.4",
-          "src": {
-            "href": "dt-core-1.13.4"
-          },
-          "meta": null,
-          "script": "js/jquery.dataTables.min.js",
-          "stylesheet": [
-            "css/jquery.dataTables.min.css",
-            "css/jquery.dataTables.extra.css"
-          ],
-          "head": null,
-          "attachment": null,
-          "package": null,
-          "all_files": false
-        },
-        {
-          "name": "crosstalk",
-          "version": "1.2.0",
-          "src": {
-            "href": "crosstalk-1.2.0"
-          },
-          "meta": null,
-          "script": "js/crosstalk.min.js",
-          "stylesheet": "css/crosstalk.min.css",
-          "head": null,
-          "attachment": null,
-          "all_files": true
-        }
+      "run1": [
+        "1042.61",
+        "1.2",
+        "-2.12 [12.3] <span style=\"font-size: 0.75em;font-weight: bold;\">{108., 59.7%>}<\/span>",
+        "1.02 [7] <span style=\"font-size: 0.75em;font-weight: bold;\">{22.5, 7.53%<}<\/span>",
+        "0.842 [41.8] <span style=\"font-size: 0.75em;font-weight: bold;\">{173., 29.6%=}<\/span>",
+        "0.702 "
       ]
     }
   }

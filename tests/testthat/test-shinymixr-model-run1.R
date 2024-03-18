@@ -24,12 +24,12 @@ test_that("Shiny app runs model for run1", {
   
   # Get initial parameter table
   initial_model_counter <- app$wait_for_value(export = "modrun-model_updated",
-                                         ignore = list(NULL))
+                                              ignore = list(NULL))
   
   app$set_inputs(tabs = "par")
   app$set_inputs(`partable-EstLst` = "run1")
   app$click(selector = "#partable-EstLst option[value='run1']")
-
+  
   # Wait for parameter table to update
   app$wait_for_value(export = "modrun-model_updated",
                      ignore = list(initial_model_counter),
@@ -38,7 +38,7 @@ test_that("Shiny app runs model for run1", {
   # Make sure the table has enough time to update
   Sys.sleep(1)
   
-  app$expect_values(output = "partable-EstTbl")
+  app$expect_values(export = "partable-params")
   
   app$stop()
   

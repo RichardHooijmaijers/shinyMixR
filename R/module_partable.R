@@ -56,15 +56,24 @@ module_pt_server <- function(id, tabswitch, r) {
     }
     
     output$EstTbl <- DT::renderDataTable({
+      
       req(r$model_updated)
+      
+      table <- parTable(input)
+      r$params <- table
+      
       DT::datatable(
-        parTable(input),
+        table,
         rownames=FALSE,
         options=list(paging=FALSE,searching=FALSE),
         escape=FALSE,
         caption = tags$caption(style = "caption-side: bottom;",em("Table shows by default the final estimate and the %RSE in square brackets. In case BSV is checked, it will be added in curly braces as CV%. In case shrinkage is checked it will be added after the BSV. In case back-transformed parameters, the estimate is back-transformed and the 95% CI is added in parenthesis"))
       )
     })
+    
+    exportTestValues(
+      params = r$params
+    )
 
     # Save results
     parsave <- function(){

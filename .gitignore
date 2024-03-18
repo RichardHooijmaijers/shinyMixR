@@ -19,3 +19,6 @@
 # Others
 .DS_Store
 inst/doc
+
+# Testing
+_.new.png
