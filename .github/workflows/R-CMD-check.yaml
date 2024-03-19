@@ -38,13 +38,6 @@ jobs:
           r-version: ${{ matrix.config.r }}
           http-user-agent: ${{ matrix.config.http-user-agent }}
           use-public-rspm: true
-      
-      # print out location of R installation
-      - name: Print R location
-        run: |
-          echo "R is installed in ${{ env.R_HOME }}"
-          echo "R version is ${{ env.R_VERSION }}"
-        shell: bash
 
       - uses: r-lib/actions/setup-r-dependencies@v2
         with:
