@@ -38,6 +38,11 @@ test_that("Shiny app creates run2 and shows Goodness of Fit plots", {
   app$set_inputs(tabs = "gof")
   app$set_inputs(`gofplots-gofLst` = "run2")
   app$click(selector = "#gofplots-gofLst option[value='run2']")
+  
+  # Note: if we choose "all" as ptype, the plots are converted on a grid with cowplot
+  # With cowplot you can't extract the original data in the sub plots due to complexity of grobs
+  # So instead, we're going to look at individual plots here
+  app$set_inputs(`gofplots-ptype` = "ipred.dv")
   app$click(selector = "#gofplots-make")
   
   # Make sure the plots has enough time to update
@@ -45,8 +50,7 @@ test_that("Shiny app creates run2 and shows Goodness of Fit plots", {
                      ignore = list(NULL),
                      timeout = 10000)
   
-  # Note: we can't expect values for gofplots-plot_updated: cannot be serialized to JSON
-  app$expect_values(output = "gofplots-gof_plot")
+  app$expect_values(export = "gofplots-plot_updated")
   
   app$stop()
   

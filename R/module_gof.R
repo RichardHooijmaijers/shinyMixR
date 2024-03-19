@@ -73,8 +73,18 @@ module_gof_server <- function(id,tabswitch,settings) {
     gofplm <- eventReactive(input$make,gofpl(input))
     output$gof_plot   = renderPlot(gofplm(),height=plheight)
     
+    # Get the plot data for testing purposes - only test individual plots
+    plot_updated <- reactive({
+      if (input$ptype != "all") {
+        plot_data <- ggplot_build(gofplm())$data
+        return(plot_data)
+      } else {
+        return(NULL)
+      }
+    })
+    
     exportTestValues(
-      plot_updated = gofplm()
+      plot_updated = plot_updated()
     )
 
     # Save results - check if a module should be available here
