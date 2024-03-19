@@ -26,13 +26,9 @@ test_that("Shiny app creates run2 and shows Goodness of Fit plots", {
   # Remove sweet alert
   app$click(selector = ".swal2-confirm")
   
-  # Get initial value of model_updated reactive val
-  initial_model_counter <- app$wait_for_value(export = "modrun-model_updated",
-                                              ignore = list(NULL))
-  
-  # Wait for model to finish
+  # Wait for model to finish (0 is the initial value, so we ignore it)
   app$wait_for_value(export = "modrun-model_updated",
-                     ignore = list(initial_model_counter),
+                     ignore = 0,
                      timeout = 120000)
   
   app$set_inputs(tabs = "gof")
@@ -43,6 +39,7 @@ test_that("Shiny app creates run2 and shows Goodness of Fit plots", {
   # With cowplot you can't extract the original data in the sub plots due to complexity of grobs
   # So instead, we're going to look at individual plots here
   app$set_inputs(`gofplots-ptype` = "ipred.dv")
+  
   app$click(selector = "#gofplots-make")
   
   # Make sure the plots has enough time to update
