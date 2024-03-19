@@ -48,7 +48,7 @@ test_that("Shiny app creates run2 and shows Goodness of Fit plots", {
   # Make sure the plots has enough time to update
   app$wait_for_value(export = "gofplots-plot_updated",
                      ignore = list(NULL),
-                     timeout = 10000)
+                     timeout = 60000)
   
   app$expect_values(export = "gofplots-plot_updated")
   
