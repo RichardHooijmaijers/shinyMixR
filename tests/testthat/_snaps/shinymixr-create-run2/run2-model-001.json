@@ -1,0 +1,46 @@
+{
+  "output": {
+    "gofplots-gof_plot": {
+      "src": "[image data hash: d8c88ba8459cedad325c88cfb3983e07]",
+      "width": 651.3046875,
+      "height": 800,
+      "alt": "Plot object",
+      "coordmap": {
+        "panels": [
+          {
+            "panel": 1,
+            "row": 1,
+            "col": 1,
+            "panel_vars": {
+
+            },
+            "log": {
+              "x": null,
+              "y": null
+            },
+            "domain": {
+              "left": 0,
+              "right": 1,
+              "bottom": 0,
+              "top": 1
+            },
+            "mapping": {
+              "x": null,
+              "y": null
+            },
+            "range": {
+              "left": 0,
+              "right": 1302,
+              "bottom": 1600,
+              "top": 0
+            }
+          }
+        ],
+        "dims": {
+          "width": 1302.609375,
+          "height": 1600
+        }
+      }
+    }
+  }
+}

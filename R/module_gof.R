@@ -72,6 +72,10 @@ module_gof_server <- function(id,tabswitch,settings) {
     plheight <- function() return(input$plheight)
     gofplm <- eventReactive(input$make,gofpl(input))
     output$gof_plot   = renderPlot(gofplm(),height=plheight)
+    
+    exportTestValues(
+      plot_updated = gofplm()
+    )
 
     # Save results - check if a module should be available here
     gofsave <- function(){
