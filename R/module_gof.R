@@ -83,6 +83,9 @@ module_gof_server <- function(id,tabswitch,settings) {
         # remove NA or -Inf rows (dirty try-to-fix GHA)
         plot_data[sapply(plot_data, is.infinite)] <- NA
         plot_data <- na.omit(plot_data)
+        # remove rows where value is > - 10 (again, dirty try-to-fix GHA)
+        plot_data <- plot_data[plot_data$y > -10, ]
+        plot_data <- plot_data[plot_data$x > -10, ]
         # round to 6 decimals - different rounding on different OS systems
         plot_data$x <- sprintf("%.6f", round(plot_data$x, digits = 6))
         plot_data$y <- sprintf("%.6f", round(plot_data$y, digits = 6))
