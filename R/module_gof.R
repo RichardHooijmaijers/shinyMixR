@@ -76,7 +76,9 @@ module_gof_server <- function(id,tabswitch,settings) {
     # Get the plot data for testing purposes - only test individual plots
     plot_updated <- reactive({
       if (input$ptype != "all") {
-        plot_data <- ggplot_build(gofplm())$data
+        # elements to retrieve
+        el <- c("x", "y")
+        plot_data <- ggplot_build(gofplm())$data[[1]][el]
         return(plot_data)
       } else {
         return(NULL)
