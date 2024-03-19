@@ -19,9 +19,15 @@ test_that("Shiny app creates run2 and shows Goodness of Fit plots", {
   app$set_inputs(tabs = "editor")
   app$click("editor-newmdl")
   
+  # Capture state for debugging
+  app$expect_values(input = "editor-newmdl")
+  
   # Wait for modal to open
   Sys.sleep(1)
   app$click("editor-newgo")
+  
+  # Capture state for debugging
+  app$expect_values(input = "editor-newgo")
   
   app$set_inputs(tabs = "run")
   app$set_inputs(`modrun-runLst` = "run2")
