@@ -18,7 +18,16 @@ test_that("Shiny app creates run2 and shows Goodness of Fit plots", {
   
   app$set_inputs(tabs = "editor")
   app$click("editor-newmdl")
+  
+  # Capture state for debugging
+  app$expect_values(input = "editor-newmdl")
+  
+  # Wait for modal to open
+  Sys.sleep(1)
   app$click("editor-newgo")
+  
+  # Capture state for debugging
+  app$expect_values(input = "editor-newgo")
   
   app$set_inputs(tabs = "run")
   app$set_inputs(`modrun-runLst` = "run2")
@@ -26,10 +35,16 @@ test_that("Shiny app creates run2 and shows Goodness of Fit plots", {
   # Remove sweet alert
   app$click(selector = ".swal2-confirm")
   
+  # Capture state for debugging
+  app$expect_values(export = "modrun-model_updated")
+  
   # Wait for model to finish (0 is the initial value, so we ignore it)
   app$wait_for_value(export = "modrun-model_updated",
                      ignore = 0,
                      timeout = 120000)
+  
+  # Wait for everything to update
+  Sys.sleep(1)
   
   app$set_inputs(tabs = "gof")
   app$set_inputs(`gofplots-gofLst` = "run2")

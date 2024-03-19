@@ -81,8 +81,8 @@ module_gof_server <- function(id,tabswitch,settings) {
         el <- c("x", "y")
         plot_data <- ggplot_build(gofplm())$data[[1]][el]
         # round to 5 decimals - different rounding on different OS systems
-        plot_data$x <- sprintf("%.6f", plot_data$x)
-        plot_data$y <- sprintf("%.6f", plot_data$y)
+        plot_data$x <- sprintf("%.6f", round(plot_data$x, digits = 6))
+        plot_data$y <- sprintf("%.6f", round(plot_data$y, digits = 6))
         return(plot_data)
       } else {
         return(NULL)
