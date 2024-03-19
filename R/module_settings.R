@@ -3,9 +3,8 @@
 #'
 #' @description Shiny module for settings
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
 #' 
-#' @noRd
 #' @export
 module_settings_ui <- function(id) {
   ns <- NS(id)
@@ -19,7 +18,9 @@ module_settings_ui <- function(id) {
 }
 #------------------------------------------ module_settings_server ------------------------------------------
 #' Settings module for server
-#' @noRd 
+#' 
+#' @param id Module id
+#' 
 #' @export
 module_settings_server <- function(id) {
   moduleServer(id,function(input, output, session) {

@@ -3,9 +3,9 @@
 #'
 #' @description Shiny module for data exploration
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
+#' 
 #' @export
-#' @noRd
 module_dataexplore_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -138,8 +138,10 @@ module_dataexplore_ui <- function(id) {
 }
 #------------------------------------------ module_dataexplore_server ------------------------------------------
 #' Data exploration module for server
-#' @param tabswitch reactive value that monitors the tabswitch
-#' @noRd 
+#' 
+#' @param id Module id
+#' @param tabswitch Reactive value that monitors the tabswitch
+#' 
 #' @export
 module_dataexplore_server <- function(id,tabswitch) {
   moduleServer(id, function(input, output, session) {

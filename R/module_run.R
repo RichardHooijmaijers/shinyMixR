@@ -3,9 +3,8 @@
 #'
 #' @description Shiny module for running models
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
 #' 
-#' @noRd
 #' @export
 module_run_ui <- function(id) {
   ns <- NS(id)
@@ -20,9 +19,11 @@ module_run_ui <- function(id) {
 }
 #------------------------------------------ module_run_server ------------------------------------------
 #' Run model module for server
+#' 
+#' @param id Module id
 #' @param tabswitch reactive value that monitors the tabswitch
 #' @param r reactive values object that is defined top-level
-#' @noRd 
+#' 
 #' @export
 module_run_server <- function(id, tabswitch, r) {
   moduleServer(id, function(input, output, session) {

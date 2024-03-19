@@ -3,9 +3,9 @@
 #'
 #' @description Shiny module for model editor
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
+#' 
 #' @export
-#' @noRd
 module_edit_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -19,9 +19,11 @@ module_edit_ui <- function(id) {
 }
 #------------------------------------------ module_edit_server ------------------------------------------
 #' Editor module for server
+#' 
+#' @param id Module id
 #' @param tabswitch reactive value that monitors the tabswitch
 #' @param settings reactive value with the app settings
-#' @noRd 
+#' 
 #' @export
 module_edit_server <- function(id,tabswitch,settings) {
   moduleServer(id, function(input, output, session) {

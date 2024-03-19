@@ -3,9 +3,8 @@
 #'
 #' @description Shiny module for parameter table
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
 #' 
-#' @noRd
 #' @export
 module_pt_ui <- function(id) {
   ns <- NS(id)
@@ -24,9 +23,11 @@ module_pt_ui <- function(id) {
 }
 #------------------------------------------ module_pt_server ------------------------------------------
 #' Parameter table module for server
+#' 
+#' @param id Module id
 #' @param tabswitch reactive value that monitors the tabswitch
 #' @param r reactive values object that is defined top-level
-#' @noRd 
+#' 
 #' @export
 module_pt_server <- function(id, tabswitch, r) {
   moduleServer(id, function(input, output, session) {

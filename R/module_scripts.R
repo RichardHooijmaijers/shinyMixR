@@ -3,9 +3,8 @@
 #'
 #' @description Shiny module for running scripts
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
 #' 
-#' @noRd
 #' @export
 module_scripts_ui <- function(id) {
   ns <- NS(id)
@@ -13,17 +12,19 @@ module_scripts_ui <- function(id) {
 }
 #------------------------------------------ module_scripts_server ------------------------------------------
 #' Run script module for server
+#' 
+#' @param id Module id
 #' @param files character vector of files to apply the scripts on, usually a reactive
 #' @param scripts character vector of scripts that can be applied on files, usually a reactive
 #' @param loc character with the location where the temp scripts are saved (created when not existing)
-#' @noRd 
+#' 
 #' @export
-# Decided that the files and script arguments should contain the path as well 
-# In the end the modal will show the basenames but on the background the entire 
-# name is used. The script will not set a working directory (it is the app dir by default)
-# and the script shows the complete names of the selected files. Currently the module is
-# set-up to use multiple script locations but a single location for the files
 module_scripts_server <- function(id,files=NULL,scripts=NULL,loc="temp") {
+  # Decided that the files and script arguments should contain the path as well 
+  # In the end the modal will show the basenames but on the background the entire 
+  # name is used. The script will not set a working directory (it is the app dir by default)
+  # and the script shows the complete names of the selected files. Currently the module is
+  # set-up to use multiple script locations but a single location for the files
   moduleServer(id,
     function(input, output, session) {
       

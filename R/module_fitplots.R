@@ -3,9 +3,8 @@
 #'
 #' @description Shiny module for fit plots
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
 #' 
-#' @noRd
 #' @export
 module_fitplots_ui <- function(id) {
   ns <- NS(id)
@@ -36,9 +35,11 @@ module_fitplots_ui <- function(id) {
 }
 #------------------------------------------ module_fitplots_server ------------------------------------------
 #' Fit plots module for server
+#' 
+#' @param id Module id
 #' @param tabswitch reactive value that monitors the tabswitch
 #' @param settings reactive value with the app settings
-#' @noRd 
+#' 
 #' @export
 module_fitplots_server <- function(id,tabswitch,settings) {
   moduleServer(id, function(input, output, session) {
