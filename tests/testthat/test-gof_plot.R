@@ -15,11 +15,14 @@ test_that("gof_plot works", {
   
   for (plot_type in c("ipred.dv", "pred.dv", "idv.res", "pred.res")) {
     
-    plot <- suppressWarnings(gof_plot(res,ptype = plot_type))
+    plot <- suppressWarnings(gof_plot(res, ptype = plot_type, type = "xpose"))
     expect_true(is.data.frame(plot$data))
     expect_equal(nrow(plot$data), nrow(res))
-    expect_equal(length(plot), 10)
-    
+    if (grepl("res", plot_type)) {
+      expect_equal(length(plot$layers), 4)
+    } else {
+      expect_equal(length(plot$layers), 5)
+    }
   }
 
 })
