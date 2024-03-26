@@ -21,15 +21,15 @@ module_edit_ui <- function(id) {
 #' Editor module for server
 #' 
 #' @param id Module id
-#' @param tabswitch reactive value that monitors the tabswitch
+#' @param r reactive values object that is defined top-level
 #' @param settings reactive value with the app settings
 #' 
 #' @export
-module_edit_server <- function(id,tabswitch,settings) {
+module_edit_server <- function(id, r, settings) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location
-    observeEvent(tabswitch(),{
-      if(tabswitch()=="editor"){
+    observeEvent(r$active_tab,{
+      if(r$active_tab=="editor"){
         updateSelectInput(session, "editLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$editLst)
       }
     },ignoreInit=TRUE)

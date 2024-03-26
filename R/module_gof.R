@@ -33,15 +33,15 @@ module_gof_ui <- function(id) {
 #' GOF plots module for server
 #' 
 #' @param id Module id
-#' @param tabswitch reactive value that monitors the tabswitch
+#' @param r reactive values object that is defined top-level
 #' @param settings reactive value with the app settings
 #' 
 #' @export
-module_gof_server <- function(id,tabswitch,settings) {
+module_gof_server <- function(id, r, settings) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location
-    observeEvent(tabswitch(),{
-      if(tabswitch()=="gof"){
+    observeEvent(r$active_tab,{
+      if(r$active_tab=="gof"){
         updateSelectInput(session, "gofLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$gofLst)
       }
     },ignoreInit=TRUE)

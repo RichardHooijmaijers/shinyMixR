@@ -4,12 +4,12 @@
 \alias{module_fitplots_server}
 \title{Fit plots module for server}
 \usage{
-module_fitplots_server(id, tabswitch, settings)
+module_fitplots_server(id, r, settings)
 }
 \arguments{
 \item{id}{Module id}
 
-\item{tabswitch}{reactive value that monitors the tabswitch}
+\item{r}{reactive values object that is defined top-level}
 
 \item{settings}{reactive value with the app settings}
 }

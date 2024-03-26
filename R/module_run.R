@@ -21,16 +21,15 @@ module_run_ui <- function(id) {
 #' Run model module for server
 #' 
 #' @param id Module id
-#' @param tabswitch reactive value that monitors the tabswitch
 #' @param r reactive values object that is defined top-level
 #' 
 #' @export
-module_run_server <- function(id, tabswitch, r) {
+module_run_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     #print("Im here")
     # Adapt/update model list 
-    observeEvent(tabswitch(),{
-      if(tabswitch()=="run"){
+    observeEvent(r$active_tab,{
+      if(r$active_tab=="run"){
         updateSelectInput(session, "runLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$runmod_runLst)
       }
     },ignoreInit=TRUE)

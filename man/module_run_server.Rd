@@ -4,12 +4,10 @@
 \alias{module_run_server}
 \title{Run model module for server}
 \usage{
-module_run_server(id, tabswitch, r)
+module_run_server(id, r)
 }
 \arguments{
 \item{id}{Module id}
-
-\item{tabswitch}{reactive value that monitors the tabswitch}
 
 \item{r}{reactive values object that is defined top-level}
 }

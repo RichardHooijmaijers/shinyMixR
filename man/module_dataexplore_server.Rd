@@ -4,12 +4,12 @@
 \alias{module_dataexplore_server}
 \title{Data exploration module for server}
 \usage{
-module_dataexplore_server(id, tabswitch)
+module_dataexplore_server(id, r)
 }
 \arguments{
 \item{id}{Module id}
 
-\item{tabswitch}{Reactive value that monitors the tabswitch}
+\item{r}{reactive values object that is defined top-level}
 }
 \description{
 Data exploration module for server

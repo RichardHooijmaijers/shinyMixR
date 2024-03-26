@@ -25,15 +25,14 @@ module_pt_ui <- function(id) {
 #' Parameter table module for server
 #' 
 #' @param id Module id
-#' @param tabswitch reactive value that monitors the tabswitch
 #' @param r reactive values object that is defined top-level
 #' 
 #' @export
-module_pt_server <- function(id, tabswitch, r) {
+module_pt_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location
-    observeEvent(tabswitch(),{
-      if(tabswitch()=="par"){
+    observeEvent(r$active_tab,{
+      if(r$active_tab=="par"){
         updateSelectInput(session, 
                           "EstLst", 
                           choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],

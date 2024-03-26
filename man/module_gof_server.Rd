@@ -4,12 +4,12 @@
 \alias{module_gof_server}
 \title{GOF plots module for server}
 \usage{
-module_gof_server(id, tabswitch, settings)
+module_gof_server(id, r, settings)
 }
 \arguments{
 \item{id}{Module id}
 
-\item{tabswitch}{reactive value that monitors the tabswitch}
+\item{r}{reactive values object that is defined top-level}
 
 \item{settings}{reactive value with the app settings}
 }
