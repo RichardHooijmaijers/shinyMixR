@@ -2,6 +2,7 @@
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/richardhooijmaijers/shinyMixR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/richardhooijmaijers/shinyMixR/actions/workflows/R-CMD-check.yaml)
+[![Codecov test coverage](https://codecov.io/gh/richardhooijmaijers/shinyMixR/branch/master/graph/badge.svg)](https://app.codecov.io/gh/richardhooijmaijers/shinyMixR?branch=master)
 <!-- badges: end -->
 
 The shinyMixR package is initially developed as a graphical interface for the `nlmixr` package and provides full support for `nlmixr2`.
