@@ -5,13 +5,14 @@ test_that("gof_plot works", {
   res <- readRDS(res_path)
   
   # Note: many warnings that pollute the output
+  # Note 2: the plot objects are slightly different across OS
   plot <- suppressWarnings(gof_plot(res, ptype = "all", type = "xpose"))
   expect_true(is.ggplot(plot))
-  expect_equal(length(plot), 9)
+  expect_equal(length(plot$layers), 8)
   
   plot <- suppressWarnings(gof_plot(res, ptype = "all", type = "user"))
   expect_true(is.ggplot(plot))
-  expect_equal(length(plot), 9)
+  expect_equal(length(plot$layers), 8)
   
   for (plot_type in c("ipred.dv", "pred.dv", "idv.res", "pred.res")) {
     
