@@ -77,12 +77,11 @@ module_scripts_server <- function(id,files=NULL,scripts=NULL,loc="temp") {
       }
       # Function to run script using system calls
       runRscript <- function(id,script,allinputs){
-        rhome_path <- ifelse((Sys.getenv("R_HOME") == ""), R.home(), Sys.getenv("R_HOME"))
         writeLines(paste("Run",allinputs$scripts,"for file(s)",paste(allinputs$files,collapse = ", ")),paste0(normalizePath(loc),"/scriptres",uid(),".out"))
           if(Sys.info()['sysname']=="Windows"){
-            shell(paste0(rhome_path, "/bin/Rscript \"", script,  "\" >> \"",normalizePath(loc),"/scriptres",id,".out\" 2>&1"),wait=FALSE)
+            shell(paste0(R.home("bin"), "/Rscript \"", script,  "\" >> \"",normalizePath(loc),"/scriptres",id,".out\" 2>&1"),wait=FALSE)
           }else{
-            system(paste0(rhome_path, "/bin/Rscript \"", script,  "\" >> \"",normalizePath(loc),"/scriptres",id,".out\" 2>&1"),wait=FALSE)
+            system(paste0(R.home("bin"), "/Rscript \"", script,  "\" >> \"",normalizePath(loc),"/scriptres",id,".out\" 2>&1"),wait=FALSE)
           }
       }
 
