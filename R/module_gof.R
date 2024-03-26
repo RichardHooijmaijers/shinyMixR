@@ -89,6 +89,8 @@ module_gof_server <- function(id, r, settings) {
         # round to 6 decimals - different rounding on different OS systems
         plot_data$x <- sprintf("%.6f", round(plot_data$x, digits = 6))
         plot_data$y <- sprintf("%.6f", round(plot_data$y, digits = 6))
+        # replace -0.000000 with 0.000000
+        plot_data[plot_data == "-0.000000"] <- "0.000000"
         return(plot_data)
       } else {
         return(NULL)
