@@ -32,6 +32,8 @@ test_that("Shiny app creates run2 and shows Goodness of Fit plots", {
   app$set_inputs(tabs = "run")
   app$set_inputs(`modrun-runLst` = "run2")
   app$click("modrun-runMdl")
+  # Add small timeout so sweet alert has time to display
+  Sys.sleep(1)
   # Remove sweet alert
   app$click(selector = ".swal2-confirm")
   

@@ -19,6 +19,8 @@ test_that("Shiny app runs model and returns parameters for run1", {
   app$set_inputs(tabs = "run")
   app$set_inputs(`modrun-runLst` = "run1")
   app$click("modrun-runMdl")
+  # Add small timeout so sweet alert has time to display
+  Sys.sleep(1)
   # Remove sweet alert
   app$click(selector = ".swal2-confirm")
   
