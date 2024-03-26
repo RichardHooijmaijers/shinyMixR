@@ -55,16 +55,18 @@ test_that("Shiny app creates run2 and shows Goodness of Fit plots", {
   # Note: if we choose "all" as ptype, the plots are converted on a grid with cowplot
   # With cowplot you can't extract the original data in the sub plots due to complexity of grobs
   # So instead, we're going to look at individual plots here
-  app$set_inputs(`gofplots-ptype` = "ipred.dv")
-  
-  app$click(selector = "#gofplots-make")
-  
-  # Make sure the plots has enough time to update
-  app$wait_for_value(export = "gofplots-plot_updated",
-                     ignore = list(NULL),
-                     timeout = 60000)
-  
-  app$expect_values(export = "gofplots-plot_updated")
+  for (plot_type in c("ipred.dv", "pred.dv", "idv.res", "pred.res")) {
+    app$set_inputs(`gofplots-ptype` = plot_type)
+    
+    app$click(selector = "#gofplots-make")
+    
+    # Make sure the plots has enough time to update
+    app$wait_for_value(export = "gofplots-plot_updated",
+                       ignore = list(NULL),
+                       timeout = 60000)
+    
+    app$expect_values(export = "gofplots-plot_updated")
+  }
   
   app$stop()
   
