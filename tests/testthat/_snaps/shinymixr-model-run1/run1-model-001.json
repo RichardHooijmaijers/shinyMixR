@@ -1,0 +1,22 @@
+{
+  "export": {
+    "partable-params": {
+      "Parameter": [
+        "OBJF",
+        "COND. NR",
+        "tka",
+        "tcl",
+        "tv",
+        "add.err"
+      ],
+      "run1": [
+        "1042.61",
+        "1.2",
+        "-2.12 [12.3] <span style=\"font-size: 0.75em;font-weight: bold;\">{108., 59.7%>}<\/span>",
+        "1.02 [7] <span style=\"font-size: 0.75em;font-weight: bold;\">{22.5, 7.53%<}<\/span>",
+        "0.842 [41.8] <span style=\"font-size: 0.75em;font-weight: bold;\">{173., 29.6%=}<\/span>",
+        "0.702 "
+      ]
+    }
+  }
+}

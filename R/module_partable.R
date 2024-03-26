@@ -3,9 +3,8 @@
 #'
 #' @description Shiny module for parameter table
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
 #' 
-#' @noRd
 #' @export
 module_pt_ui <- function(id) {
   ns <- NS(id)
@@ -24,15 +23,21 @@ module_pt_ui <- function(id) {
 }
 #------------------------------------------ module_pt_server ------------------------------------------
 #' Parameter table module for server
-#' @param tabswitch reactive value that monitors the tabswitch
-#' @noRd 
+#' 
+#' @param id Module id
+#' @param r reactive values object that is defined top-level
+#' 
 #' @export
-module_pt_server <- function(id,tabswitch) {
+module_pt_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location
-    observeEvent(tabswitch(),{
-      if(tabswitch()=="par"){
-        updateSelectInput(session, "EstLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$EstLst)
+    observeEvent(r$active_tab,{
+      if(r$active_tab=="par"){
+        updateSelectInput(session, 
+                          "EstLst", 
+                          choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],
+                          selected= ifelse(is.null(input$EstLst), names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"][1], input$EstLst) 
+        )
       }
     },ignoreInit=TRUE)
 
@@ -49,10 +54,26 @@ module_pt_server <- function(id,tabswitch) {
         par_table(obj,models=inp$EstLst,outnm=savnm,show=inp$showPars,projloc=projloc,bsv=inp$bsv,shrink=inp$shrink,backt=inp$backt,formatting=ifelse(inp$typePars=="PDF",FALSE,TRUE))
       }
     }
-    output$EstTbl = DT::renderDataTable(parTable(input),rownames=FALSE,options=list(paging=FALSE,searching=FALSE), escape=FALSE, 
-      caption = tags$caption(style = "caption-side: bottom;",em("Table shows by default the final estimate and the %RSE in square brackets. In case BSV is checked, it will be added in curly braces as CV%. In case shrinkage is checked it will be added after the BSV. In case back-transformed parameters, the estimate is back-transformed and the 95% CI is added in parenthesis")))
-    proxy2 = DT::dataTableProxy('EstTbl')
-    observeEvent(input$EstLst, DT::replaceData(proxy2, parTable(input), rownames = FALSE))
+    
+    output$EstTbl <- DT::renderDataTable({
+      
+      req(r$model_updated)
+      
+      table <- parTable(input)
+      r$params <- table
+      
+      DT::datatable(
+        table,
+        rownames=FALSE,
+        options=list(paging=FALSE,searching=FALSE),
+        escape=FALSE,
+        caption = tags$caption(style = "caption-side: bottom;",em("Table shows by default the final estimate and the %RSE in square brackets. In case BSV is checked, it will be added in curly braces as CV%. In case shrinkage is checked it will be added after the BSV. In case back-transformed parameters, the estimate is back-transformed and the 95% CI is added in parenthesis"))
+      )
+    })
+    
+    exportTestValues(
+      params = r$params
+    )
 
     # Save results
     parsave <- function(){

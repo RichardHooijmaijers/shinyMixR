@@ -3,9 +3,8 @@
 #'
 #' @description Shiny module for reporting
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
 #' 
-#' @noRd
 #' @export
 module_reports_ui <- function(id) {
   ns <- NS(id)
@@ -13,7 +12,9 @@ module_reports_ui <- function(id) {
 }
 #------------------------------------------ module_reports_server ------------------------------------------
 #' Reporting module for server
-#' @noRd 
+#' 
+#' @param id Module id
+#' 
 #' @export
 module_reports_server <- function(id) {
   moduleServer(id,function(input, output, session) {

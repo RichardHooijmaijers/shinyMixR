@@ -3,9 +3,9 @@
 #'
 #' @description Shiny module for data exploration
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
+#' 
 #' @export
-#' @noRd
 module_dataexplore_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -138,14 +138,16 @@ module_dataexplore_ui <- function(id) {
 }
 #------------------------------------------ module_dataexplore_server ------------------------------------------
 #' Data exploration module for server
-#' @param tabswitch reactive value that monitors the tabswitch
-#' @noRd 
+#' 
+#' @param id Module id
+#' @param r reactive values object that is defined top-level
+#' 
 #' @export
-module_dataexplore_server <- function(id,tabswitch) {
+module_dataexplore_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location
-    observeEvent(tabswitch(),{
-      if(tabswitch()=="expl"){
+    observeEvent(r$active_tab,{
+      if(r$active_tab=="expl"){
         updateSelectInput(session, "mdls", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$mdls)
       }
     },ignoreInit=TRUE)

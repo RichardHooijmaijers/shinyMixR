@@ -3,9 +3,9 @@
 #'
 #' @description Shiny module for model editor
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
+#' 
 #' @export
-#' @noRd
 module_edit_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -19,15 +19,17 @@ module_edit_ui <- function(id) {
 }
 #------------------------------------------ module_edit_server ------------------------------------------
 #' Editor module for server
-#' @param tabswitch reactive value that monitors the tabswitch
+#' 
+#' @param id Module id
+#' @param r reactive values object that is defined top-level
 #' @param settings reactive value with the app settings
-#' @noRd 
+#' 
 #' @export
-module_edit_server <- function(id,tabswitch,settings) {
+module_edit_server <- function(id, r, settings) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location
-    observeEvent(tabswitch(),{
-      if(tabswitch()=="editor"){
+    observeEvent(r$active_tab,{
+      if(r$active_tab=="editor"){
         updateSelectInput(session, "editLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$editLst)
       }
     },ignoreInit=TRUE)

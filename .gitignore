@@ -1,1 +1,24 @@
-/R/.Rhistory
+# R specific
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+
+# Packages
+/*.tar.gz
+/*.Rcheck/
+/._Rcheck/
+/RcppExports.R
+
+# Environment variables
+.Renviron
+
+# Generated HTML
+*.html
+
+# Others
+.DS_Store
+inst/doc
+
+# Testing
+*.new.png

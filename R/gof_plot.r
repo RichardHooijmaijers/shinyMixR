@@ -36,8 +36,6 @@ gof_plot <- function(dfrm,type="xpose",mdlnm=NULL,colby=NULL,ptype="all",outnm=N
   if(type=="xpose" & !is.null(colby)) stop("Color by does not work with xpose type of plots")
   if(type=="xpose" && "nlmixr2" %in% rownames(installed.packages())){
     dat <- xpose.nlmixr2::xpose_data_nlmixr2(dfrm)
-  }else if(type=="xpose" && !"nlmixr2" %in% rownames(installed.packages())){
-    dat <- xpose.nlmixr::xpose_data_nlmixr(dfrm)
   }else{
     dat <- as.data.frame(dfrm)
   }

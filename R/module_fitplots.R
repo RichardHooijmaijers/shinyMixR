@@ -3,9 +3,8 @@
 #'
 #' @description Shiny module for fit plots
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
 #' 
-#' @noRd
 #' @export
 module_fitplots_ui <- function(id) {
   ns <- NS(id)
@@ -36,15 +35,17 @@ module_fitplots_ui <- function(id) {
 }
 #------------------------------------------ module_fitplots_server ------------------------------------------
 #' Fit plots module for server
-#' @param tabswitch reactive value that monitors the tabswitch
+#' 
+#' @param id Module id
+#' @param r reactive values object that is defined top-level
 #' @param settings reactive value with the app settings
-#' @noRd 
+#' 
 #' @export
-module_fitplots_server <- function(id,tabswitch,settings) {
+module_fitplots_server <- function(id, r, settings) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location
-    observeEvent(tabswitch(),{
-      if(tabswitch()=="fitpl"){
+    observeEvent(r$active_tab,{
+      if(r$active_tab=="fitpl"){
         updateSelectInput(session, "fitLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$fitLst)
       }
     },ignoreInit=TRUE)
