@@ -3,9 +3,8 @@
 #'
 #' @description Shiny module for running models
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
 #' 
-#' @noRd
 #' @export
 module_run_ui <- function(id) {
   ns <- NS(id)
@@ -20,15 +19,17 @@ module_run_ui <- function(id) {
 }
 #------------------------------------------ module_run_server ------------------------------------------
 #' Run model module for server
-#' @param tabswitch reactive value that monitors the tabswitch
-#' @noRd 
+#' 
+#' @param id Module id
+#' @param r reactive values object that is defined top-level
+#' 
 #' @export
-module_run_server <- function(id,tabswitch) {
+module_run_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     #print("Im here")
     # Adapt/update model list 
-    observeEvent(tabswitch(),{
-      if(tabswitch()=="run"){
+    observeEvent(r$active_tab,{
+      if(r$active_tab=="run"){
         updateSelectInput(session, "runLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$runmod_runLst)
       }
     },ignoreInit=TRUE)
@@ -74,6 +75,18 @@ module_run_server <- function(id,tabswitch) {
         paste(unlist(lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x, warn = FALSE)))),collapse="\n")
       }
     )
+    
+    observe({
+      # check if "run finished" prevails in runmodmonit()
+      if(grepl("run finished", runmodmonit())){
+        r$model_updated <- isolate(r$model_updated) + 1
+      }
+    })
+    
+    exportTestValues(
+      model_updated = r$model_updated
+    )
+    
     output$progrTxt <- renderText(runmodmonit())
     # Monitor all external runs
     rv <- reactiveValues(montbl=NULL)

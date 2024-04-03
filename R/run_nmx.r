@@ -56,11 +56,13 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
 
     tscr <- paste0(projloc,"/shinyMixR/temp/script.",stringi::stri_rand_strings(1,6),".r")
     writeLines(whisker::whisker.render(tmpl,rlst),tscr)
+    
     if(Sys.info()['sysname']=="Windows"){
-      shell(paste0("Rscript \"", tscr,  "\" > \"",projloc,"/shinyMixR/temp/",mod,".prog.txt\" 2>&1"),wait=FALSE)
+      shell(paste0(R.home("bin"), "/Rscript.exe \"", tscr,  "\" > \"",projloc,"/shinyMixR/temp/",mod,".prog.txt\" 2>&1"),wait=FALSE)
     }else{
-      system(paste0("Rscript \"", tscr,  "\" > \"",projloc,"/shinyMixR/temp/",mod,".prog.txt\" 2>&1"),wait=FALSE)
+      system(paste0(R.home("bin"), "/Rscript \"", tscr,  "\" > \"",projloc,"/shinyMixR/temp/",mod,".prog.txt\" 2>&1"),wait=FALSE)
     }
+    
     if(autoupdate) assign(dnm,proj,pos = .GlobalEnv)
   }else{
     # Handle subsetting (data is loaded in global environment by get_proj function)

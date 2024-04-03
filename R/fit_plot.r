@@ -45,7 +45,7 @@ fit_plot <- function(dfrm,type="xpose",by="ID",idv="TIME",obs="DV",pred="PRED",i
     if("nlmixr2" %in% rownames(installed.packages())){
       xpdb <- xpose.nlmixr2::xpose_data_nlmixr2(dfrm)
     }else{
-      xpdb <- xpose.nlmixr::xpose_data_nlmixr(dfrm)
+      stop("nlmixr2 package is not installed")
     }
     if(logy) tolog <- "y" else tolog <- NULL
     pl   <- xpose::ind_plots(xpdb, nrow=3, ncol=4,log=tolog)

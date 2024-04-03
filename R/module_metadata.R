@@ -3,10 +3,9 @@
 #'
 #' @description Shiny module for meta data
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
 #' @param type character with the type of button to present (either "save" or "overview")
 #' 
-#' @noRd
 #' @export
 module_metadata_ui <- function(id,type) {
   ns  <- NS(id)
@@ -17,11 +16,13 @@ module_metadata_ui <- function(id,type) {
 
 #------------------------------------------ module_metadata_server ------------------------------------------
 #' meta data module for server
+#' 
+#' @param id Module id
 #' @param type character with the type of action (either "save" or "overview")
 #' @param selline reactive with the selected line for a model (for type "overview")
 #' @param sellmod reactive with the selected model (for type "save")
 #' @param sellcont reactive with the content of the selected model (for type "save")
-#' @noRd 
+#' 
 #' @export
 module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NULL){
   moduleServer(id, function(input, output, session){

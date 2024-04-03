@@ -3,9 +3,8 @@
 #'
 #' @description Shiny module for GOF plots
 #'
-#' @param id,input,output,session Internal parameters for {shiny}
+#' @param id Module id
 #' 
-#' @noRd
 #' @export
 module_gof_ui <- function(id) {
   ns <- NS(id)
@@ -32,15 +31,17 @@ module_gof_ui <- function(id) {
 }
 #------------------------------------------ module_gof_server ------------------------------------------
 #' GOF plots module for server
-#' @param tabswitch reactive value that monitors the tabswitch
+#' 
+#' @param id Module id
+#' @param r reactive values object that is defined top-level
 #' @param settings reactive value with the app settings
-#' @noRd 
+#' 
 #' @export
-module_gof_server <- function(id,tabswitch,settings) {
+module_gof_server <- function(id, r, settings) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location
-    observeEvent(tabswitch(),{
-      if(tabswitch()=="gof"){
+    observeEvent(r$active_tab,{
+      if(r$active_tab=="gof"){
         updateSelectInput(session, "gofLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$gofLst)
       }
     },ignoreInit=TRUE)
@@ -72,6 +73,33 @@ module_gof_server <- function(id,tabswitch,settings) {
     plheight <- function() return(input$plheight)
     gofplm <- eventReactive(input$make,gofpl(input))
     output$gof_plot   = renderPlot(gofplm(),height=plheight)
+    
+    # Get the plot data for testing purposes - only test individual plots
+    plot_updated <- reactive({
+      if (input$ptype != "all") {
+        # elements to retrieve
+        el <- c("x", "y")
+        plot_data <- ggplot_build(gofplm())$data[[1]][el]
+        # remove NA or -Inf rows (dirty try-to-fix GHA)
+        plot_data[sapply(plot_data, is.infinite)] <- NA
+        plot_data <- na.omit(plot_data)
+        # remove rows where value is > - 10 (again, dirty try-to-fix GHA)
+        plot_data <- plot_data[plot_data$y > -10, ]
+        plot_data <- plot_data[plot_data$x > -10, ]
+        # round to 6 decimals - different rounding on different OS systems
+        plot_data$x <- sprintf("%.6f", round(plot_data$x, digits = 6))
+        plot_data$y <- sprintf("%.6f", round(plot_data$y, digits = 6))
+        # replace -0.000000 with 0.000000
+        plot_data[plot_data == "-0.000000"] <- "0.000000"
+        return(plot_data)
+      } else {
+        return(NULL)
+      }
+    })
+    
+    exportTestValues(
+      plot_updated = plot_updated()
+    )
 
     # Save results - check if a module should be available here
     gofsave <- function(){

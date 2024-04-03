@@ -16,6 +16,9 @@ sigdigs <- function(x,sdig=3){
 #' wrapper function for sweetalert in shinywidgets
 #'
 #' This function gets list of widgets to include in run_shinymixr
+#' @param text character with the text to display
+#' @param type character with the type of alert to display
+#' @param ... other arguments passed to class
 #' @export
 myalert <- function(text,type,...){
   shinyWidgets::sendSweetAlert(text = text,type = type,
