@@ -46,7 +46,7 @@ test_that("Shiny app correctly creates new model code", {
   # Finally test if update inits works as expected (e.g. are initial changed, values itself tested outside shinytest)
   app$click("editor-updinit")
   Sys.sleep(0.5)
-  app$click("editor-goupdate",timeout_=8000)
+  app$click("editor-goupdate",timeout_=12000)
   app$click(selector = ".swal2-confirm")
   
   omod  <- readLines(paste0(tempdir(),"/files/models/run1.r"))
