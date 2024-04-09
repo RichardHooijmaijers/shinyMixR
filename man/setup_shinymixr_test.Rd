@@ -4,12 +4,21 @@
 \alias{setup_shinymixr_test}
 \title{Record a shinyMixR test}
 \usage{
-setup_shinymixr_test(dir = "./tests/files", overwrite = TRUE, record = FALSE)
+setup_shinymixr_test(
+  dir = "./tests/files",
+  overwrite = TRUE,
+  record = FALSE,
+  incres = FALSE
+)
 }
 \arguments{
 \item{dir}{character, the directory where the files will be placed and the test will be recorded}
 
 \item{overwrite}{logical, if TRUE, the function will remove the content of the tests/files directory}
+
+\item{record}{logical, if TRUE, the function will use `record_test`}
+
+\item{incres}{logical, if TRUE, the function will include result files for testing}
 }
 \value{
 runs the shinyMixR interface and records actions in the app
