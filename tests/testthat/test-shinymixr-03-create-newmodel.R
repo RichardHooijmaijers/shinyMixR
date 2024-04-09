@@ -53,6 +53,9 @@ test_that("Shiny app correctly creates new model code", {
   Sys.sleep(1)
   app$click(selector = ".swal2-confirm")
   
+  # Wait for files to be present
+  Sys.sleep(3)
+  
   omod  <- readLines(paste0(temp_dir, "/files/models/run1.r"))
   amod  <- readLines(paste0(temp_dir, "/files/models/run3.r"))
   ores  <- eval(parse(text = c("nlmixr2::nlmixr(",omod,")$ini")))
