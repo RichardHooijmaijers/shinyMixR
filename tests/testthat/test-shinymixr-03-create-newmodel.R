@@ -56,6 +56,9 @@ test_that("Shiny app correctly creates new model code", {
   # Make sure the model is in the edit list
   app$expect_values(input = "editor-editLst")
   
+  # Sleep time for slow systems
+  Sys.sleep(10)
+  
   omod  <- readLines(paste0(temp_dir, "/files/models/run1.r"))
   ores  <- eval(parse(text = c("nlmixr2::nlmixr(",omod,")$ini")))
   
