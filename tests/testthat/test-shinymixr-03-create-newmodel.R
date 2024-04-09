@@ -49,14 +49,11 @@ test_that("Shiny app correctly creates new model code", {
   # Finally test if update inits works as expected (e.g. are initial changed, values itself tested outside shinytest)
   app$click("editor-updinit")
   Sys.sleep(1)
+  # Make sure to set input
+  app$set_inputs(`editor-tosave` = "run3.r")
   app$click("editor-goupdate", timeout_ = 12000)
   Sys.sleep(1)
   app$click(selector = ".swal2-confirm")
-  
-  # Make sure the list is updated
-  app$wait_for_value(input = "editor-editLst",
-                     ignore = "run2",
-                     timeout = 120000)
   
   omod  <- readLines(paste0(temp_dir, "/files/models/run1.r"))
   ores  <- eval(parse(text = c("nlmixr2::nlmixr(",omod,")$ini")))
