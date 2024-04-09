@@ -53,7 +53,12 @@ test_that("Shiny app correctly creates new model code", {
   app$set_inputs(`editor-tosave` = "run3.r")
   app$click("editor-goupdate", timeout_ = 12000)
   Sys.sleep(1)
+  
+  # Remove sweetalert
   app$click(selector = ".swal2-confirm")
+  
+  # Make sure the model is in the edit list
+  app$expect_values(input = "editor-editLst")
   
   omod  <- readLines(paste0(temp_dir, "/files/models/run1.r"))
   ores  <- eval(parse(text = c("nlmixr2::nlmixr(",omod,")$ini")))
