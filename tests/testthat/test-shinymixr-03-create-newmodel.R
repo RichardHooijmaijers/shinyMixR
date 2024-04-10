@@ -35,22 +35,26 @@ test_that("Shiny app correctly creates new model code", {
     modcont <- readLines(paste0(tempdir(),"/files/models/run2.r"))
     expect_true(grepl("run2 <- function",modcont[1]))
   }
-  
+    
   # Perform test to save model with new name (be aware that save-as btn is a module as well)
   app$click("editor-adapt_meta_ed-go")
   curvals <- app$get_values()
   expect_true(curvals$input$`editor-adapt_meta_ed-mdladpt`=="run3.r")
   expect_true(curvals$input$`editor-adapt_meta_ed-mdldesc`=="template models")
   expect_true(curvals$input$`editor-adapt_meta_ed-mdlimp`==1)
+  app$click("editor-adapt_meta_ed-adpt")
+  app$click(selector = ".swal2-confirm")
+  expect_true("run3.r"%in%list.files(paste0(tempdir(),"/files/models")))
   
   # Finally test if update inits works as expected (e.g. are initial changed, values itself tested outside shinytest)
   app$click("editor-updinit")
   Sys.sleep(0.5)
+  app$set_inputs("editor-tosave" = c("run99.r"))
   app$click("editor-goupdate",timeout_=12000)
   app$click(selector = ".swal2-confirm")
   
   omod  <- readLines(paste0(tempdir(),"/files/models/run1.r"))
-  amod  <- readLines(paste0(tempdir(),"/files/models/run3.r"))
+  amod  <- readLines(paste0(tempdir(),"/files/models/run99.r"))
   ores  <- eval(parse(text=c("nlmixr2::nlmixr(",omod,")$ini")))
   ares  <- eval(parse(text=c("nlmixr2::nlmixr(",amod,")$ini")))
   expect_true(any(!(ores$est==ares$est)))
