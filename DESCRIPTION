@@ -35,7 +35,8 @@ Suggests:
     testthat,
     shinytest2,
     knitr,
-    rmarkdown
+    rmarkdown,
+    rlang
 License: MIT+LICENSE
 Encoding: UTF-8
 LazyData: true
