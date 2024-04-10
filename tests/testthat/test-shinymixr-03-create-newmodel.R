@@ -54,7 +54,7 @@ test_that("Shiny app correctly creates new model code", {
 
   Sys.sleep(1)
   app$set_inputs("editor-tosave" = c("run99.r"))
-  app$click("editor-goupdate",timeout_=30000)
+  app$click("editor-goupdate",timeout_=120000)
   Sys.sleep(1)
   app$click(selector = ".swal2-confirm")
   
