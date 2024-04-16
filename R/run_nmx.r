@@ -51,8 +51,17 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
 
     tmpl <- readLines(paste0(system.file(package = "shinyMixR"),"/Other/run_nmx.tmp"))
     if(is.null(meta$subs)) subs <- "" else subs <- meta$subs
-    rlst <- list(modelloc=normalizePath(proj[[mod]]$model,winslash = "/",mustWork = FALSE), data=meta$data, subs=subs,
-                 est=meta$est, control=cntrll, saveres=saverds, modelname=mod,locproj=projloc,addcwres=addcwres,addnpde=addnpde)
+    
+    rlst <- list(modelloc=normalizePath(proj[[mod]]$model,winslash = "/",mustWork = FALSE), 
+                 data=meta$data, 
+                 subs=subs,
+                 est=meta$est, 
+                 control=cntrll, 
+                 saveres=saverds, 
+                 modelname=mod,
+                 locproj=projloc,
+                 addcwres=addcwres,
+                 addnpde=addnpde)
 
     tscr <- paste0(projloc,"/shinyMixR/temp/script.",stringi::stri_rand_strings(1,6),".r")
     writeLines(whisker::whisker.render(tmpl,rlst),tscr)
