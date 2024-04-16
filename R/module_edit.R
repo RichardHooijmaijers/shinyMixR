@@ -96,17 +96,25 @@ module_edit_server <- function(id, r, settings) {
     # Update initial estimates
     initmodal <- function(){
       ns <- session$ns
+      if(isTruthy(input$editLst)){
+        selm <- tools::file_path_sans_ext(basename(proj_obj[[input$editLst]]$model))
+        incm <- incr_mdl(basename(proj_obj[[input$editLst]]$model),"models")
+      }else{
+        selm <- incm <- NULL
+      } 
       modalDialog(title="Update initial estimates",easyClose = TRUE,size="l",
-        selectInput(ns("finest"),"Final estimates from",sub("\\.res\\.rds","",list.files("shinyMixR",pattern="res.rds")),
-                    selected=tools::file_path_sans_ext(basename(proj_obj[[input$editLst]]$model)),multiple=FALSE),
-        textInput(ns("tosave"),"Save as",incr_mdl(basename(proj_obj[[input$editLst]]$model),"models")),
+        selectInput(ns("finest"),"Final estimates from",sub("\\.res\\.rds","",list.files("shinyMixR",pattern="res.rds")), selected = selm, multiple=FALSE),
+        textInput(ns("tosave"),"Save as",incm),
         actionButton(ns("goupdate"), "Go",icon=icon("play"))
       )
     }
     observeEvent(input$updinit,{showModal(initmodal())},ignoreInit = TRUE)
     observeEvent(input$goupdate,{
-      if(input$editor!=""){
-        res <- try(update_inits(input$editor,paste0("shinyMixr/",input$finest,".res.rds"),paste0("models/",input$tosave)))
+      if(isTruthy(input$finest) && isTruthy(input$tosave)){
+        #res <- try(update_inits(input$editor,paste0("shinyMixr/",input$finest,".res.rds"),paste0("models/",input$tosave)))
+        res <- try(update_inits(readLines(paste0("models/",input$finest,".r")),
+                                paste0("shinyMixr/",input$finest,".res.rds"),
+                                paste0("models/",input$tosave)))
         if("try-error"%in%class(res)){
           myalert("Could not update initials",type = "error")
         }else{
@@ -116,7 +124,7 @@ module_edit_server <- function(id, r, settings) {
           myalert("Initials updated",type = "success")
         }
       }else{
-        myalert("No model selected to update",type = "error")
+        myalert("No model selected to update or no output model defined",type = "error")
       }
       removeModal()
     },ignoreInit = TRUE)
