@@ -41,6 +41,8 @@ test_that("Shiny app correctly creates new model code", {
     
   # Perform test to save model with new name (be aware that save-as btn is a module as well)
   app$click("editor-adapt_meta_ed-go")
+  # Wait for modal to open
+  Sys.sleep(1)
   curvals <- app$get_values()
   expect_true(curvals$input$`editor-adapt_meta_ed-mdladpt`=="run3.r")
   expect_true(curvals$input$`editor-adapt_meta_ed-mdldesc`=="template models")
@@ -51,7 +53,6 @@ test_that("Shiny app correctly creates new model code", {
   
   # Finally test if update inits works as expected (e.g. are initial changed, values itself tested outside shinytest)
   app$click("editor-updinit")
-
   Sys.sleep(1)
   app$set_inputs("editor-tosave" = c("run99.r"))
   app$click("editor-goupdate",timeout_=120000)
