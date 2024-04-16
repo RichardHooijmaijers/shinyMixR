@@ -63,7 +63,7 @@ module_edit_server <- function(id, r, settings) {
         if(!"try-error"%in%class(mdl)){
           mdl <- sub("run1",sub("\\.[r|R]","",input$namenew),mdl)
           writeLines(mdl,paste0("models/",input$namenew))
-          r$proj_obj <- get_proj()
+          r$proj_obj <- get_proj(r$this_wd)
           updateSelectInput(session,"editLst",choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=sub("\\.[r|R]","",input$namenew))
           shinyAce::updateAceEditor(session,"editor",value=paste(readLines(paste0("models/",input$namenew)),collapse="\n"))
           removeModal()
@@ -74,7 +74,7 @@ module_edit_server <- function(id, r, settings) {
     observeEvent(input$save,{
       if(input$editLst!=""){
         writeLines(input$editor,r$proj_obj[[input$editLst]]$model)
-        r$proj_obj <- get_proj()
+        r$proj_obj <- get_proj(r$this_wd)
         myalert("Model saved",type = "success")
         # Do not really like the alerts from bs4dash so stick to shinywdigets
         # createAlert(id = NULL,selector = NULL,options=list(title = "Alert",closable = TRUE,width = 12,elevations = 1,status = "primary",content = "Model saved"))
@@ -118,7 +118,7 @@ module_edit_server <- function(id, r, settings) {
         if("try-error"%in%class(res)){
           myalert("Could not update initials",type = "error")
         }else{
-          r$proj_obj <- get_proj()
+          r$proj_obj <- get_proj(r$this_wd)
           updateSelectInput(session,"editLst",choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=sub("\\.[r|R]","",input$tosave))
           shinyAce::updateAceEditor(session,"editor",value=paste(readLines(r$proj_obj[[sub("\\.[r|R]","",input$tosave)]]$model),collapse="\n"))
           myalert("Initials updated",type = "success")

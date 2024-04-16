@@ -5,6 +5,7 @@
 #' This is mostly relevant in case the reference of models is included to
 #' visualise the relationship between models
 #'
+#' @param proj_obj a project object created with \code{\link{get_proj}}
 #' @param ... additional arguments passed to \code{\link{overview}}
 #'
 #' @export
@@ -14,10 +15,10 @@
 #' @examples
 #'
 #' \dontrun{
-#'  tree_overview()
+#'  tree_overview(proj_obj)
 #' }
-tree_overview <- function(...){
-  tmod   <- overview(...)
+tree_overview <- function(proj_obj, ...){
+  tmod   <- overview(proj_obj, ...)
   stmodn <- data.frame(from=NA,to="start",imp=0,stringsAsFactors = FALSE)
   noref  <- data.frame(from="start",to=tmod$models[tmod$ref==""],imp=tmod$imp[tmod$ref==""],stringsAsFactors = FALSE)
   refs   <- data.frame(from=tmod$ref[tmod$ref!=""],to=tmod$models[tmod$ref!=""],imp=tmod$imp[tmod$ref!=""],stringsAsFactors = FALSE)

@@ -106,7 +106,7 @@ module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NU
         towr <- adpt_meta(toret['name'],metanfo)
         if(type=="save") towr <- sub(sellmod(),sub("\\.[r|R]","",input$mdladpt),towr)
         writeLines(towr,toret['saveas'])
-        r$proj_obj <- get_proj()
+        r$proj_obj <- get_proj(r$this_wd)
         removeModal()
         meta_ret(toret['val'])
       }

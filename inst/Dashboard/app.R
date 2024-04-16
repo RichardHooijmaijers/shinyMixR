@@ -1,3 +1,5 @@
+this_wd <- getwd()
+
 # Loading libraries
 library(shiny)     # Used as it is a shiny app
 library(bs4Dash)   # Used instead of shinydashboard to provide additional options
@@ -13,7 +15,7 @@ if ("nlmixr2" %in% rownames(installed.packages())){
 }
 
 # Initiate project
-proj_obj <- get_proj()
+proj_obj <- get_proj(this_wd)
 
 # Create theme for dashboard
 newtheme <- create_theme(
@@ -74,7 +76,8 @@ server <- function(input, output, session) {
   # Top-level reactive values
   r <- reactiveValues(active_tab = "",
                       model_updated = 0,
-                      proj_obj = get_proj())
+                      proj_obj = get_proj(this_wd),
+                      this_wd = this_wd)
   
   observeEvent(input$tabs, r$active_tab <- input$tabs)
   
