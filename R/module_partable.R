@@ -43,13 +43,13 @@ module_pt_server <- function(id, r) {
     },ignoreInit=TRUE)
 
     # Create parameter table
-    parTable <- function(inp,projloc=".",saveit=FALSE){
-      obj     <- get_proj(projloc=projloc)
-      if(!saveit){
+    parTable <- function(inp, projloc, saveit = FALSE){
+      obj <- get_proj(projloc = projloc)
+      if(!saveit) {
         #print(obj)
         #print(inp$EstLst)
         par_table(obj,models=inp$EstLst,bsv=inp$bsv,shrink=inp$shrink,backt=inp$backt,formatting=TRUE)
-      }else{
+      } else {
         savnm  <- ifelse(inp$typePars=="PDF",paste0(inp$namePars,".tex"),paste0(inp$namePars,".html"))
         #print(savnm)
         par_table(obj,models=inp$EstLst,outnm=savnm,show=inp$showPars,projloc=projloc,bsv=inp$bsv,shrink=inp$shrink,backt=inp$backt,formatting=ifelse(inp$typePars=="PDF",FALSE,TRUE))
@@ -60,7 +60,7 @@ module_pt_server <- function(id, r) {
       
       req(r$model_updated)
       
-      table <- parTable(input)
+      table <- parTable(input, projloc = r$this_wd)
       r$params <- table
       
       DT::datatable(
@@ -91,6 +91,6 @@ module_pt_server <- function(id, r) {
       )
     }
     observeEvent(input$savePars,showModal(parsave()))
-    observeEvent(input$savePars2, parTable(input,saveit=TRUE))
+    observeEvent(input$savePars2, parTable(input, projloc = r$this_wd, saveit = TRUE))
   })
 }
