@@ -13,7 +13,7 @@ if ("nlmixr2" %in% rownames(installed.packages())){
 }
 
 # Initiate project
-proj_obj <- create_proj()
+proj_obj <- get_proj()
 
 # Create theme for dashboard
 newtheme <- create_theme(
