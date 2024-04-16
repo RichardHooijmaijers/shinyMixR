@@ -4,10 +4,12 @@
 \alias{module_overview_server}
 \title{Overview module for server}
 \usage{
-module_overview_server(id)
+module_overview_server(id, r)
 }
 \arguments{
 \item{id}{Module id}
+
+\item{r}{reactive values object that is defined top-level}
 }
 \description{
 Overview module for server

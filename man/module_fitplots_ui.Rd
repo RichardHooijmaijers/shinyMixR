@@ -4,10 +4,12 @@
 \alias{module_fitplots_ui}
 \title{Fit plots module for UI}
 \usage{
-module_fitplots_ui(id)
+module_fitplots_ui(id, proj_obj)
 }
 \arguments{
 \item{id}{Module id}
+
+\item{proj_obj}{Project object}
 }
 \description{
 Shiny module for fit plots

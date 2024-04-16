@@ -4,10 +4,12 @@
 \alias{module_pt_ui}
 \title{Parameter table module for UI}
 \usage{
-module_pt_ui(id)
+module_pt_ui(id, proj_obj)
 }
 \arguments{
 \item{id}{Module id}
+
+\item{proj_obj}{Project object}
 }
 \description{
 Shiny module for parameter table

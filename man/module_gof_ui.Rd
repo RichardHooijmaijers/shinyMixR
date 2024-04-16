@@ -4,10 +4,12 @@
 \alias{module_gof_ui}
 \title{GOF plots module for UI}
 \usage{
-module_gof_ui(id)
+module_gof_ui(id, proj_obj)
 }
 \arguments{
 \item{id}{Module id}
+
+\item{proj_obj}{Project object}
 }
 \description{
 Shiny module for GOF plots
