@@ -4,9 +4,10 @@
 #' @description Shiny module for GOF plots
 #'
 #' @param id Module id
+#' @param proj_obj Project object
 #' 
 #' @export
-module_gof_ui <- function(id) {
+module_gof_ui <- function(id, proj_obj) {
   ns <- NS(id)
   tagList(
     fluidRow(
@@ -42,7 +43,7 @@ module_gof_server <- function(id, r, settings) {
     # Adapt model list based on selected project location
     observeEvent(r$active_tab,{
       if(r$active_tab=="gof"){
-        updateSelectInput(session, "gofLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$gofLst)
+        updateSelectInput(session, "gofLst", choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=input$gofLst)
       }
     },ignoreInit=TRUE)
     

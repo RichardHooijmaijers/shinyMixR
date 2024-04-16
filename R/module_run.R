@@ -4,9 +4,10 @@
 #' @description Shiny module for running models
 #'
 #' @param id Module id
+#' @param proj_obj Project object
 #' 
 #' @export
-module_run_ui <- function(id) {
+module_run_ui <- function(id, proj_obj) {
   ns <- NS(id)
   tagList(
     selectInput(ns("runLst"),"Model(s)",names(proj_obj)[names(proj_obj)!="meta"],multiple=TRUE,selectize = TRUE),
@@ -30,7 +31,7 @@ module_run_server <- function(id, r) {
     # Adapt/update model list 
     observeEvent(r$active_tab,{
       if(r$active_tab=="run"){
-        updateSelectInput(session, "runLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$runmod_runLst)
+        updateSelectInput(session, "runLst", choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=input$runmod_runLst)
       }
     },ignoreInit=TRUE)
 
@@ -39,7 +40,7 @@ module_run_server <- function(id, r) {
       unlink(list.files(paste0("shinyMixR/temp"),pattern=".*prog\\.txt$",full.names = TRUE))
       # Perform tests before running
        if(!is.null(input$runLst)){
-         proj     <- get("proj_obj",pos = .GlobalEnv)
+         proj     <- r$proj_obj
         checkall <- unlist(sapply(input$runLst,function(x){
           chk    <- proj[[x]]$model
           chksrc <- try(source(chk,local=TRUE),silent=TRUE)
@@ -55,7 +56,7 @@ module_run_server <- function(id, r) {
           myalert("model(s) submitted, wait for progress log to pop-up!",type = "succes")
           addcwres <- ifelse("Add CWRES to output"%in%input$addExtra,TRUE,FALSE)
           addnpde  <- ifelse("Add NPDE to output"%in%input$addExtra,TRUE,FALSE)
-          lapply(input$runLst,function(mods) run_nmx(mods,proj_obj,addcwres=addcwres,addnpde=addnpde))
+          lapply(input$runLst,function(mods) run_nmx(mods,r$proj_obj,addcwres=addcwres,addnpde=addnpde))
         }
       }else{
         myalert("Please select models to run",type = "error")

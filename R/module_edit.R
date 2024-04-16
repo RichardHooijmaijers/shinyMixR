@@ -28,9 +28,9 @@ module_edit_ui <- function(id) {
 module_edit_server <- function(id, r, settings) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location
-    observeEvent(r$active_tab,{
+    observeEvent(r$active_tab, {
       if(r$active_tab=="editor"){
-        updateSelectInput(session, "editLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$editLst)
+        updateSelectInput(session, "editLst", choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=input$editLst)
       }
     },ignoreInit=TRUE)
 
@@ -41,7 +41,7 @@ module_edit_server <- function(id, r, settings) {
 
     # Update editor when selecting new model
     observeEvent(input$editLst,{
-      shinyAce::updateAceEditor(session,"editor",value=paste(readLines(proj_obj[[input$editLst]]$model),collapse="\n"))
+      shinyAce::updateAceEditor(session,"editor",value=paste(readLines(r$proj_obj[[input$editLst]]$model),collapse="\n"))
     },ignoreInit=TRUE)
 
     # New model
@@ -63,8 +63,8 @@ module_edit_server <- function(id, r, settings) {
         if(!"try-error"%in%class(mdl)){
           mdl <- sub("run1",sub("\\.[r|R]","",input$namenew),mdl)
           writeLines(mdl,paste0("models/",input$namenew))
-          assign("proj_obj",get_proj(),pos = .GlobalEnv,inherits=TRUE)
-          updateSelectInput(session,"editLst",choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=sub("\\.[r|R]","",input$namenew))
+          r$proj_obj <- get_proj()
+          updateSelectInput(session,"editLst",choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=sub("\\.[r|R]","",input$namenew))
           shinyAce::updateAceEditor(session,"editor",value=paste(readLines(paste0("models/",input$namenew)),collapse="\n"))
           removeModal()
         }
@@ -73,8 +73,8 @@ module_edit_server <- function(id, r, settings) {
     # Save model
     observeEvent(input$save,{
       if(input$editLst!=""){
-        writeLines(input$editor,proj_obj[[input$editLst]]$model)
-        assign("proj_obj",get_proj(),pos = .GlobalEnv,inherits=TRUE)
+        writeLines(input$editor,r$proj_obj[[input$editLst]]$model)
+        r$proj_obj <- get_proj()
         myalert("Model saved",type = "success")
         # Do not really like the alerts from bs4dash so stick to shinywdigets
         # createAlert(id = NULL,selector = NULL,options=list(title = "Alert",closable = TRUE,width = 12,elevations = 1,status = "primary",content = "Model saved"))
@@ -84,11 +84,11 @@ module_edit_server <- function(id, r, settings) {
     # Handle meta data (we need to pass the selected model as a reactive)
     selectedmodel <- reactive(input$editLst)
     selectedcont  <- reactive(input$editor)
-    upd <- module_metadata_server("adapt_meta_ed","save",sellmod=selectedmodel,sellcont=selectedcont)
+    upd <- module_metadata_server("adapt_meta_ed","save",sellmod=selectedmodel,sellcont=selectedcont,r=r)
     observeEvent(upd(),{
       if(!is.null(upd())){
-        updateSelectInput(session,"editLst",choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=sub("\\.[r|R]","",upd()))
-        shinyAce::updateAceEditor(session,"editor",value=paste(readLines(proj_obj[[sub("\\.[r|R]","",upd())]]$model),collapse="\n"))
+        updateSelectInput(session,"editLst",choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=sub("\\.[r|R]","",upd()))
+        shinyAce::updateAceEditor(session,"editor",value=paste(readLines(r$proj_obj[[sub("\\.[r|R]","",upd())]]$model),collapse="\n"))
         myalert(upd(),type = "success")
       } 
     },ignoreInit=TRUE)
@@ -97,8 +97,8 @@ module_edit_server <- function(id, r, settings) {
     initmodal <- function(){
       ns <- session$ns
       if(isTruthy(input$editLst)){
-        selm <- tools::file_path_sans_ext(basename(proj_obj[[input$editLst]]$model))
-        incm <- incr_mdl(basename(proj_obj[[input$editLst]]$model),"models")
+        selm <- tools::file_path_sans_ext(basename(r$proj_obj[[input$editLst]]$model))
+        incm <- incr_mdl(basename(r$proj_obj[[input$editLst]]$model),"models")
       }else{
         selm <- incm <- NULL
       } 
@@ -118,9 +118,9 @@ module_edit_server <- function(id, r, settings) {
         if("try-error"%in%class(res)){
           myalert("Could not update initials",type = "error")
         }else{
-          assign("proj_obj",get_proj(),pos = .GlobalEnv,inherits=TRUE)
-          updateSelectInput(session,"editLst",choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=sub("\\.[r|R]","",input$tosave))
-          shinyAce::updateAceEditor(session,"editor",value=paste(readLines(proj_obj[[sub("\\.[r|R]","",input$tosave)]]$model),collapse="\n"))
+          r$proj_obj <- get_proj()
+          updateSelectInput(session,"editLst",choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=sub("\\.[r|R]","",input$tosave))
+          shinyAce::updateAceEditor(session,"editor",value=paste(readLines(r$proj_obj[[sub("\\.[r|R]","",input$tosave)]]$model),collapse="\n"))
           myalert("Initials updated",type = "success")
         }
       }else{

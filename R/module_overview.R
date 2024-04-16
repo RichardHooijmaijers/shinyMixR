@@ -32,9 +32,10 @@ module_overview_ui <- function(id) {
 #' Overview module for server
 #' 
 #' @param id Module id
+#' @param r reactive values object that is defined top-level
 #' 
 #' @export
-module_overview_server <- function(id) {
+module_overview_server <- function(id, r) {
   moduleServer(id, function(input, output, session){
     # Make reactive value to hold the available models/scripts
     rv <- reactiveValues(mdls=list.files("models",pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE),scrpt=list.files("scripts",full.names = TRUE))
@@ -58,7 +59,7 @@ module_overview_server <- function(id) {
     # Refresh overview
     observeEvent(input$overview_refr,{
       if(file.exists("shinyMixR")){
-        assign("proj_obj",get_proj(),pos = .GlobalEnv)
+        r$proj_obj <- get_proj()
         overview_ov <- overview()
         DT::replaceData(proxy, overview_ov, rownames = FALSE)
         rv$mdls  <- list.files("models",pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE)
@@ -81,7 +82,7 @@ module_overview_server <- function(id) {
       modalDialog(title="High level results",easyClose = TRUE,size="l",verbatimTextOutput(ns("res_out")))
     }
     hr_out <- eventReactive(input$hlr, {
-      sel   <- sort(names(proj_obj)[names(proj_obj)!="meta"])[input$overview_tbl_rows_selected]
+      sel   <- sort(names(r$proj_obj)[names(r$proj_obj)!="meta"])[input$overview_tbl_rows_selected]
       if(length(sel)>0){
         res <- try(readRDS(paste0("shinyMixR/",sel[1],".res.rds")))
         if(!"try-error"%in%class(res)) print(res) else print("No results available")
@@ -100,14 +101,14 @@ module_overview_server <- function(id) {
     observeEvent(input$del,{showModal(delmodal())},ignoreInit = TRUE)
     observeEvent(input$del2,{
       if(!is.null(input$overview_tbl_rows_selected)){
-        msel <- sort(names(proj_obj)[names(proj_obj)!="meta"])[input$overview_tbl_rows_selected]
+        msel <- sort(names(r$proj_obj)[names(r$proj_obj)!="meta"])[input$overview_tbl_rows_selected]
         if(input$delmodall) {
           try(file.remove(paste0("shinyMixR/",msel,".res.rds")))
           try(file.remove(paste0("shinyMixR/",msel,".ressum.rds")))
           try(unlink(paste0("analysis/",msel),recursive = TRUE))
         }
         try(file.remove(paste0("models/",msel,".r")))
-        assign("proj_obj",get_proj(),pos = .GlobalEnv,inherits=TRUE)
+        r$proj_obj <- get_proj()
         DT::replaceData(proxy, overview(), rownames = FALSE)
         removeModal()
       }

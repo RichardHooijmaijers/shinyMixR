@@ -12,6 +12,9 @@ if ("nlmixr2" %in% rownames(installed.packages())){
   cat("you need the 'nlmixr2' package to run models\n")
 }
 
+# Initiate project
+proj_obj <- create_proj()
+
 # Create theme for dashboard
 newtheme <- create_theme(
   theme = "darkly", # theme has no effect, at least within bs4Dash
@@ -56,10 +59,10 @@ ui <- dashboardPage(
     tabItems(
       tabItem(tabName = "overview", module_overview_ui("oview")),
       tabItem(tabName = "editor", module_edit_ui("editor")),
-      tabItem(tabName = "run", module_run_ui("modrun")),
-      tabItem(tabName = "par", module_pt_ui("partable")),
-      tabItem(tabName = "gof", module_gof_ui("gofplots")),
-      tabItem(tabName = "fitpl", module_fitplots_ui("fitplots")),
+      tabItem(tabName = "run", module_run_ui("modrun", proj_obj)),
+      tabItem(tabName = "par", module_pt_ui("partable", proj_obj)),
+      tabItem(tabName = "gof", module_gof_ui("gofplots", proj_obj)),
+      tabItem(tabName = "fitpl", module_fitplots_ui("fitplots", proj_obj)),
       tabItem(tabName = "expl", module_dataexplore_ui("explore")),
       tabItem(tabName = "settings", module_settings_ui("settings"))
     )  
@@ -70,10 +73,14 @@ server <- function(input, output, session) {
   
   # Top-level reactive values
   r <- reactiveValues(active_tab = "",
-                      model_updated = 0)
+                      model_updated = 0,
+                      proj_obj = get_proj())
+  
   observeEvent(input$tabs, r$active_tab <- input$tabs)
+  
+  # Modules
   sett <- module_settings_server("settings")
-  module_overview_server("oview")
+  module_overview_server("oview", r = r)
   module_edit_server("editor", r = r, settings=sett)
   module_run_server("modrun", r = r)
   module_pt_server("partable", r = r)

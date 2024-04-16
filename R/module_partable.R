@@ -4,9 +4,10 @@
 #' @description Shiny module for parameter table
 #'
 #' @param id Module id
+#' @param proj_obj Project object
 #' 
 #' @export
-module_pt_ui <- function(id) {
+module_pt_ui <- function(id, proj_obj) {
   ns <- NS(id)
   tagList(
     actionButton(ns("savePars"), "Save parameter table",icon=icon("floppy-disk")),br(),br(),
@@ -35,8 +36,8 @@ module_pt_server <- function(id, r) {
       if(r$active_tab=="par"){
         updateSelectInput(session, 
                           "EstLst", 
-                          choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],
-                          selected= ifelse(is.null(input$EstLst), names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"][1], input$EstLst) 
+                          choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],
+                          selected= ifelse(is.null(input$EstLst), names(r$proj_obj)[names(r$proj_obj)!="meta"][1], input$EstLst) 
         )
       }
     },ignoreInit=TRUE)

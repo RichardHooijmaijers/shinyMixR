@@ -22,9 +22,10 @@ module_metadata_ui <- function(id,type) {
 #' @param selline reactive with the selected line for a model (for type "overview")
 #' @param sellmod reactive with the selected model (for type "save")
 #' @param sellcont reactive with the content of the selected model (for type "save")
+#' @param r reactive values object that is defined top-level
 #' 
 #' @export
-module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NULL){
+module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NULL,r){
   moduleServer(id, function(input, output, session){
     
     # Function for the modal
@@ -37,17 +38,17 @@ module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NU
       titl <- ifelse(type=="save","Save as","Adapt model info")
       meta <- list(mdls="",imp=0,ref="",desc="",est="saem",data="",sel="")
 
-      if(!is.null(selline)) meta$sel  <- sort(names(proj_obj)[names(proj_obj)!="meta"])[selline()]
+      if(!is.null(selline)) meta$sel  <- sort(names(r$proj_obj)[names(r$proj_obj)!="meta"])[selline()]
       if(!is.null(sellmod)) meta$sel  <- sellmod()
       if(length(meta$sel)==0 || meta$sel=="") return()
 
-      meta$imp  <- proj_obj[[meta$sel]]$modeleval$meta$imp
-      meta$ref  <- proj_obj[[meta$sel]]$modeleval$meta$ref
-      meta$desc <- proj_obj[[meta$sel]]$modeleval$meta$desc
-      meta$est  <- proj_obj[[meta$sel]]$modeleval$meta$est
-      meta$data <- proj_obj[[meta$sel]]$modeleval$meta$data
+      meta$imp  <- r$proj_obj[[meta$sel]]$modeleval$meta$imp
+      meta$ref  <- r$proj_obj[[meta$sel]]$modeleval$meta$ref
+      meta$desc <- r$proj_obj[[meta$sel]]$modeleval$meta$desc
+      meta$est  <- r$proj_obj[[meta$sel]]$modeleval$meta$est
+      meta$data <- r$proj_obj[[meta$sel]]$modeleval$meta$data
 
-      meta$mdls <- c("",names(proj_obj)[names(proj_obj)!="meta"])
+      meta$mdls <- c("",names(r$proj_obj)[names(r$proj_obj)!="meta"])
 
       gen  <- tagList(
         sliderInput(ns("mdlimp"), "Importance", 0, 4, meta$imp, step = 1, round = TRUE),
@@ -72,7 +73,7 @@ module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NU
      observeEvent(input$mdladpt,{
       if(type!="save"){
         if(input$mdladpt!=''){
-          meta <- proj_obj[[input$mdladpt]]$modeleval$meta
+          meta <- r$proj_obj[[input$mdladpt]]$modeleval$meta
           updateSliderInput(session,"mdlimp",value=meta$imp)
           updateTextInput(session,"mdldesc",value=meta$desc)
           updateSelectInput(session,"mdlref",selected=meta$ref)
@@ -105,7 +106,7 @@ module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NU
         towr <- adpt_meta(toret['name'],metanfo)
         if(type=="save") towr <- sub(sellmod(),sub("\\.[r|R]","",input$mdladpt),towr)
         writeLines(towr,toret['saveas'])
-        assign("proj_obj",get_proj(),pos = .GlobalEnv,inherits=TRUE)
+        r$proj_obj <- get_proj()
         removeModal()
         meta_ret(toret['val'])
       }

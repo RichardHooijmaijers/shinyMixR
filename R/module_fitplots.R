@@ -4,9 +4,10 @@
 #' @description Shiny module for fit plots
 #'
 #' @param id Module id
+#' @param proj_obj Project object
 #' 
 #' @export
-module_fitplots_ui <- function(id) {
+module_fitplots_ui <- function(id, proj_obj) {
   ns <- NS(id)
   tagList(
     fluidRow(
@@ -46,7 +47,7 @@ module_fitplots_server <- function(id, r, settings) {
     # Adapt model list based on selected project location
     observeEvent(r$active_tab,{
       if(r$active_tab=="fitpl"){
-        updateSelectInput(session, "fitLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$fitLst)
+        updateSelectInput(session, "fitLst", choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=input$fitLst)
       }
     },ignoreInit=TRUE)
 
