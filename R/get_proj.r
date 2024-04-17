@@ -92,6 +92,6 @@ get_proj <- function(projloc=".",geteval=TRUE){
   chk       <- chk[which(chk$mdlsv>chk$ressv),]
   #if(nrow(chk)>0) noret <- apply(chk,1,function(x) cat("Be aware that model is saved after results for",x['mdl'],"\n"))
 
-  saveRDS(mdls,file=paste0(projloc,"/shinyMixR/project.rds"))
+  saveRDS(mdls,file=paste0(projloc,"/shinyMixR/app/shinyMixR/project.rds"))
   return(mdls)
 }
