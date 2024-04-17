@@ -56,7 +56,7 @@ module_run_server <- function(id, r) {
           myalert("model(s) submitted, wait for progress log to pop-up!",type = "succes")
           addcwres <- ifelse("Add CWRES to output"%in%input$addExtra,TRUE,FALSE)
           addnpde  <- ifelse("Add NPDE to output"%in%input$addExtra,TRUE,FALSE)
-          lapply(input$runLst,function(mods) run_nmx(mods,r$proj_obj,addcwres=addcwres,addnpde=addnpde))
+          lapply(input$runLst,function(mods) run_nmx(mods, r$proj_obj, addcwres=addcwres,addnpde=addnpde))
         }
       }else{
         myalert("Please select models to run",type = "error")
@@ -81,6 +81,7 @@ module_run_server <- function(id, r) {
       # check if "run finished" prevails in runmodmonit()
       if(grepl("run finished", runmodmonit())){
         r$model_updated <- isolate(r$model_updated) + 1
+        r$proj_obj <- get_proj(r$this_wd)
       }
     })
     
