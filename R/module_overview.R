@@ -120,8 +120,6 @@ module_overview_server <- function(id, r) {
       }
     },ignoreInit = TRUE)
 
-    # Running scripts - Check creation of temp folder (should be done in create_proj (get_proj) function?)
-    dir.create("shinyMixR/temp",showWarnings = FALSE,recursive = TRUE)
     module_scripts_server("runscripts", files = reactive(r$mdls), scripts = reactive(r$scrpt), loc = "shinyMixR/temp")
 
     # Creating reports
