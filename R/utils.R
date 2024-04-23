@@ -31,6 +31,6 @@ setup_shinymixr_test <- function(dir = "./tests/files", overwrite = TRUE, record
   }
   
   if (record == TRUE) {
-    record_test(paste0(dir, "/shinyMixR/app"))
+    shinytest2::record_test(paste0(dir, "/shinyMixR/app"))
   }
 }
