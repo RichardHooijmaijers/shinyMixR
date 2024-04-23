@@ -1,14 +1,14 @@
 Package: shinyMixR
-Title: Shiny dashboard interface for nlmixr and nlmixr2
-Version: 0.4.0
+Title: Interactive 'shiny' Dashboard for 'nlmixr2'
+Version: 0.5.0
 Authors@R: c(person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = c("aut", "cre","cph")),
              person("Teun", "Post", email = "teunpost@gmail.com",role = c("aut","cph")),
              person("LAPP Consultants",email = "info@lapp.nl", role=c("fnd","cph")),
              person("Matthew Fidler",role=c("ctb")))
 Author: Richard Hooijmaijers
 Maintainer: Richard Hooijmaijers <richardhooijmaijers@gmail.com>
-Description: The package is developed as an interface for the nlmixr and nlmixr2 package. Furthermore additional functions
-  are included to work with the nlmixr package through the command line
+Description: An interface for the 'nlmixr2' package. Furthermore additional functions
+  are included to work with the 'nlmixr2' package through the command line.
 Depends:
   R (>= 3.5.0),
   shiny,

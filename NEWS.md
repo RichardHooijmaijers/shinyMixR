@@ -1,3 +1,12 @@
+# shinyMixR 0.5
+
+This version is a preview version of the package. The main changes are:
+
+- Refactoring of the code to remove global assignments and implement use of reactiveValues.
+- Added codecoverage to the package.
+- Added a new testing structure to the package including `shinytest2` for automated testing of the app.
+- Improved documentation to prepare for CRAN submission.
+
 # shinyMixR 0.4
 
 Within this version some updates have been implemented, see below the most important changes:
