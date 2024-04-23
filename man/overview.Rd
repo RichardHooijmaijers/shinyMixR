@@ -4,9 +4,11 @@
 \alias{overview}
 \title{Creates model overview}
 \usage{
-overview(...)
+overview(proj_obj, ...)
 }
 \arguments{
+\item{proj_obj}{a project object created with \code{\link{get_proj}}}
+
 \item{...}{additional arguments passed to \code{\link{get_proj}}}
 }
 \value{
@@ -19,7 +21,7 @@ of the models and if results are available, also the objective function and run-
 \examples{
 
 \dontrun{
- overview()
+ overview(proj_obj)
 }
 }
 \author{
