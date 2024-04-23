@@ -15,20 +15,22 @@
 #' }
 get_proj <- function(projloc=".",geteval=TRUE){
   
+  print(projloc)
+  
   # Read in models and place in result objects
-  dir.create(paste0(projloc,"/shinyMixR"),showWarnings = FALSE,recursive = TRUE)
-  mdln    <- normalizePath(list.files(paste0(projloc,"/models"),pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE))
+  dir.create(paste0(projloc,"/shinyMixR/app/shinyMixR"),showWarnings = FALSE,recursive = TRUE)
+  mdln    <- normalizePath(list.files(paste0(projloc,"/shinyMixR/app/models"),pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE))
   mdlnb   <- sub("\\.[r|R]","",basename(mdln))
   sumres  <- normalizePath(list.files(paste0(projloc,"/shinyMixR/app/shinyMixR"),pattern="run[[:digit:]]*\\.ressum\\.rds",full.names = TRUE))
   sumresi <- file.info(sumres)
   summdli <- file.info(mdln)
   
   # read in data folder (only in case objects are not yet present)
-  datf  <- list.files(paste0(projloc,"/data"))
+  datf  <- list.files(paste0(projloc,"/shinyMixR/app/data"))
   grepd <- " |^[[:digit:]]|\\!|\\#|\\$|\\%|\\&|\\'|\\(|\\)|\\-|\\;|\\=|\\@|\\[|\\]|\\^\\`\\{\\|\\}"
   if(any(grepl(grepd,datf))) warning("Data files with special characters found, take into acount that models that use these can crash")
   # not relevant to read all data for running nlmixr in separate session (should be loaded in this session!)
-  lapply(list.files(paste0(projloc,"/data"),full.names = TRUE),function(x){
+  lapply(list.files(paste0(projloc,"/shinyMixR/app/data"),full.names = TRUE),function(x){
     if(!grepl(grepd,x) & !exists(sub("\\.rds$|\\.csv$","",basename(x),ignore.case = TRUE),envir=.GlobalEnv)){
       if(grepl("\\.rds$",x,ignore.case = TRUE)) assign(sub("\\.rds$","",basename(x),ignore.case = TRUE),readRDS(x),pos = .GlobalEnv)
       if(grepl("\\.csv$",x,ignore.case = TRUE)) assign(sub("\\.csv$","",basename(x),ignore.case = TRUE),read.csv(x),pos = .GlobalEnv)

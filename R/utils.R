@@ -19,10 +19,12 @@ setup_shinymixr_test <- function(dir = "./tests/files", overwrite = TRUE, record
   }
 
   create_proj(dir, overwrite = overwrite)
-  if(incres){
-    file.copy(system.file(c("Other/run1.res.rds","Other/run1.ressum.rds"),package="shinyMixR"),paste0(dir,"/shinyMixR"))
-  }
   run_shinymixr(wd = dir, dry_run = TRUE)
+  
+  if(incres){
+    file.copy(system.file(c("Other/run1.res.rds","Other/run1.ressum.rds"),package="shinyMixR"),
+              paste0(dir,"/shinyMixR/app/shinyMixR"))
+  }
   
   # create .Rprofile file to store settings
   if (!file.exists(paste0(dir, "/.Rprofile"))) {

@@ -29,10 +29,10 @@ test_that("Shiny app runs model and returns parameters for run1", {
   
   # Test if run is done and 'correct' results have been created
   Sys.sleep(1)
-  rundone <- "run1.res.rds"%in%list.files(paste0(tempdir(),"/files/shinyMixR"))
+  rundone <- "run1.res.rds"%in%list.files(paste0(tempdir(),"/files/shinyMixR/app/shinyMixR"))
   expect_true(rundone)
   if(rundone){
-    runres <- readRDS(paste0(tempdir(),"/files/shinyMixR/run1.res.rds"))
+    runres <- readRDS(paste0(tempdir(),"/files/shinyMixR/app/shinyMixR/run1.res.rds"))
     expect_true(inherits(runres,"nlmixr2FitData"))
   }
   

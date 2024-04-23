@@ -28,8 +28,8 @@
 #' }
 run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=".",addcwres=TRUE,addnpde=TRUE){
 
-  dnm     <- deparse(substitute(proj))
-  if(autoupdate) assign(dnm,get_proj(projloc=projloc))
+  # dnm     <- deparse(substitute(proj))
+  # if(autoupdate) assign(dnm,get_proj(projloc=projloc))
   # Source model to obtain meta data (places meta object in env)
   sret <- try(source(proj[[mod]]$model,local=TRUE))
   meta <- try(eval(parse(text=c("nlmixr(",readLines(proj[[mod]]$model),")$meta"))))
@@ -72,7 +72,7 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
       system(paste0(R.home("bin"), "/Rscript \"", tscr,  "\" > \"",projloc,"/shinyMixR/temp/",mod,".prog.txt\" 2>&1"),wait=FALSE)
     }
     
-    if(autoupdate) assign(dnm,proj,pos = .GlobalEnv)
+    # if(autoupdate) assign(dnm,proj,pos = .GlobalEnv)
   }else{
     # Handle subsetting (data is loaded in global environment by get_proj function)
     if(!is.null(meta$subs) && meta$subs!="") data_nlm <- subset(get(meta$data),eval(parse(text=(meta$subs)))) else data_nlm <- get(meta$data)
@@ -87,7 +87,7 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
       saveRDS(ressum,file=paste0(projloc,"/shinyMixR/",mod,".ressum.rds"))
     }
     proj[[mod]]$results <- ressum
-    assign(dnm,proj,pos = .GlobalEnv)
+    # assign(dnm,proj,pos = .GlobalEnv)
     return(modres)
   }
 }

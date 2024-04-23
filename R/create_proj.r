@@ -16,8 +16,13 @@
 #'  create_proj()
 #' }
 create_proj <- function(loc=".", overwrite=FALSE){
+  
+  loc <- paste0(loc, "/shinyMixR/app")
+  
+  if(!dir.exists(loc)) dir.create(loc, recursive = TRUE)
+  
   # First create the folder structure
-  dirs <- paste0(loc,c("/analysis","/data","/models","/shinyMixR","/scripts"))
+  dirs <- paste0(loc, c("/analysis","/data","/models","/shinyMixR","/scripts"))
   if(!all(dirs%in%list.files(loc,full.names = TRUE))){
     sapply(dirs,dir.create,showWarnings = FALSE,recursive=TRUE)
     # Now place in some default models and data
