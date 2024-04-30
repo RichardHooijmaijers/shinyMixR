@@ -32,10 +32,10 @@ test_that("Shiny app correctly creates new model code", {
   app$expect_values(input = "editor-newgo")
   
   # Check if new model is created and contains correct naming
-  modmade <- "run2.r" %in% list.files(paste0(temp_dir, "/files/models"))
+  modmade <- "run2.r" %in% list.files(paste0(temp_dir, "/files/shinyMixR/app/models"))
   expect_true(modmade)
   if(modmade){
-    modcont <- readLines(paste0(temp_dir, "/files/models/run2.r"))
+    modcont <- readLines(paste0(temp_dir, "/files/shinyMixR/app/models/run2.r"))
     expect_true(grepl("run2 <- function", modcont[1]))
   }
     
@@ -49,7 +49,7 @@ test_that("Shiny app correctly creates new model code", {
   expect_true(curvals$input$`editor-adapt_meta_ed-mdlimp`==1)
   app$click("editor-adapt_meta_ed-adpt")
   app$click(selector = ".swal2-confirm")
-  expect_true("run3.r"%in%list.files(paste0(tempdir(),"/files/models")))
+  expect_true("run3.r"%in%list.files(paste0(tempdir(),"/files/shinyMixR/app/models")))
   
   # Finally test if update inits works as expected (e.g. are initial changed, values itself tested outside shinytest)
   app$click("editor-updinit")
