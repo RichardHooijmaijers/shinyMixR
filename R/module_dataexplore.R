@@ -148,7 +148,7 @@ module_dataexplore_server <- function(id, r) {
     # Adapt model list based on selected project location
     observeEvent(r$active_tab,{
       if(r$active_tab=="expl"){
-        updateSelectInput(session, "mdls", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$mdls)
+        updateSelectInput(session, "mdls", choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=input$mdls)
       }
     },ignoreInit=TRUE)
 
