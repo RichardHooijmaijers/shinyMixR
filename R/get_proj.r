@@ -15,8 +15,6 @@
 #' }
 get_proj <- function(projloc=".",geteval=TRUE){
   
-  print(projloc)
-  
   # Read in models and place in result objects
   dir.create(paste0(projloc,"/shinyMixR/app/shinyMixR"),showWarnings = FALSE,recursive = TRUE)
   mdln    <- normalizePath(list.files(paste0(projloc,"/shinyMixR/app/models"),pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE))
