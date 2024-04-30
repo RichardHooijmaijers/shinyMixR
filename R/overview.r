@@ -18,7 +18,7 @@
 overview <- function(proj_obj, ...){
   mdln <- names(proj_obj)[names(proj_obj)!="meta"]
   res1 <- lapply(mdln, function(x){
-    if(class(proj_obj[[x]]$modeleval)=="try-error" || class(proj_obj[[x]]$modeleval$meta)=="try-error"){
+    if(inherits(proj_obj[[x]]$modeleval, "try-error") || inherits(proj_obj[[x]]$modeleval$meta, "try-error")){
       c(NA,"","","","")
     }else{
       meta <- proj_obj[[x]]$modeleval$meta
