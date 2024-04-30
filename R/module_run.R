@@ -82,12 +82,11 @@ module_run_server <- function(id, r) {
       if(grepl("run finished", runmodmonit())){
         r$model_updated <- isolate(r$model_updated) + 1
         r$proj_obj <- get_proj(r$this_wd)
+        exportTestValues(
+          model_updated = r$model_updated
+        )
       }
     })
-    
-    exportTestValues(
-      model_updated = r$model_updated
-    )
     
     output$progrTxt <- renderText(runmodmonit())
     # Monitor all external runs
