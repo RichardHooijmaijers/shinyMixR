@@ -1,5 +1,7 @@
 test_that("gof_plot works as expected", {
   
+  print(.libPaths())
+  
   res_path <- system.file("/other/run1.res.rds", package = "shinyMixR")
   
   res <- readRDS(res_path)
