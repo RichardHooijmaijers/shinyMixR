@@ -105,9 +105,9 @@ exploreplot <- function(inputlist){
   if(inputlist$facet1!='[empty]' & inputlist$facet2!='[empty]' & inputlist$facet3!='[empty]') fct <- paste0("~",inputlist$facet1,"+",inputlist$facet2,"+",inputlist$facet3)
   if(is.na(inputlist$ncol)){ncols <- NULL}else{ncols <- inputlist$ncol}
   if(!is.null(fct)) add <- c(add,fac=paste0("facet_wrap(",fct,",scales='",inputlist$facetsc,"', labeller=label_both, ncol=",ncols,")"))
-
-  xlb    <- ifelse(inputlist$xlab!="",inputlist$xlab, ifelse(inputlist$attrl==TRUE && !is.null(attrl) && !is.null(attrl[[inputlist$Xval1]]$label),attrl[[inputlist$Xval1]]$label,inputlist$Xval1))
-  ylb    <- ifelse(inputlist$ylab!="",inputlist$ylab, ifelse(inputlist$attrl==TRUE && !is.null(attrl) && !is.null(attrl[[inputlist$Yval1]]$label),attrl[[inputlist$Yval1]]$label,inputlist$Yval1))
+  
+  xlb    <- ifelse(inputlist$xlab != "", inputlist$xlab, inputlist$Xval1)
+  ylb    <- ifelse(inputlist$ylab != "", inputlist$ylab, inputlist$Yval1)
   if(ylb=="[empty]") ylb <- "Count" # y label could only be empty in case of histogram, otherwise y variable should be selected
   #if(inputlist$xlab!='') add <- c(add,xlab=paste0("xlab('",inputlist$xlab,"')"))
   #if(inputlist$ylab!='') add <- c(add,ylab=paste0("ylab('",inputlist$ylab,"')"))
