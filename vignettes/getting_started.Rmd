@@ -216,7 +216,7 @@ par_table(proj_obj, models="run1", outnm="par.tex")
 For assessing the goodness of fit, the `gof_plot` function can be used. This function will by default use the `nlmixr.xpose2` package to create 4 different types of plots. It is also possible to directly create ggplot2 types of plots. By default the plots will be created within the R session but can also be written to pdf/html using the `R3port` package:
 ```{r eval=TRUE, echo=FALSE, message=FALSE, warning=FALSE}
 library(shinyMixR)
-res  <- readRDS(system.file("Other/run1.res.rds",package="shinyMixR"))
+res  <- readRDS(system.file("other/run1.res.rds",package="shinyMixR"))
 ```
 ```{r eval=FALSE, echo=TRUE}
 res  <- readRDS("./shinyMixR/run1.res.rds")

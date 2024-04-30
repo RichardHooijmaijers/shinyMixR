@@ -59,7 +59,7 @@ module_edit_server <- function(id, r, settings) {
       showModal(newmodmodal())
     },ignoreInit=TRUE)
     observeEvent(input$newgo,{
-        mdl <- try(readLines(system.file(paste0("Other/",input$templnew,".r"),package="shinyMixR")))
+        mdl <- try(readLines(system.file(paste0("other/",input$templnew,".r"),package="shinyMixR")))
         if(!"try-error"%in%class(mdl)){
           mdl <- sub("run1",sub("\\.[r|R]","",input$namenew),mdl)
           writeLines(mdl,paste0("models/",input$namenew))

@@ -49,7 +49,7 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
     cntrla <- grepl("^control *=|^control.*<-",cntrll)
     if(any(cntrla)){cntrll <- gsub("^control *=|^control.*<-","",cntrll[cntrla])}else{cntrll <- "list()"}
 
-    tmpl <- readLines(paste0(system.file(package = "shinyMixR"),"/Other/run_nmx.tmp"))
+    tmpl <- readLines(paste0(system.file(package = "shinyMixR"),"/other/run_nmx.tmp"))
     if(is.null(meta$subs)) subs <- "" else subs <- meta$subs
     
     rlst <- list(modelloc=normalizePath(proj[[mod]]$model,winslash = "/",mustWork = FALSE), 

@@ -22,7 +22,7 @@ setup_shinymixr_test <- function(dir = "./tests/files", overwrite = TRUE, record
   run_shinymixr(wd = dir, dry_run = TRUE)
   
   if(incres){
-    file.copy(system.file(c("Other/run1.res.rds","Other/run1.ressum.rds"),package="shinyMixR"),
+    file.copy(system.file(c("other/run1.res.rds","other/run1.ressum.rds"),package="shinyMixR"),
               paste0(dir,"/shinyMixR/app/shinyMixR"))
   }
   
