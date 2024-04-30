@@ -27,13 +27,6 @@ get_proj <- function(projloc=".",geteval=TRUE){
   datf  <- list.files(paste0(projloc,"/shinyMixR/app/data"))
   grepd <- " |^[[:digit:]]|\\!|\\#|\\$|\\%|\\&|\\'|\\(|\\)|\\-|\\;|\\=|\\@|\\[|\\]|\\^\\`\\{\\|\\}"
   if(any(grepl(grepd,datf))) warning("Data files with special characters found, take into acount that models that use these can crash")
-  # not relevant to read all data for running nlmixr in separate session (should be loaded in this session!)
-  lapply(list.files(paste0(projloc,"/shinyMixR/app/data"),full.names = TRUE),function(x){
-    if(!grepl(grepd,x) & !exists(sub("\\.rds$|\\.csv$","",basename(x),ignore.case = TRUE),envir=.GlobalEnv)){
-      if(grepl("\\.rds$",x,ignore.case = TRUE)) assign(sub("\\.rds$","",basename(x),ignore.case = TRUE),readRDS(x),pos = .GlobalEnv)
-      if(grepl("\\.csv$",x,ignore.case = TRUE)) assign(sub("\\.csv$","",basename(x),ignore.case = TRUE),read.csv(x),pos = .GlobalEnv)
-    }
-  })
 
   # Read in models and results
   if(!file.exists(paste0(projloc,"/shinyMixR/app/shinyMixR/project.rds"))){
