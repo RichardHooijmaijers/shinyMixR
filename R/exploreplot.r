@@ -27,7 +27,7 @@ exploreplot <- function(inputlist){
 
   # take into account that colour is used to map colour/fill and shape is used to map shape and linetype
   inputlist$attrl <- FALSE
-  if(inputlist$attrl==TRUE) {ggstr <- "dataIn <- assign_attr(dataIn,attrl)"}else{ggstr <- NULL} # paste(ggstr,"+\n ",lay1)
+  ggstr <- NULL
   if(inputlist$subset=="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(dataIn)")
   if(inputlist$subset=="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn, !duplicated(",inputlist$nondups,")))")
   if(inputlist$subset!="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn,",inputlist$subset,"))")
