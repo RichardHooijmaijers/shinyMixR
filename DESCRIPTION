@@ -12,7 +12,8 @@ Description: An interface for the 'nlmixr2' package. Furthermore additional func
 Depends:
   R (>= 3.5.0),
   shiny,
-  ggplot2
+  ggplot2,
+  magrittr
 Imports:
   gridExtra,
   collapsibleTree,
