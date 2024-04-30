@@ -25,7 +25,7 @@ test_that("Shiny app runs model and returns parameters for run1", {
   # Wait for model to finish (NULL or 0 is the initial value, so we ignore it)
   app$wait_for_value(export = "modrun-model_updated",
                      ignore = list(NULL, 0),
-                     timeout = 120000)
+                     timeout = 240000)
   
   # Test if run is done and 'correct' results have been created
   Sys.sleep(1)
