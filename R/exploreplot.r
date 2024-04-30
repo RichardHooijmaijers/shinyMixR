@@ -28,10 +28,10 @@ exploreplot <- function(inputlist){
   # take into account that colour is used to map colour/fill and shape is used to map shape and linetype
   inputlist$attrl <- FALSE
   ggstr <- NULL
-  if(inputlist$subset=="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(dataIn)")
-  if(inputlist$subset=="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn, !duplicated(",inputlist$nondups,")))")
-  if(inputlist$subset!="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn,",inputlist$subset,"))")
-  if(inputlist$subset!="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn, !duplicated(",inputlist$nondups,") & ",inputlist$subset,"))")
+  if(inputlist$subset=="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(r$dataIn)")
+  if(inputlist$subset=="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(r$dataIn, !duplicated(",inputlist$nondups,")))")
+  if(inputlist$subset!="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(r$dataIn,",inputlist$subset,"))")
+  if(inputlist$subset!="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(r$dataIn, !duplicated(",inputlist$nondups,") & ",inputlist$subset,"))")
 
   addlay <- function(ageom,ayval,axval,agroup,acolour,ashape,asize,alabel,astats,afcol,afsize,afalph){
     if(astats!='[empty]' &  ageom%in%c("boxplot","bar","histogram","smooth","jitter","text")) stop("Stats can only be displayed as 'line' or 'point'")
@@ -116,9 +116,9 @@ exploreplot <- function(inputlist){
   if(inputlist$ptitle!='') add <- c(add,ggtitle=paste0("ggtitle('",inputlist$ptitle,"')"))
 
   # set manual color scale or fill in case one of the layers has colors (AND it is set as factor!!)
-  cond1 <- inputlist$colour1!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour1),inputlist$precode)
-  cond2 <- inputlist$colour2!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour2),inputlist$precode)
-  cond3 <- inputlist$colour3!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour3),inputlist$precode)
+  cond1 <- inputlist$colour1!='[empty]' & grepl(paste0("factor\\(r$dataIn.",inputlist$colour1),inputlist$precode)
+  cond2 <- inputlist$colour2!='[empty]' & grepl(paste0("factor\\(r$dataIn.",inputlist$colour2),inputlist$precode)
+  cond3 <- inputlist$colour3!='[empty]' & grepl(paste0("factor\\(r$dataIn.",inputlist$colour3),inputlist$precode)
   cond4 <- inputlist$colour1!='[empty]' & inputlist$geoms1%in%c("boxplot","bar","histogram")
   cond5 <- inputlist$colour2!='[empty]' & inputlist$geoms2%in%c("boxplot","bar","histogram")
   cond6 <- inputlist$colour3!='[empty]' & inputlist$geoms3%in%c("boxplot","bar","histogram")
