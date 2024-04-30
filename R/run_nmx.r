@@ -76,7 +76,7 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
   }else{
     # Handle subsetting (data is loaded in global environment by get_proj function)
     if(!is.null(meta$subs) && meta$subs!="") data_nlm <- subset(get(meta$data),eval(parse(text=(meta$subs)))) else data_nlm <- get(meta$data)
-    modres  <- nlmixr(eval(parse(text=readLines(proj[[mod]]$model))), data_nlm, est=meta$est,control=meta$control,tableControl(cwres=addcwres, npde=addnpde))
+    modres  <- nlmixr2::nlmixr(eval(parse(text=readLines(proj[[mod]]$model))), data_nlm, est=meta$est,control=meta$control,nlmixr2::tableControl(cwres=addcwres, npde=addnpde))
     if("nlmixr2" %in% rownames(installed.packages())){
       ressum  <- list(OBJF=modres$objective,CONDNR=modres$conditionNumberCor,partbl=modres$parFixedDf,partblf=modres$parFixed,omega=modres$omega,tottime=rowSums(modres$time))
     }else{
