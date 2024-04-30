@@ -65,11 +65,11 @@ exploreplot <- function(inputlist){
 	aess  <-  paste(paste(names(aess),aess,sep="="),collapse=", ")
 
 	if(astats%in%c("mean","median")){
-	  lay  <- paste0("stat_summary","(aes(",aess,"), fun.y=",astats,", geom='", ageom,"', ",argm,")")
+	  lay  <- paste0("stat_summary","(aes(",aess,"), fun=",astats,", geom='", ageom,"', ",argm,")")
 	}else if(astats=="mean (SD)"){
-	  lay  <- paste0("stat_summary","(aes(",aess,"), fun.y=mean, fun.ymin=function(x) mean(x) - sd(x), fun.ymax=function(x) mean(x) + sd(x), geom='errorbar', width = 0.2, ",argm,")")
+	  lay  <- paste0("stat_summary","(aes(",aess,"), fun=mean, funmin=function(x) mean(x) - sd(x), funmax=function(x) mean(x) + sd(x), geom='errorbar', width = 0.2, ",argm,")")
 	}else if(astats=="median (5-95th perc.)"){
-	  lay  <- paste0("stat_summary","(aes(",aess,"), fun.y=median, fun.ymin=function(x) quantile(x,0.05), fun.ymax=function(x) quantile(x,0.95), geom='errorbar', width = 0.2, ",argm,")")
+	  lay  <- paste0("stat_summary","(aes(",aess,"), fun=median, funmin=function(x) quantile(x,0.05), funmax=function(x) quantile(x,0.95), geom='errorbar', width = 0.2, ",argm,")")
 	}else{
 	  lay  <- paste0("geom_",ageom,"(aes(",aess,"), ",argm,")")
 	}
