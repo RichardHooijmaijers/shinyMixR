@@ -41,6 +41,7 @@ test_that("Shiny app correctly creates new model code", {
     
   # Perform test to save model with new name (be aware that save-as btn is a module as well)
   app$click("editor-adapt_meta_ed-go")
+  Sys.sleep(2)
   curvals <- app$get_values()
   expect_true(curvals$input$`editor-adapt_meta_ed-mdladpt`=="run3.r")
   expect_true(curvals$input$`editor-adapt_meta_ed-mdldesc`=="template models")
