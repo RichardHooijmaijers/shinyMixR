@@ -16,20 +16,25 @@
 get_proj <- function(projloc=".",geteval=TRUE){
   
   # Read in models and place in result objects
-  dir.create(paste0(projloc,"/shinyMixR/app/shinyMixR"),showWarnings = FALSE,recursive = TRUE)
-  mdln    <- normalizePath(list.files(paste0(projloc,"/shinyMixR/app/models"),pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE))
+  # dir.create(paste0(projloc,"/shinyMixR/app/shinyMixR"),showWarnings = FALSE,recursive = TRUE)
+  # mdln    <- normalizePath(list.files(paste0(projloc,"/shinyMixR/app/models"),pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE))
+  dir.create(paste0(projloc,"/shinyMixR"),showWarnings = FALSE,recursive = TRUE)
+  mdln    <- normalizePath(list.files(paste0(projloc,"/models"),pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE))
   mdlnb   <- sub("\\.[r|R]","",basename(mdln))
-  sumres  <- normalizePath(list.files(paste0(projloc,"/shinyMixR/app/shinyMixR"),pattern="run[[:digit:]]*\\.ressum\\.rds",full.names = TRUE))
+  #sumres  <- normalizePath(list.files(paste0(projloc,"/shinyMixR/app/shinyMixR"),pattern="run[[:digit:]]*\\.ressum\\.rds",full.names = TRUE))
+  sumres  <- normalizePath(list.files(paste0(projloc,"/shinyMixR"),pattern="run[[:digit:]]*\\.ressum\\.rds",full.names = TRUE))
   sumresi <- file.info(sumres)
   summdli <- file.info(mdln)
   
   # read in data folder (only in case objects are not yet present)
-  datf  <- list.files(paste0(projloc,"/shinyMixR/app/data"))
+  #datf  <- list.files(paste0(projloc,"/shinyMixR/app/data"))
+  datf  <- list.files(paste0(projloc,"/data"))
   grepd <- " |^[[:digit:]]|\\!|\\#|\\$|\\%|\\&|\\'|\\(|\\)|\\-|\\;|\\=|\\@|\\[|\\]|\\^\\`\\{\\|\\}"
   if(any(grepl(grepd,datf))) warning("Data files with special characters found, take into acount that models that use these can crash")
 
   # Read in models and results
-  if(!file.exists(paste0(projloc,"/shinyMixR/app/shinyMixR/project.rds"))){
+  #if(!file.exists(paste0(projloc,"/shinyMixR/app/shinyMixR/project.rds"))){
+  if(!file.exists(paste0(projloc,"/shinyMixR/project.rds"))){
     mdls <- lapply(mdln,list)
     names(mdls) <- sub("\\.[r|R]","",basename(mdln))
     if(length(mdln)==0){
@@ -45,7 +50,8 @@ get_proj <- function(projloc=".",geteval=TRUE){
     for(i in sumres) mdls[[sub("\\.ressum\\.rds","",basename(i))]]$results <- readRDS(i)
     mdls$meta <- list(lastrefresh=Sys.time())
   }else{
-    mdls   <- readRDS(paste0(projloc,"/shinyMixR/app/shinyMixR/project.rds"))
+    #mdls   <- readRDS(paste0(projloc,"/shinyMixR/app/shinyMixR/project.rds"))
+    mdls   <- readRDS(paste0(projloc,"/shinyMixR/project.rds"))
     # for the list with models, check if new models are available or old models are deleted
     # and if models are updated after last refresh:
     # inproj <- unlist(sapply(mdls[names(mdls)[names(mdls)!="meta"]],"[",1))
@@ -85,6 +91,7 @@ get_proj <- function(projloc=".",geteval=TRUE){
   chk       <- chk[which(chk$mdlsv>chk$ressv),]
   #if(nrow(chk)>0) noret <- apply(chk,1,function(x) cat("Be aware that model is saved after results for",x['mdl'],"\n"))
 
-  saveRDS(mdls,file=paste0(projloc,"/shinyMixR/app/shinyMixR/project.rds"))
+  #saveRDS(mdls,file=paste0(projloc,"/shinyMixR/app/shinyMixR/project.rds"))
+  saveRDS(mdls,file=paste0(projloc,"/shinyMixR/project.rds"))
   return(mdls)
 }

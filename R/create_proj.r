@@ -17,7 +17,9 @@
 #' }
 create_proj <- function(loc=".", overwrite=FALSE){
   
-  loc <- paste0(loc, "/shinyMixR/app")
+  # we want to create subfolders directly in loc, check run_app functionality to see changes there
+  # for this PR we can save the app in loc/shinyMixR/app, in the end we will not need this
+  # loc <- paste0(loc, "/shinyMixR/app")
   
   if(!dir.exists(loc)) dir.create(loc, recursive = TRUE)
   
