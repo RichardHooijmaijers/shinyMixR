@@ -20,6 +20,7 @@ Other contributors:
 \itemize{
   \item LAPP Consultants \email{info@lapp.nl} [funder, copyright holder]
   \item Matthew Fidler [contributor]
+  \item Veerle van Leemput [contributor]
 }
 
 }

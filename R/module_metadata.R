@@ -53,7 +53,7 @@ module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NU
       gen  <- tagList(
         sliderInput(ns("mdlimp"), "Importance", 0, 4, meta$imp, step = 1, round = TRUE),
         textInput(ns("mdldesc"),"Description",value=meta$desc),
-        selectInput(ns("mdlref"),"Reference",meta$ref,choices=tools::file_path_sans_ext(list.files("models")),multiple=FALSE,selectize = TRUE),
+        selectInput(ns("mdlref"),"Reference",meta$ref,choices=tools::file_path_sans_ext(list.files(paste0(r$this_wd,"/models"))),multiple=FALSE,selectize = TRUE),
         textInput(ns("mdldata"),"Data",value=meta$data),
         selectInput(ns("mdlest"),"Method",c("fo", "foce", "focei", "foi", "nlme", "posthoc", "predict", "rxSolve", "saem", "simulate"),selected=meta$est),
         actionButton(ns("adpt"), "Save",icon=icon("floppy-disk"))    
@@ -99,9 +99,9 @@ module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NU
           tmpmod <- tempfile()
           writeLines(sellcont(),tmpmod)
           #toret  <- c(name=paste0("models/",sellmod(),".r"), val=input$mdladpt, saveas=paste0("models/",input$mdladpt))
-          toret  <- c(name=tmpmod, val=input$mdladpt, saveas=paste0("models/",input$mdladpt))
+          toret  <- c(name=tmpmod, val=input$mdladpt, saveas=paste0(r$this_wd,"/models/",input$mdladpt))
         }else{
-          toret <- c(name=paste0("models/",input$mdladpt,".r"), val="Update DT", saveas=paste0("models/",input$mdladpt,".r"))
+          toret <- c(name=paste0(r$this_wd,"/models/",input$mdladpt,".r"), val="Update DT", saveas=paste0(r$this_wd,"/models/",input$mdladpt,".r"))
         } 
         towr <- adpt_meta(toret['name'],metanfo)
         if(type=="save") towr <- sub(sellmod(),sub("\\.[r|R]","",input$mdladpt),towr)

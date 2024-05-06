@@ -53,7 +53,7 @@ module_fitplots_server <- function(id, r, settings) {
 
     # Adapt the selection of variables when model is selected
     observeEvent(input$fitLst,{
-      datar <- try(readRDS(paste0("shinyMixR/",input$fitLst,".res.rds")))
+      datar <- try(readRDS(paste0(r$this_wd,"/shinyMixR/",input$fitLst,".res.rds")))
       if(!"try-error"%in%class(datar)){
         updateSelectInput(session, "by", choices = c("",names(datar)),selected="ID")
         updateSelectInput(session, "idv", choices = c("",names(datar)),selected="TIME")
@@ -69,7 +69,7 @@ module_fitplots_server <- function(id, r, settings) {
     # Create fit plot (type of plot taken from settings!)
     fitpl <- function(inp,saveit=FALSE){
       #cat("got clicked\n")
-      dataIn <- readRDS(paste0("shinyMixR/",input$fitLst[1],".res.rds"))
+      dataIn <- readRDS(paste0(r$this_wd,"/shinyMixR/",input$fitLst[1],".res.rds"))
       if(inp$subset!="")     dataIn <- subset(dataIn,eval(parse(text=input$subset)))
       if(inp$precode!="")    eval(parse(text=input$precode))
       if(!isTruthy(inp$by))  byr <- NULL else byr <- inp$by

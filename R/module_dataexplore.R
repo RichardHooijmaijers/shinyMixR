@@ -155,9 +155,9 @@ module_dataexplore_server <- function(id, r) {
     # Select different model (store in reactive values object)
     updfunc <- function(){
       if(input$use_input){
-        r$dataIn <- try(readRDS(paste0("shinyMixR/",input$mdls[1],".res.rds"))$origData)
+        r$dataIn <- try(readRDS(paste0(r$this_wd,"/shinyMixR/",input$mdls[1],".res.rds"))$origData)
       }else{
-        r$dataIn <- try(as.data.frame(readRDS(paste0("shinyMixR/",input$mdls[1],".res.rds"))))
+        r$dataIn <- try(as.data.frame(readRDS(paste0(r$this_wd,"/shinyMixR/",input$mdls[1],".res.rds"))))
       }
       if(!"try-error" %in% class(r$dataIn)){
         set1 <- paste0(c("Xval","Yval","group","colour","shape","size","label","facet"),rep(1:3,each=8))

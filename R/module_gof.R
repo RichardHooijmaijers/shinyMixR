@@ -49,7 +49,7 @@ module_gof_server <- function(id, r, settings) {
     
     # Adapt the selection of variables when model is selected
     observeEvent(input$gofLst,{
-      datar <- try(readRDS(paste0("shinyMixR/",input$gofLst,".res.rds")))
+      datar <- try(readRDS(paste0(r$this_wd,"/shinyMixR/",input$gofLst,".res.rds")))
       if(!"try-error"%in%class(datar)){
         updateSelectInput(session, "colby", choices = c("",names(datar)))
       }else{
@@ -59,7 +59,7 @@ module_gof_server <- function(id, r, settings) {
 
     # Create GOF plot (type of plot taken from settings!)
     gofpl <- function(inp,saveit=FALSE){
-      dataIn <- readRDS(paste0("shinyMixR/",inp$gofLst,".res.rds"))
+      dataIn <- readRDS(paste0(r$this_wd,"/shinyMixR/",inp$gofLst,".res.rds"))
       if(inp$subset!="")  dataIn <- subset(dataIn,eval(parse(text=input$subset)))
       if(inp$precode!="") eval(parse(text=input$precode))
       if(inp$colby=="")   clr <- NULL else clr <- inp$colby

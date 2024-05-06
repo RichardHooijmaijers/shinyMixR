@@ -30,11 +30,11 @@ Imports:
   shinyjs,
   ps,
   xfun,
-  fresh
+  fresh,
+  nlmixr2
 Suggests:
     xpose,
     xpose.nlmixr2,
-    nlmixr2,
     nlme,
     testthat,
     shinytest2,

@@ -21,7 +21,7 @@ if("{{subs}}"!=""){
 
 source("{{{modelloc}}}")
 setwd("{{{locproj}}}/shinyMixR/temp")
-modres <- try(nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{control}}},table=tableControl(cwres={{{addcwres}}}, npde={{{addnpde}}})))
+modres <- try(nlmixr2::nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{control}}},table=tableControl(cwres={{{addcwres}}}, npde={{{addnpde}}})))
 
 {{#saveres}}
 if(length(class(modres))>1 && !"try-error"%in%class(modres)){

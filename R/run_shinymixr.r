@@ -2,7 +2,6 @@
 #' Creates and run the interface
 #'
 #' @param wd character with the working directory
-#' @param dry_run logical, if TRUE, the function will not launch the app, but will only create the necessary files
 #' @param ... arguments passed to the shiny runApp function
 #' @importFrom shiny runApp HTML NS br checkboxGroupInput checkboxInput conditionalPanel
 #' div em eventReactive exportTestValues fluidRow hr icon
@@ -22,7 +21,7 @@
 #' \dontrun{
 #'  run_shinymixr(".")
 #' }
-run_shinymixr <- function(...){ # wd = getwd(), dry_run = FALSE,
+run_shinymixr <- function(wd = getwd(),...){ 
   
   #if(!file.exists(paste0(wd,"/shinyMixR/app/www"))) try(dir.create(paste0(wd,"/shinyMixR/app/www"),recursive = TRUE))
   #if(!file.exists(paste0(wd,"/shinyMixR/app/shinyMixR/temp")))    try(dir.create(paste0(wd,"/shinyMixR/app/shinyMixR/temp"),recursive=TRUE))
@@ -43,15 +42,19 @@ run_shinymixr <- function(...){ # wd = getwd(), dry_run = FALSE,
   # } else {
   #   shiny::runApp(paste0(wd,"/shinyMixR/app"),...)
   # }
-
-  if(!file.exists("shinyMixR/temp")) try(dir.create("shinyMixR/temp",recursive=TRUE))
-  proj_obj <- get_proj()
-  # Check and load nlmixr(2)
-  if ("nlmixr2" %in% rownames(installed.packages())){
-    library(nlmixr2)
-  } else {
-    cat("you need the 'nlmixr2' package to run models\n")
-  }
+  #owd <- getwd()
+  #if(normalizePath(owd)!=normalizePath(wd)) setwd(wd)
+  #cat("I am in ",getwd(),"\n")
+  #on.exit(setwd(owd))  
+  #if(!file.exists("shinyMixR/temp")) try(dir.create("shinyMixR/temp",recursive=TRUE))
+  if(!file.exists(paste0(wd,"/shinyMixR/temp")))    try(dir.create(paste0(wd,"/shinyMixR/temp"),recursive=TRUE))
+  proj_obj <- get_proj(wd)
+  # Check and load nlmixr(2); set nlmixr2 as import so needed when package is loaded and this is also a CRAN warning
+  # if ("nlmixr2" %in% rownames(installed.packages())){
+  #   library(nlmixr2)
+  # } else {
+  #   cat("you need the 'nlmixr2' package to run models\n")
+  # }
 
   newtheme <- fresh::create_theme(
     theme = "darkly", # theme has no effect, at least within bs4Dash
@@ -110,8 +113,8 @@ run_shinymixr <- function(...){ # wd = getwd(), dry_run = FALSE,
        # Top-level reactive values
       r <- reactiveValues(active_tab = "",
                           model_updated = 0,
-                          proj_obj = get_proj(),
-                          this_wd = ".")
+                          proj_obj = get_proj(wd),
+                          this_wd = wd)
       
       observeEvent(input$tabs, r$active_tab <- input$tabs)
       
@@ -128,7 +131,5 @@ run_shinymixr <- function(...){ # wd = getwd(), dry_run = FALSE,
     },
     options = list(launch.browser=TRUE,...) # set general options here for running the app
   )
-  
-
-
+  #cat("I was in ",getwd(),"\n")
 }
