@@ -12,17 +12,17 @@ module_gof_ui <- function(id, proj_obj) {
   tagList(
     fluidRow(
       box(width=3, title = "Settings", status="lightblue",solidHeader=TRUE, 
-        actionButton(ns("make"), "Create plot",icon=icon("play")),
-        actionButton(ns("save"), "Save plot",icon=icon("floppy-disk")),hr(),    
-        selectInput(ns("gofLst"),"Model(s):",names(proj_obj)[names(proj_obj)!="meta"],multiple=FALSE,size=5,selectize=FALSE),
-        textInput(ns("subset"), "Subset:", value = "", placeholder="e.g. ID!=10"),
-        textInput(ns("precode"), "Pre-code:", value = "",placeholder="e.g. dataIn$DV <- log(dataIn$DV)"),
-        selectInput(ns("ptype"), "Type:", choices = c("all","ipred.dv","pred.dv","idv.res","pred.res")),
-        checkboxInput(ns("linscale"), "Linear scale", value = FALSE),
-        # selectInput(ns("by"),"Panel by:","",multiple=FALSE,size=5,selectize=FALSE), # maybe later...
-        selectInput(ns("colby"),"Color by:","",multiple=FALSE),
-        numericInput(ns("plheight"), "plot height:", 800)
-        
+          actionButton(ns("make"), "Create plot",icon=icon("play")),
+          actionButton(ns("save"), "Save plot",icon=icon("floppy-disk")),hr(),    
+          selectInput(ns("gofLst"),"Model(s):",names(proj_obj)[names(proj_obj)!="meta"],multiple=FALSE,size=5,selectize=FALSE),
+          textInput(ns("subset"), "Subset:", value = "", placeholder="e.g. ID!=10"),
+          textInput(ns("precode"), "Pre-code:", value = "",placeholder="e.g. dataIn$DV <- log(dataIn$DV)"),
+          selectInput(ns("ptype"), "Type:", choices = c("all","ipred.dv","pred.dv","idv.res","pred.res")),
+          checkboxInput(ns("linscale"), "Linear scale", value = FALSE),
+          # selectInput(ns("by"),"Panel by:","",multiple=FALSE,size=5,selectize=FALSE), # maybe later...
+          selectInput(ns("colby"),"Color by:","",multiple=FALSE),
+          numericInput(ns("plheight"), "plot height:", 800)
+          
       ),
       column(9,plotOutput(ns("gof_plot")))
     )
@@ -47,14 +47,15 @@ module_gof_server <- function(id, r, settings) {
     
     # Adapt the selection of variables when model is selected
     observeEvent(input$gofLst,{
-      datar <- try(readRDS(paste0(r$this_wd,"/shinyMixR/",input$gofLst,".res.rds")))
-      if(!"try-error"%in%class(datar)){
-        updateSelectInput(session, "colby", choices = c("",names(datar)))
-      }else{
+      
+      if (!file.exists(paste0(r$this_wd,"/shinyMixR/",input$gofLst,".res.rds"))) {
         updateSelectInput(session, "colby", choices = "")
-      } 
+      } else {
+        datar <- readRDS(paste0(r$this_wd,"/shinyMixR/",input$gofLst,".res.rds"))
+        updateSelectInput(session, "colby", choices = c("",names(datar)))
+      }
     })
-
+    
     # Create GOF plot (type of plot taken from settings!)
     gofpl <- function(inp,saveit=FALSE){
       dataIn <- readRDS(paste0(r$this_wd,"/shinyMixR/",inp$gofLst,".res.rds"))
@@ -99,19 +100,19 @@ module_gof_server <- function(id, r, settings) {
     exportTestValues(
       plot_updated = plot_updated()
     )
-
+    
     # Save results - check if a module should be available here
     gofsave <- function(){
       ns <- session$ns
       modalDialog(title="Save results",easyClose = TRUE,fade=FALSE,
-        textInput(ns("savename"),"Save as",value="GOF"),
-        radioButtons(ns("typeout"), "Save type", choices = c("HTML","PDF"), inline = TRUE),
-        checkboxInput(ns("showres"),"Show on save",value=FALSE),
-        actionButton(ns("save2"), "Save",icon=icon("save")),br(),
-        HTML("Modal will close when output is saved"),
-        conditionalPanel(condition="input.typeout =='PDF'",
-          HTML("<strong style='color: red;'>Latex including various packages is needed to create PDF output</strong>")
-        ,ns=ns)
+                  textInput(ns("savename"),"Save as",value="GOF"),
+                  radioButtons(ns("typeout"), "Save type", choices = c("HTML","PDF"), inline = TRUE),
+                  checkboxInput(ns("showres"),"Show on save",value=FALSE),
+                  actionButton(ns("save2"), "Save",icon=icon("save")),br(),
+                  HTML("Modal will close when output is saved"),
+                  conditionalPanel(condition="input.typeout =='PDF'",
+                                   HTML("<strong style='color: red;'>Latex including various packages is needed to create PDF output</strong>")
+                                   ,ns=ns)
       )
     }
     observeEvent(input$save,showModal(gofsave()))
