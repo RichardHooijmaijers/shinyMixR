@@ -148,23 +148,23 @@ module_dataexplore_server <- function(id, r) {
     # Adapt model list based on selected project location
     observeEvent(r$active_tab,{
       if(r$active_tab=="expl"){
-        updateSelectInput(session, "mdls", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$mdls)
+        updateSelectInput(session, "mdls", choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=input$mdls)
       }
     },ignoreInit=TRUE)
 
-    # Select different model (for now assign in global environment)
+    # Select different model (store in reactive values object)
     updfunc <- function(){
       if(input$use_input){
-        assign("dataIn",try(readRDS(paste0("shinyMixR/",input$mdls[1],".res.rds"))$origData),envir=.GlobalEnv)  
+        r$dataIn <- try(readRDS(paste0(r$this_wd,"/shinyMixR/",input$mdls[1],".res.rds"))$origData)
       }else{
-        assign("dataIn",try(as.data.frame(readRDS(paste0("shinyMixR/",input$mdls[1],".res.rds")))),envir=.GlobalEnv)          
+        r$dataIn <- try(as.data.frame(readRDS(paste0(r$this_wd,"/shinyMixR/",input$mdls[1],".res.rds"))))
       }
-      if(!"try-error"%in%class(dataIn)){
+      if(!"try-error" %in% class(r$dataIn)){
         set1 <- paste0(c("Xval","Yval","group","colour","shape","size","label","facet"),rep(1:3,each=8))
         set1 <- lapply(set1,function(x) {
-          updateSelectInput(session,x,choices=c("[empty]",names(dataIn)),selected=ifelse(input[[x]]=="","[empty]",input[[x]]))
+          updateSelectInput(session,x,choices=c("[empty]",names(r$dataIn)),selected=ifelse(input[[x]]=="","[empty]",input[[x]]))
         })
-        updateSelectInput(session,"nondups",choices=c("",names(dataIn)),selected="")
+        updateSelectInput(session,"nondups",choices=c("",names(r$dataIn)),selected="")
       }
     }
     observeEvent(input$mdls,{updfunc()},ignoreInit=TRUE)
@@ -207,9 +207,9 @@ module_dataexplore_server <- function(id, r) {
     upDT  <- eventReactive(input$maketbl,{
       if(!is.null(input$mdls)){
         if(!is.null(input$precode) && input$precode!="")     eval(parse(text=input$precode))
-        if(!is.null(input$subset)  && input$subset!="")    eval(parse(text=paste0("dataIn <- subset(dataIn,",input$subset,")")))
-        if(!is.null(input$nondups)  && input$nondups!="")  eval(parse(text=paste0("dataIn <- subset(dataIn, !duplicated(",input$nondups,"))")))
-        dataIn
+        if(!is.null(input$subset)  && input$subset!="")    eval(parse(text=paste0("r$dataIn <- subset(r$dataIn,",input$subset,")")))
+        if(!is.null(input$nondups)  && input$nondups!="")  eval(parse(text=paste0("r$dataIn <- subset(r$dataIn, !duplicated(",input$nondups,"))")))
+        r$dataIn
       }
     })
     output$tableout <- DT::renderDT(upDT(),options=list(scrollX=TRUE,pageLength=100,lengthMenu=c(10,100,1000,10000)))  # Show entire dataset

@@ -25,7 +25,7 @@ update_inits <- function(mod,res,out){
   # Get parameters from original model - changes necessary for nlmixr2 2.0.9
   #eomod <- ini(get(modnm))
   eomod  <- get(modnm)
-  eomod2 <- eval(ini(eomod))
+  eomod2 <- eval(nlmixr2::ini(eomod))
   eomod2 <- attr(eomod2,"lotriEst")
   opar   <- eomod2[eomod2$fix==FALSE,c("name","est")]
   opar   <- setNames(signif(opar$est,4),opar$name)
@@ -37,7 +37,7 @@ update_inits <- function(mod,res,out){
 
   # Update the model with the inits (perform intersect to only update parameters that allign)
   apar    <- rpar[intersect(names(rpar),names(opar))]
-  outt    <- eomod  %>% ini(apar)
+  outt    <- eomod  %>% nlmixr2::ini(apar)
   outt    <- deparse(outt$fun)
   outt[1] <- paste(tools::file_path_sans_ext(basename(out)),"<-",outt[1])
   writeLines(outt,out)

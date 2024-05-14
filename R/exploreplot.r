@@ -27,11 +27,11 @@ exploreplot <- function(inputlist){
 
   # take into account that colour is used to map colour/fill and shape is used to map shape and linetype
   inputlist$attrl <- FALSE
-  if(inputlist$attrl==TRUE) {ggstr <- "dataIn <- assign_attr(dataIn,attrl)"}else{ggstr <- NULL} # paste(ggstr,"+\n ",lay1)
-  if(inputlist$subset=="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(dataIn)")
-  if(inputlist$subset=="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn, !duplicated(",inputlist$nondups,")))")
-  if(inputlist$subset!="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn,",inputlist$subset,"))")
-  if(inputlist$subset!="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(dataIn, !duplicated(",inputlist$nondups,") & ",inputlist$subset,"))")
+  ggstr <- NULL
+  if(inputlist$subset=="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(r$dataIn)")
+  if(inputlist$subset=="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(r$dataIn, !duplicated(",inputlist$nondups,")))")
+  if(inputlist$subset!="" & inputlist$nondups=="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(r$dataIn,",inputlist$subset,"))")
+  if(inputlist$subset!="" & inputlist$nondups!="")  ggstr <-  paste0(ggstr,"\n","ggplot(subset(r$dataIn, !duplicated(",inputlist$nondups,") & ",inputlist$subset,"))")
 
   addlay <- function(ageom,ayval,axval,agroup,acolour,ashape,asize,alabel,astats,afcol,afsize,afalph){
     if(astats!='[empty]' &  ageom%in%c("boxplot","bar","histogram","smooth","jitter","text")) stop("Stats can only be displayed as 'line' or 'point'")
@@ -65,11 +65,11 @@ exploreplot <- function(inputlist){
 	aess  <-  paste(paste(names(aess),aess,sep="="),collapse=", ")
 
 	if(astats%in%c("mean","median")){
-	  lay  <- paste0("stat_summary","(aes(",aess,"), fun.y=",astats,", geom='", ageom,"', ",argm,")")
+	  lay  <- paste0("stat_summary","(aes(",aess,"), fun=",astats,", geom='", ageom,"', ",argm,")")
 	}else if(astats=="mean (SD)"){
-	  lay  <- paste0("stat_summary","(aes(",aess,"), fun.y=mean, fun.ymin=function(x) mean(x) - sd(x), fun.ymax=function(x) mean(x) + sd(x), geom='errorbar', width = 0.2, ",argm,")")
+	  lay  <- paste0("stat_summary","(aes(",aess,"), fun=mean, fun.min=function(x) mean(x) - sd(x), fun.max=function(x) mean(x) + sd(x), geom='errorbar', width = 0.2, ",argm,")")
 	}else if(astats=="median (5-95th perc.)"){
-	  lay  <- paste0("stat_summary","(aes(",aess,"), fun.y=median, fun.ymin=function(x) quantile(x,0.05), fun.ymax=function(x) quantile(x,0.95), geom='errorbar', width = 0.2, ",argm,")")
+	  lay  <- paste0("stat_summary","(aes(",aess,"), fun=median, fun.min=function(x) quantile(x,0.05), fun.max=function(x) quantile(x,0.95), geom='errorbar', width = 0.2, ",argm,")")
 	}else{
 	  lay  <- paste0("geom_",ageom,"(aes(",aess,"), ",argm,")")
 	}
@@ -105,9 +105,9 @@ exploreplot <- function(inputlist){
   if(inputlist$facet1!='[empty]' & inputlist$facet2!='[empty]' & inputlist$facet3!='[empty]') fct <- paste0("~",inputlist$facet1,"+",inputlist$facet2,"+",inputlist$facet3)
   if(is.na(inputlist$ncol)){ncols <- NULL}else{ncols <- inputlist$ncol}
   if(!is.null(fct)) add <- c(add,fac=paste0("facet_wrap(",fct,",scales='",inputlist$facetsc,"', labeller=label_both, ncol=",ncols,")"))
-
-  xlb    <- ifelse(inputlist$xlab!="",inputlist$xlab, ifelse(inputlist$attrl==TRUE && !is.null(attrl) && !is.null(attrl[[inputlist$Xval1]]$label),attrl[[inputlist$Xval1]]$label,inputlist$Xval1))
-  ylb    <- ifelse(inputlist$ylab!="",inputlist$ylab, ifelse(inputlist$attrl==TRUE && !is.null(attrl) && !is.null(attrl[[inputlist$Yval1]]$label),attrl[[inputlist$Yval1]]$label,inputlist$Yval1))
+  
+  xlb    <- ifelse(inputlist$xlab != "", inputlist$xlab, inputlist$Xval1)
+  ylb    <- ifelse(inputlist$ylab != "", inputlist$ylab, inputlist$Yval1)
   if(ylb=="[empty]") ylb <- "Count" # y label could only be empty in case of histogram, otherwise y variable should be selected
   #if(inputlist$xlab!='') add <- c(add,xlab=paste0("xlab('",inputlist$xlab,"')"))
   #if(inputlist$ylab!='') add <- c(add,ylab=paste0("ylab('",inputlist$ylab,"')"))
@@ -116,9 +116,9 @@ exploreplot <- function(inputlist){
   if(inputlist$ptitle!='') add <- c(add,ggtitle=paste0("ggtitle('",inputlist$ptitle,"')"))
 
   # set manual color scale or fill in case one of the layers has colors (AND it is set as factor!!)
-  cond1 <- inputlist$colour1!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour1),inputlist$precode)
-  cond2 <- inputlist$colour2!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour2),inputlist$precode)
-  cond3 <- inputlist$colour3!='[empty]' & grepl(paste0("factor\\(dataIn.",inputlist$colour3),inputlist$precode)
+  cond1 <- inputlist$colour1!='[empty]' & grepl(paste0("factor\\(r$dataIn.",inputlist$colour1),inputlist$precode)
+  cond2 <- inputlist$colour2!='[empty]' & grepl(paste0("factor\\(r$dataIn.",inputlist$colour2),inputlist$precode)
+  cond3 <- inputlist$colour3!='[empty]' & grepl(paste0("factor\\(r$dataIn.",inputlist$colour3),inputlist$precode)
   cond4 <- inputlist$colour1!='[empty]' & inputlist$geoms1%in%c("boxplot","bar","histogram")
   cond5 <- inputlist$colour2!='[empty]' & inputlist$geoms2%in%c("boxplot","bar","histogram")
   cond6 <- inputlist$colour3!='[empty]' & inputlist$geoms3%in%c("boxplot","bar","histogram")

@@ -4,9 +4,10 @@
 #' @description Shiny module for fit plots
 #'
 #' @param id Module id
+#' @param proj_obj Project object
 #' 
 #' @export
-module_fitplots_ui <- function(id) {
+module_fitplots_ui <- function(id, proj_obj) {
   ns <- NS(id)
   tagList(
     fluidRow(
@@ -46,13 +47,13 @@ module_fitplots_server <- function(id, r, settings) {
     # Adapt model list based on selected project location
     observeEvent(r$active_tab,{
       if(r$active_tab=="fitpl"){
-        updateSelectInput(session, "fitLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$fitLst)
+        updateSelectInput(session, "fitLst", choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=input$fitLst)
       }
     },ignoreInit=TRUE)
 
     # Adapt the selection of variables when model is selected
     observeEvent(input$fitLst,{
-      datar <- try(readRDS(paste0("shinyMixR/",input$fitLst,".res.rds")))
+      datar <- try(readRDS(paste0(r$this_wd,"/shinyMixR/",input$fitLst,".res.rds")))
       if(!"try-error"%in%class(datar)){
         updateSelectInput(session, "by", choices = c("",names(datar)),selected="ID")
         updateSelectInput(session, "idv", choices = c("",names(datar)),selected="TIME")
@@ -68,7 +69,7 @@ module_fitplots_server <- function(id, r, settings) {
     # Create fit plot (type of plot taken from settings!)
     fitpl <- function(inp,saveit=FALSE){
       #cat("got clicked\n")
-      dataIn <- readRDS(paste0("shinyMixR/",input$fitLst[1],".res.rds"))
+      dataIn <- readRDS(paste0(r$this_wd,"/shinyMixR/",input$fitLst[1],".res.rds"))
       if(inp$subset!="")     dataIn <- subset(dataIn,eval(parse(text=input$subset)))
       if(inp$precode!="")    eval(parse(text=input$precode))
       if(!isTruthy(inp$by))  byr <- NULL else byr <- inp$by

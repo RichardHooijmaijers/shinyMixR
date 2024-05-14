@@ -9,7 +9,8 @@ module_metadata_server(
   type,
   selline = NULL,
   sellmod = NULL,
-  sellcont = NULL
+  sellcont = NULL,
+  r
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ module_metadata_server(
 \item{sellmod}{reactive with the selected model (for type "save")}
 
 \item{sellcont}{reactive with the content of the selected model (for type "save")}
+
+\item{r}{reactive values object that is defined top-level}
 }
 \description{
 meta data module for server

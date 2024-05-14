@@ -4,6 +4,7 @@
 #' Create an overview of the models within a project. This overview includes the meta data
 #' of the models and if results are available, also the objective function and run-times
 #'
+#' @param proj_obj a project object created with \code{\link{get_proj}}
 #' @param ... additional arguments passed to \code{\link{get_proj}}
 #'
 #' @export
@@ -12,21 +13,20 @@
 #' @examples
 #'
 #' \dontrun{
-#'  overview()
+#'  overview(proj_obj)
 #' }
-overview <- function(...){
-  obj  <- get_proj(...)
-  mdln <- names(obj)[names(obj)!="meta"]
+overview <- function(proj_obj, ...){
+  mdln <- names(proj_obj)[names(proj_obj)!="meta"]
   res1 <- lapply(mdln, function(x){
-    if(class(obj[[x]]$modeleval)=="try-error" || class(obj[[x]]$modeleval$meta)=="try-error"){
+    if(inherits(proj_obj[[x]]$modeleval, "try-error") || inherits(proj_obj[[x]]$modeleval$meta, "try-error")){
       c(NA,"","","","")
     }else{
-      meta <- obj[[x]]$modeleval$meta
+      meta <- proj_obj[[x]]$modeleval$meta
       c(ifelse(is.null(meta$imp),NA,meta$imp), ifelse(is.null(meta$desc),"",meta$desc),ifelse(is.null(meta$ref),"",meta$ref),
         ifelse(is.null(meta$data),"",meta$data),ifelse(is.null(meta$est),"",meta$est))
     }
   })
-  res2 <- lapply(obj[mdln], function(x){
+  res2 <- lapply(proj_obj[mdln], function(x){
     if(!is.null(x$results)) c(round(x$results$OBJF,3),round(x$results$tottime,3)) else c("","")
   })
   res <- data.frame(cbind(mdln,do.call(rbind,res1),do.call(rbind,res2)),stringsAsFactors = FALSE)

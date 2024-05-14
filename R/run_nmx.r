@@ -28,12 +28,12 @@
 #' }
 run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=".",addcwres=TRUE,addnpde=TRUE){
 
-  dnm     <- deparse(substitute(proj))
-  if(autoupdate) assign(dnm,get_proj(projloc=projloc))
+  # dnm     <- deparse(substitute(proj))
+  # if(autoupdate) assign(dnm,get_proj(projloc=projloc))
   # Source model to obtain meta data (places meta object in env)
   sret <- try(source(proj[[mod]]$model,local=TRUE))
-  meta <- try(eval(parse(text=c("nlmixr(",readLines(proj[[mod]]$model),")$meta"))))
-  if(class(meta)=="try-error" || class(sret)=="try-error"){
+  meta <- try(eval(parse(text=c("nlmixr2::nlmixr(",readLines(proj[[mod]]$model),")$meta"))))
+  if(inherits(meta, "try-error") || inherits(sret, "try-error")){
     cat("Error in model syntax please check before running\n")
     if(ext) writeLines(meta, paste0(projloc,"/shinyMixR/temp/",mod,".prog.txt"))
     return()
@@ -49,10 +49,19 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
     cntrla <- grepl("^control *=|^control.*<-",cntrll)
     if(any(cntrla)){cntrll <- gsub("^control *=|^control.*<-","",cntrll[cntrla])}else{cntrll <- "list()"}
 
-    tmpl <- readLines(paste0(system.file(package = "shinyMixR"),"/Other/run_nmx.tmp"))
+    tmpl <- readLines(paste0(system.file(package = "shinyMixR"),"/other/run_nmx.tmp"))
     if(is.null(meta$subs)) subs <- "" else subs <- meta$subs
-    rlst <- list(modelloc=normalizePath(proj[[mod]]$model,winslash = "/",mustWork = FALSE), data=meta$data, subs=subs,
-                 est=meta$est, control=cntrll, saveres=saverds, modelname=mod,locproj=projloc,addcwres=addcwres,addnpde=addnpde)
+    
+    rlst <- list(modelloc=normalizePath(proj[[mod]]$model,winslash = "/",mustWork = FALSE), 
+                 data=meta$data, 
+                 subs=subs,
+                 est=meta$est, 
+                 control=cntrll, 
+                 saveres=saverds, 
+                 modelname=mod,
+                 locproj=normalizePath(projloc,winslash = "/"),
+                 addcwres=addcwres,
+                 addnpde=addnpde)
 
     tscr <- paste0(projloc,"/shinyMixR/temp/script.",stringi::stri_rand_strings(1,6),".r")
     writeLines(whisker::whisker.render(tmpl,rlst),tscr)
@@ -62,12 +71,10 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
     }else{
       system(paste0(R.home("bin"), "/Rscript \"", tscr,  "\" > \"",projloc,"/shinyMixR/temp/",mod,".prog.txt\" 2>&1"),wait=FALSE)
     }
-    
-    if(autoupdate) assign(dnm,proj,pos = .GlobalEnv)
   }else{
     # Handle subsetting (data is loaded in global environment by get_proj function)
     if(!is.null(meta$subs) && meta$subs!="") data_nlm <- subset(get(meta$data),eval(parse(text=(meta$subs)))) else data_nlm <- get(meta$data)
-    modres  <- nlmixr(eval(parse(text=readLines(proj[[mod]]$model))), data_nlm, est=meta$est,control=meta$control,tableControl(cwres=addcwres, npde=addnpde))
+    modres  <- nlmixr2::nlmixr(eval(parse(text=readLines(proj[[mod]]$model))), data_nlm, est=meta$est,control=meta$control,nlmixr2::tableControl(cwres=addcwres, npde=addnpde))
     if("nlmixr2" %in% rownames(installed.packages())){
       ressum  <- list(OBJF=modres$objective,CONDNR=modres$conditionNumberCor,partbl=modres$parFixedDf,partblf=modres$parFixed,omega=modres$omega,tottime=rowSums(modres$time))
     }else{
@@ -78,7 +85,6 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
       saveRDS(ressum,file=paste0(projloc,"/shinyMixR/",mod,".ressum.rds"))
     }
     proj[[mod]]$results <- ressum
-    assign(dnm,proj,pos = .GlobalEnv)
     return(modres)
   }
 }

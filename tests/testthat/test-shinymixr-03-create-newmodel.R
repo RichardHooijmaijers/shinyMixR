@@ -14,7 +14,8 @@ test_that("Shiny app correctly creates new model code", {
                                    incres = TRUE)
   
   # Start driver for Shiny test
-  app <- AppDriver$new(app_dir = paste0(temp_dir, "/files/shinyMixR/app/"), 
+  shiny_app <- shinyMixR::run_shinymixr(paste0(tempdir(),"/files"))
+  app <- AppDriver$new(app_dir = shiny_app, 
                        name = "run3-model", 
                        seed = 123)
   
@@ -52,6 +53,7 @@ test_that("Shiny app correctly creates new model code", {
   expect_true("run3.r"%in%list.files(paste0(tempdir(),"/files/models")))
   
   # Finally test if update inits works as expected (e.g. are initial changed, values itself tested outside shinytest)
+  app$set_inputs(`editor-editLst` = "run1")
   app$click("editor-updinit")
   Sys.sleep(1)
   app$set_inputs("editor-tosave" = c("run99.r"))

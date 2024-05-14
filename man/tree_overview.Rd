@@ -4,9 +4,11 @@
 \alias{tree_overview}
 \title{Creates tree overview of models}
 \usage{
-tree_overview(...)
+tree_overview(proj_obj, ...)
 }
 \arguments{
+\item{proj_obj}{a project object created with \code{\link{get_proj}}}
+
 \item{...}{additional arguments passed to \code{\link{overview}}}
 }
 \value{
@@ -20,7 +22,7 @@ visualise the relationship between models
 \examples{
 
 \dontrun{
- tree_overview()
+ tree_overview(proj_obj)
 }
 }
 \seealso{

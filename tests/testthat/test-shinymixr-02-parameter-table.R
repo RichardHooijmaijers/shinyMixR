@@ -11,7 +11,8 @@ test_that("Shiny app creates correct parameter table", {
                                    record = FALSE, incres = TRUE)
   
   # Start driver for Shiny test
-  app <- AppDriver$new(app_dir = paste0(tempdir(),"/files/shinyMixR/app/"), 
+  shiny_app <- shinyMixR::run_shinymixr(paste0(tempdir(),"/files"))
+  app <- AppDriver$new(app_dir = shiny_app, 
                        name = "run2-model", 
                        seed = 123)
   

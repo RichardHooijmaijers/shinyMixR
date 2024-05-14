@@ -11,11 +11,9 @@ module_overview_ui <- function(id) {
   tagList(
     div(id='buttondiv', class='btn-group',
       actionButton(ns("overview_refr"), "Refresh",icon=icon("arrows-rotate")),
-      #actionButton(ns("overview_adpt"), "Adapt model notes",icon=icon("list")),
       module_metadata_ui(ns("adapt_meta_ov"),"overview"),
       module_scripts_ui(ns("runscripts")),
       module_reports_ui(ns("reports")),
-      #module_metadata_ui(ns("dummy"),"save"),
       actionButton(ns("hlr"), "Results",icon=icon("file-lines")),
       actionButton(ns("del"), "Delete model(s)",icon=icon("trash"))
     ),br(),br(),
@@ -32,37 +30,44 @@ module_overview_ui <- function(id) {
 #' Overview module for server
 #' 
 #' @param id Module id
+#' @param r reactive values object that is defined top-level
 #' 
 #' @export
-module_overview_server <- function(id) {
+module_overview_server <- function(id, r) {
   moduleServer(id, function(input, output, session){
-    # Make reactive value to hold the available models/scripts
-    rv <- reactiveValues(mdls=list.files("models",pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE),scrpt=list.files("scripts",full.names = TRUE))
     
-    # Create overview when app is loaded 
-    if(all(file.exists(c("analysis","data","models","scripts","shinyMixR")))){
-      overview_ov <- overview()
-    }else{
-      overview_ov <- data.frame(models="",importance="",description="",ref="",data="",method="",OBJF="",dOBJF=NA,runtime="")
-    }
+    observe({
+      
+      # Make reactive value to hold the available models/scripts
+      r$mdls <- list.files(paste0(r$this_wd, "/models"), pattern = "run[[:digit:]]*\\.[r|R]", full.names = TRUE)
+      r$scrpt <- list.files(paste0(r$this_wd, "/scripts"), full.names = TRUE)
+      
+      # if no models are present in r$proj_obj, return empty table
+      if (length(names(r$proj_obj)[names(r$proj_obj) != "meta"]) > 0) {
+        r$overview_ov <- overview(r$proj_obj)
+      } else {
+        r$overview_ov <- data.frame(models="",importance="",description="",ref="",data="",method="",OBJF="",dOBJF=NA,runtime="")
+      }
+    })
+    
     proxy = DT::dataTableProxy("overview_tbl")
-    output$overview_tbl = DT::renderDataTable(overview_ov,rownames=FALSE,extension=c("Buttons"), options=list(scrollX=TRUE,dom="Bfrtip",buttons=c('colvis','csv'),pageLength=100,lengthMenu=c(10,100,1000,10000)))
+    output$overview_tbl = DT::renderDataTable(r$overview_ov,rownames=FALSE,extension=c("Buttons"), options=list(scrollX=TRUE,dom="Bfrtip",buttons=c('colvis','csv'),pageLength=100,lengthMenu=c(10,100,1000,10000)))
     # filter="bottom", --> bug with filters/module/modal
 
     # Create tree
     tree <- eventReactive(input$mktree,{
-      if(file.exists("shinyMixR")){tree_overview()}else{data.frame()}
+      if(file.exists("shinyMixR")){tree_overview(r$proj_obj)}else{data.frame()}
     })
     output$treeout <- collapsibleTree::renderCollapsibleTree(tree())
 
     # Refresh overview
     observeEvent(input$overview_refr,{
       if(file.exists("shinyMixR")){
-        assign("proj_obj",get_proj(),pos = .GlobalEnv)
-        overview_ov <- overview()
+        r$proj_obj <- get_proj(r$this_wd)
+        overview_ov <- overview(r$proj_obj)
         DT::replaceData(proxy, overview_ov, rownames = FALSE)
-        rv$mdls  <- list.files("models",pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE)
-        rv$scrpt <- list.files("scripts",full.names = TRUE)
+        r$mdls  <- list.files("models",pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE)
+        r$scrpt <- list.files("scripts",full.names = TRUE)
       }
     },ignoreInit = TRUE)
 
@@ -72,7 +77,7 @@ module_overview_server <- function(id) {
     })
     upd <- module_metadata_server("adapt_meta_ov","overview",selline=selectedLine)
     observeEvent(upd(),{
-       if(upd()=="Update DT") DT::replaceData(proxy, overview(), rownames = FALSE)
+       if(upd()=="Update DT") DT::replaceData(proxy, overview(r$proj_obj), rownames = FALSE)
     })
 
     # Show high level results
@@ -81,9 +86,9 @@ module_overview_server <- function(id) {
       modalDialog(title="High level results",easyClose = TRUE,size="l",verbatimTextOutput(ns("res_out")))
     }
     hr_out <- eventReactive(input$hlr, {
-      sel   <- sort(names(proj_obj)[names(proj_obj)!="meta"])[input$overview_tbl_rows_selected]
+      sel   <- sort(names(r$proj_obj)[names(r$proj_obj)!="meta"])[input$overview_tbl_rows_selected]
       if(length(sel)>0){
-        res <- try(readRDS(paste0("shinyMixR/",sel[1],".res.rds")))
+        res <- try(readRDS(paste0(r$this_wd,"/shinyMixR/",sel[1],".res.rds")))
         if(!"try-error"%in%class(res)) print(res) else print("No results available")
       }
     })
@@ -100,22 +105,20 @@ module_overview_server <- function(id) {
     observeEvent(input$del,{showModal(delmodal())},ignoreInit = TRUE)
     observeEvent(input$del2,{
       if(!is.null(input$overview_tbl_rows_selected)){
-        msel <- sort(names(proj_obj)[names(proj_obj)!="meta"])[input$overview_tbl_rows_selected]
+        msel <- sort(names(r$proj_obj)[names(r$proj_obj)!="meta"])[input$overview_tbl_rows_selected]
         if(input$delmodall) {
-          try(file.remove(paste0("shinyMixR/",msel,".res.rds")))
-          try(file.remove(paste0("shinyMixR/",msel,".ressum.rds")))
-          try(unlink(paste0("analysis/",msel),recursive = TRUE))
+          try(file.remove(paste0(r$this_wd,"/shinyMixR/",msel,".res.rds")))
+          try(file.remove(paste0(r$this_wd,"/shinyMixR/",msel,".ressum.rds")))
+          try(unlink(paste0(r$this_wd,"/analysis/",msel),recursive = TRUE))
         }
-        try(file.remove(paste0("models/",msel,".r")))
-        assign("proj_obj",get_proj(),pos = .GlobalEnv,inherits=TRUE)
-        DT::replaceData(proxy, overview(), rownames = FALSE)
+        try(file.remove(paste0(r$this_wd,"/models/",msel,".r")))
+        r$proj_obj <- get_proj(r$this_wd)
+        DT::replaceData(proxy, overview(r$proj_obj), rownames = FALSE)
         removeModal()
       }
     },ignoreInit = TRUE)
 
-    # Running scripts - Check creation of temp folder (should be done in create_proj (get_proj) function?)
-    dir.create("shinyMixR/temp",showWarnings = FALSE,recursive = TRUE)
-    module_scripts_server("runscripts", files = reactive(rv$mdls), scripts = reactive(rv$scrpt), loc = "shinyMixR/temp")
+    module_scripts_server("runscripts", files = reactive(r$mdls), scripts = reactive(r$scrpt), loc = paste0(r$this_wd,"/shinyMixR/temp"))
 
     # Creating reports
     module_reports_server("reports")

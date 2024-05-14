@@ -4,9 +4,10 @@
 #' @description Shiny module for GOF plots
 #'
 #' @param id Module id
+#' @param proj_obj Project object
 #' 
 #' @export
-module_gof_ui <- function(id) {
+module_gof_ui <- function(id, proj_obj) {
   ns <- NS(id)
   tagList(
     fluidRow(
@@ -23,8 +24,6 @@ module_gof_ui <- function(id) {
         numericInput(ns("plheight"), "plot height:", 800)
         
       ),
-      # When using a box, the content overflows, also a box does not provide a lot of functionality in this case
-      # box(width=9, title = "Output",status="lightblue",solidHeader=TRUE,plotOutput(ns("gof_plot")),height="80vh") #,width="80%" ,height="100%"
       column(9,plotOutput(ns("gof_plot")))
     )
   )
@@ -42,13 +41,13 @@ module_gof_server <- function(id, r, settings) {
     # Adapt model list based on selected project location
     observeEvent(r$active_tab,{
       if(r$active_tab=="gof"){
-        updateSelectInput(session, "gofLst", choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],selected=input$gofLst)
+        updateSelectInput(session, "gofLst", choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=input$gofLst)
       }
     },ignoreInit=TRUE)
     
     # Adapt the selection of variables when model is selected
     observeEvent(input$gofLst,{
-      datar <- try(readRDS(paste0("shinyMixR/",input$gofLst,".res.rds")))
+      datar <- try(readRDS(paste0(r$this_wd,"/shinyMixR/",input$gofLst,".res.rds")))
       if(!"try-error"%in%class(datar)){
         updateSelectInput(session, "colby", choices = c("",names(datar)))
       }else{
@@ -58,7 +57,7 @@ module_gof_server <- function(id, r, settings) {
 
     # Create GOF plot (type of plot taken from settings!)
     gofpl <- function(inp,saveit=FALSE){
-      dataIn <- readRDS(paste0("shinyMixR/",inp$gofLst,".res.rds"))
+      dataIn <- readRDS(paste0(r$this_wd,"/shinyMixR/",inp$gofLst,".res.rds"))
       if(inp$subset!="")  dataIn <- subset(dataIn,eval(parse(text=input$subset)))
       if(inp$precode!="") eval(parse(text=input$precode))
       if(inp$colby=="")   clr <- NULL else clr <- inp$colby

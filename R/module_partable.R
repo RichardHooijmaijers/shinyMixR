@@ -4,9 +4,10 @@
 #' @description Shiny module for parameter table
 #'
 #' @param id Module id
+#' @param proj_obj Project object
 #' 
 #' @export
-module_pt_ui <- function(id) {
+module_pt_ui <- function(id, proj_obj) {
   ns <- NS(id)
   tagList(
     actionButton(ns("savePars"), "Save parameter table",icon=icon("floppy-disk")),br(),br(),
@@ -35,22 +36,19 @@ module_pt_server <- function(id, r) {
       if(r$active_tab=="par"){
         updateSelectInput(session, 
                           "EstLst", 
-                          choices = names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"],
-                          selected= ifelse(is.null(input$EstLst), names(get("proj_obj",pos = .GlobalEnv))[names(get("proj_obj",pos = .GlobalEnv))!="meta"][1], input$EstLst) 
+                          choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],
+                          selected= ifelse(is.null(input$EstLst), names(r$proj_obj)[names(r$proj_obj)!="meta"][1], input$EstLst) 
         )
       }
     },ignoreInit=TRUE)
 
     # Create parameter table
-    parTable <- function(inp,projloc=".",saveit=FALSE){
-      obj     <- get_proj(projloc=projloc)
-      if(!saveit){
-        #print(obj)
-        #print(inp$EstLst)
+    parTable <- function(inp, projloc, saveit = FALSE){
+      obj <- get_proj(projloc = projloc)
+      if(!saveit) {
         par_table(obj,models=inp$EstLst,bsv=inp$bsv,shrink=inp$shrink,backt=inp$backt,formatting=TRUE)
-      }else{
+      } else {
         savnm  <- ifelse(inp$typePars=="PDF",paste0(inp$namePars,".tex"),paste0(inp$namePars,".html"))
-        #print(savnm)
         par_table(obj,models=inp$EstLst,outnm=savnm,show=inp$showPars,projloc=projloc,bsv=inp$bsv,shrink=inp$shrink,backt=inp$backt,formatting=ifelse(inp$typePars=="PDF",FALSE,TRUE))
       }
     }
@@ -59,7 +57,7 @@ module_pt_server <- function(id, r) {
       
       req(r$model_updated)
       
-      table <- parTable(input)
+      table <- parTable(input, projloc = r$this_wd)
       r$params <- table
       
       DT::datatable(
@@ -90,6 +88,6 @@ module_pt_server <- function(id, r) {
       )
     }
     observeEvent(input$savePars,showModal(parsave()))
-    observeEvent(input$savePars2, parTable(input,saveit=TRUE))
+    observeEvent(input$savePars2, parTable(input, projloc = r$this_wd, saveit = TRUE))
   })
 }

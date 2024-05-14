@@ -23,7 +23,6 @@ module_reports_server <- function(id) {
       ns <- session$ns
       modalDialog(title="Reports",easyClose = TRUE,size="l",fade=FALSE,
           fluidRow(
-            #column(6,selectInput(ns("models"),"Model(s)",basename(models()),multiple=FALSE,size=15,selectize=FALSE,width='100%')),
             column(6,selectInput(ns("models"),"Model(s)",list.dirs("analysis",recursive=FALSE,full.names=FALSE),multiple=FALSE,size=15,selectize=FALSE,width='100%')),
             column(6,selectInput(ns("results"),"Result(s)","",multiple=TRUE,size=15,selectize=FALSE,width='100%'))
           ),
@@ -76,7 +75,6 @@ module_reports_server <- function(id) {
           }
         }
       }else{
-        #shinyWidgets::sendSweetAlert(session = session, title="Report",text = "Select folder and results for report" ,type = "error")
         myalert("Select folder and results for report",type = "error")
       }
     })  

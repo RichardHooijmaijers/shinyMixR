@@ -4,10 +4,12 @@
 \alias{module_run_ui}
 \title{Run model module for UI}
 \usage{
-module_run_ui(id)
+module_run_ui(id, proj_obj)
 }
 \arguments{
 \item{id}{Module id}
+
+\item{proj_obj}{Project object}
 }
 \description{
 Shiny module for running models

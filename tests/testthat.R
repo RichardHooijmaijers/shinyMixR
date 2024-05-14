@@ -3,6 +3,7 @@ options(chromote.timeout = 120)
 
 library(testthat)
 library(shinyMixR)
+library(nlmixr2)
 
 test_check("shinyMixR")
 # devtools::test() 
