@@ -11,11 +11,9 @@ module_overview_ui <- function(id) {
   tagList(
     div(id='buttondiv', class='btn-group',
       actionButton(ns("overview_refr"), "Refresh",icon=icon("arrows-rotate")),
-      #actionButton(ns("overview_adpt"), "Adapt model notes",icon=icon("list")),
       module_metadata_ui(ns("adapt_meta_ov"),"overview"),
       module_scripts_ui(ns("runscripts")),
       module_reports_ui(ns("reports")),
-      #module_metadata_ui(ns("dummy"),"save"),
       actionButton(ns("hlr"), "Results",icon=icon("file-lines")),
       actionButton(ns("del"), "Delete model(s)",icon=icon("trash"))
     ),br(),br(),

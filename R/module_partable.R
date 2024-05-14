@@ -46,12 +46,9 @@ module_pt_server <- function(id, r) {
     parTable <- function(inp, projloc, saveit = FALSE){
       obj <- get_proj(projloc = projloc)
       if(!saveit) {
-        #print(obj)
-        #print(inp$EstLst)
         par_table(obj,models=inp$EstLst,bsv=inp$bsv,shrink=inp$shrink,backt=inp$backt,formatting=TRUE)
       } else {
         savnm  <- ifelse(inp$typePars=="PDF",paste0(inp$namePars,".tex"),paste0(inp$namePars,".html"))
-        #print(savnm)
         par_table(obj,models=inp$EstLst,outnm=savnm,show=inp$showPars,projloc=projloc,bsv=inp$bsv,shrink=inp$shrink,backt=inp$backt,formatting=ifelse(inp$typePars=="PDF",FALSE,TRUE))
       }
     }

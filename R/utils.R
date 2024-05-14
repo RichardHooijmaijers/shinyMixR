@@ -19,7 +19,6 @@ setup_shinymixr_test <- function(dir = "./tests/files", overwrite = TRUE, record
   }
 
   create_proj(dir, overwrite = overwrite)
-  #run_shinymixr(wd = dir, dry_run = TRUE)
   
   if(incres){
     file.copy(system.file(c("other/run1.res.rds","other/run1.ressum.rds"),package="shinyMixR"),

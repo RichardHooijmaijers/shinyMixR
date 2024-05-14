@@ -111,14 +111,10 @@ module_edit_server <- function(id, r, settings) {
     observeEvent(input$updinit,{showModal(initmodal())},ignoreInit = TRUE)
     observeEvent(input$goupdate,{
       if(isTruthy(input$finest) && isTruthy(input$tosave)){
-        #res <- try(update_inits(input$editor,paste0("shinyMixr/",input$finest,".res.rds"),paste0("models/",input$tosave)))
-        #cat("getting stuff from",paste0(r$this_wd,"/models/",input$finest,".r"),"with results from",paste0(r$this_wd,"/shinyMixr/",input$finest,".res.rds"), 
-        #    "to model",paste0(r$this_wd,"/models/",input$tosave))
         res <- try(update_inits(readLines(paste0(r$this_wd,"/models/",input$finest,".r")),
                                 paste0(r$this_wd,"/shinyMixr/",input$finest,".res.rds"),
                                 paste0(r$this_wd,"/models/",input$tosave)))
         if("try-error"%in%class(res)){
-          #myalert("Could not update initials",type = "error")
           myalert(res,type = "error")
         }else{
           r$proj_obj <- get_proj(r$this_wd)

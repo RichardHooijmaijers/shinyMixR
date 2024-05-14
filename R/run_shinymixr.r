@@ -23,38 +23,8 @@
 #' }
 run_shinymixr <- function(wd = getwd(),...){ 
   
-  #if(!file.exists(paste0(wd,"/shinyMixR/app/www"))) try(dir.create(paste0(wd,"/shinyMixR/app/www"),recursive = TRUE))
-  #if(!file.exists(paste0(wd,"/shinyMixR/app/shinyMixR/temp")))    try(dir.create(paste0(wd,"/shinyMixR/app/shinyMixR/temp"),recursive=TRUE))
-  #if(!file.exists(paste0(wd,"/shinyMixR/temp")))    try(dir.create(paste0(wd,"/shinyMixR/temp"),recursive=TRUE))
-  
-  #try(file.copy(system.file("dashboard","app.R",package="shinyMixR"),          paste0(wd,"/shinyMixR/app/app.R"),overwrite = TRUE),silent = TRUE)
-  #try(file.copy(system.file("dashboard","www/logoshinyMixR.png",package="shinyMixR"), paste0(wd,"/shinyMixR/app/www/logoshinyMixR.png")),silent = TRUE)
-  
-  # Set the working directory so the project can be found
-  #adpt <- readLines(system.file("dashboard", "app.R", package = "shinyMixR"))
-  #adpt <- c(paste0("setwd(\"", normalizePath(wd, winslash = "/"), "\")"), adpt)
-  #writeLines(adpt, paste0(wd,"/shinyMixR/app/app.R"))
-  
-  # Clean up stuff before running the app (check if feasible or not)
-  #try(unlink(list.files(paste0(wd,"/shinyMixR/temp"),pattern=".*prog\\.txt$",full.names = TRUE)))
-  # if (dry_run == TRUE) {
-  #   return()
-  # } else {
-  #   shiny::runApp(paste0(wd,"/shinyMixR/app"),...)
-  # }
-  #owd <- getwd()
-  #if(normalizePath(owd)!=normalizePath(wd)) setwd(wd)
-  #cat("I am in ",getwd(),"\n")
-  #on.exit(setwd(owd))  
-  #if(!file.exists("shinyMixR/temp")) try(dir.create("shinyMixR/temp",recursive=TRUE))
   if(!file.exists(paste0(wd,"/shinyMixR/temp")))    try(dir.create(paste0(wd,"/shinyMixR/temp"),recursive=TRUE))
   proj_obj <- get_proj(wd)
-  # Check and load nlmixr(2); set nlmixr2 as import so needed when package is loaded and this is also a CRAN warning
-  # if ("nlmixr2" %in% rownames(installed.packages())){
-  #   library(nlmixr2)
-  # } else {
-  #   cat("you need the 'nlmixr2' package to run models\n")
-  # }
 
   newtheme <- fresh::create_theme(
     theme = "darkly", # theme has no effect, at least within bs4Dash
@@ -131,5 +101,4 @@ run_shinymixr <- function(wd = getwd(),...){
     },
     options = list(launch.browser=TRUE,...) # set general options here for running the app
   )
-  #cat("I was in ",getwd(),"\n")
 }

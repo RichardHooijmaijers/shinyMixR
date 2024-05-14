@@ -87,13 +87,10 @@ gof_plot <- function(dfrm,type="xpose",mdlnm=NULL,colby=NULL,ptype="all",outnm=N
     return(pl)
   }else{
     if(is.null(mdlnm)) stop("in case output should be saved, mdlnm should be given")
-    #titl <- cowplot::ggdraw() + cowplot::draw_label(mdlnm, fontface = 'bold', x = 0,hjust = 0) + theme(plot.margin = margin(0, 0, 0, 7))
     dir.create(paste0(projloc,"/analysis/",mdlnm),showWarnings=FALSE)
     if(grepl("\\.tex$",outnm)){
-      #R3port::ltx_plot(cowplot::plot_grid(titl,pl,rel_heights = c(0.1, 1),ncol=1),out=paste0(projloc,"/analysis/",mdlnm,"/",basename(outnm)),title="GOF plots",...)
       R3port::ltx_plot(pl,out=paste0(projloc,"/analysis/",mdlnm,"/",basename(outnm)),title="GOF plots",...)
     }else if(grepl("\\.html$",outnm)){
-      #R3port::html_plot(cowplot::plot_grid(titl,pl,rel_heights = c(0.1, 1),ncol=1),out=paste0(projloc,"/analysis/",mdlnm,"/",basename(outnm)),title="GOF plots",...)
       R3port::html_plot(pl,out=paste0(projloc,"/analysis/",mdlnm,"/",basename(outnm)),title="GOF plots",...)
     }
   }

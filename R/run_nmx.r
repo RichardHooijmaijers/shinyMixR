@@ -71,8 +71,6 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
     }else{
       system(paste0(R.home("bin"), "/Rscript \"", tscr,  "\" > \"",projloc,"/shinyMixR/temp/",mod,".prog.txt\" 2>&1"),wait=FALSE)
     }
-    
-    # if(autoupdate) assign(dnm,proj,pos = .GlobalEnv)
   }else{
     # Handle subsetting (data is loaded in global environment by get_proj function)
     if(!is.null(meta$subs) && meta$subs!="") data_nlm <- subset(get(meta$data),eval(parse(text=(meta$subs)))) else data_nlm <- get(meta$data)
@@ -87,7 +85,6 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
       saveRDS(ressum,file=paste0(projloc,"/shinyMixR/",mod,".ressum.rds"))
     }
     proj[[mod]]$results <- ressum
-    # assign(dnm,proj,pos = .GlobalEnv)
     return(modres)
   }
 }

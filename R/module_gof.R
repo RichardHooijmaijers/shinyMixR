@@ -24,8 +24,6 @@ module_gof_ui <- function(id, proj_obj) {
         numericInput(ns("plheight"), "plot height:", 800)
         
       ),
-      # When using a box, the content overflows, also a box does not provide a lot of functionality in this case
-      # box(width=9, title = "Output",status="lightblue",solidHeader=TRUE,plotOutput(ns("gof_plot")),height="80vh") #,width="80%" ,height="100%"
       column(9,plotOutput(ns("gof_plot")))
     )
   )
