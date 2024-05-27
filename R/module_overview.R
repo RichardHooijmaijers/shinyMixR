@@ -38,6 +38,8 @@ module_overview_server <- function(id, r) {
     
     observe({
       
+      print("change in r$proj_obj")
+      
       # Make reactive value to hold the available models/scripts
       r$mdls <- list.files(paste0(r$this_wd, "/models"), pattern = "run[[:digit:]]*\\.[r|R]", full.names = TRUE)
       r$scrpt <- list.files(paste0(r$this_wd, "/scripts"), full.names = TRUE)
@@ -61,7 +63,7 @@ module_overview_server <- function(id, r) {
     output$treeout <- collapsibleTree::renderCollapsibleTree(tree())
 
     # Refresh overview
-    observeEvent(input$overview_refr,{
+    observeEvent(input$overview_refr, {
       if(file.exists("shinyMixR")){
         r$proj_obj <- get_proj(r$this_wd)
         overview_ov <- overview(r$proj_obj)

@@ -41,7 +41,6 @@ module_run_server <- function(id, r) {
       unlink(list.files(paste0(r$this_wd,"/shinyMixR/temp"),pattern=".*prog\\.txt$",full.names = TRUE))
       # Perform tests before running
       if(!is.null(input$runLst)){
-        r$models_running <- r$models_running + length(input$runLst)
         proj     <- r$proj_obj
         checkall <- unlist(sapply(input$runLst,function(x){
           chk    <- proj[[x]]$model
@@ -59,6 +58,7 @@ module_run_server <- function(id, r) {
           addcwres <- ifelse("Add CWRES to output"%in%input$addExtra,TRUE,FALSE)
           addnpde  <- ifelse("Add NPDE to output"%in%input$addExtra,TRUE,FALSE)
           lapply(input$runLst,function(mods) run_nmx(mods, r$proj_obj, addcwres=addcwres,addnpde=addnpde,projloc=r$this_wd))
+          r$models_running <- r$models_running + length(input$runLst)
         }
       }else{
         myalert("Please select models to run",type = "error")
@@ -75,9 +75,8 @@ module_run_server <- function(id, r) {
         invalidateLater(1000, session)
         
         if(grepl("run finished", txt)){
-          print("a model has finished")
-          print(isolate(r$model_updated))
-          r$proj_obj <- get_proj(r$this_wd)
+
+          print("a model finished running")
           r$models_running <- isolate(r$models_running) - 1
           r$model_updated <- isolate(r$model_updated) + 1
           exportTestValues(
@@ -93,6 +92,15 @@ module_run_server <- function(id, r) {
     })
     
     output$progrTxt <- renderText(runmodmonit())
+    
+    model_updated_d <- debounce(reactive(r$model_updated), millis = 1000)
+    
+    observe({
+      req(model_updated_d() > 0)
+      print(model_updated_d())
+      print(normalizePath(list.files(paste0(r$this_wd,"/shinyMixR"),pattern="run[[:digit:]]*\\.ressum\\.rds",full.names = TRUE)))
+      r$proj_obj <- get_proj(r$this_wd)
+    })
     
     # Disable suspend for output$myplot, otherwise necessary reactives
     # don't trigger when user is not on this tab anymore
