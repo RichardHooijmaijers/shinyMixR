@@ -145,6 +145,7 @@ module_dataexplore_ui <- function(id) {
 #' @export
 module_dataexplore_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
+    
     # Adapt model list based on selected project location
     observeEvent(r$active_tab,{
       if(r$active_tab=="expl"){
@@ -171,18 +172,16 @@ module_dataexplore_server <- function(id, r) {
     observeEvent(input$use_input,{updfunc()},ignoreInit=TRUE)
 
     # Create actual plot
-    observeEvent(input$make,   updateTabsetPanel(session, "exploretabs2",selected = "plttab"))
-    observeEvent(input$maketbl,updateTabsetPanel(session, "exploretabs2",selected = "dttab"))
-    observeEvent(input$makeply,updateTabsetPanel(session, "exploretabs2",selected = "plytab"))
+    observeEvent(input$make, updateTabsetPanel(session, "exploretabs2",selected = "plttab"))
+    observeEvent(input$maketbl, updateTabsetPanel(session, "exploretabs2",selected = "dttab"))
+    observeEvent(input$makeply, updateTabsetPanel(session, "exploretabs2",selected = "plytab"))
     plheight <- function() return(input$plheight)
     baseexpl <- function(){
       adpr        <- reactiveValuesToList(input)
       adpr$ptitle <- ifelse(adpr$ptitle=="title",adpr$mdls,adpr$ptitle)
       exploreplot(adpr)
     }
-    observeEvent(input$make,{
-      
-    })
+
     createplot <- eventReactive(input$make,{
       if(!is.null(input$mdls)){
         ptxt <- baseexpl()
