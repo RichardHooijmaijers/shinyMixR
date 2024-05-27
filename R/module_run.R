@@ -27,6 +27,7 @@ module_run_ui <- function(id, proj_obj) {
 #' @export
 module_run_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
+    
     #print("Im here")
     # Adapt/update model list 
     observeEvent(r$active_tab,{
@@ -40,6 +41,7 @@ module_run_server <- function(id, r) {
       unlink(list.files(paste0(r$this_wd,"/shinyMixR/temp"),pattern=".*prog\\.txt$",full.names = TRUE))
       # Perform tests before running
       if(!is.null(input$runLst)){
+        r$models_running <- r$models_running + length(input$runLst)
         proj     <- r$proj_obj
         checkall <- unlist(sapply(input$runLst,function(x){
           chk    <- proj[[x]]$model
@@ -62,33 +64,40 @@ module_run_server <- function(id, r) {
         myalert("Please select models to run",type = "error")
       }
     })
-    # Get progress log
-    runmodmonit <- reactivePoll(500, session,
-      checkFunc = function() {
-        progf <- list.files(paste0(r$this_wd,"/shinyMixR/temp"),pattern="prog\\.txt$",full.names = TRUE)
-        if (length(progf)>0)
-          max(file.info(progf)$mtime)
-        else
-          ""
-      },
-      valueFunc = function() {
-        progFn  <- list.files(paste0(r$this_wd,"/shinyMixR/temp"),pattern="prog\\.txt$",full.names = TRUE)
-        paste(unlist(lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x, warn = FALSE)))),collapse="\n")
-      }
-    )
     
-    observe({
-      # check if "run finished" prevails in runmodmonit()
-      if(grepl("run finished", runmodmonit())){
-        r$model_updated <- isolate(r$model_updated) + 1
-        r$proj_obj <- get_proj(r$this_wd)
-        exportTestValues(
-          model_updated = r$model_updated
-        )
+    runmodmonit <- reactive({
+      
+      progFn  <- list.files(paste0(r$this_wd,"/shinyMixR/temp"),pattern="prog\\.txt$",full.names = TRUE)
+      txt <- paste(unlist(lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x, warn = FALSE)))),collapse="\n")
+      
+      if (r$models_running > 0) {
+        
+        invalidateLater(1000, session)
+        
+        if(grepl("run finished", txt)){
+          print("a model has finished")
+          print(isolate(r$model_updated))
+          r$proj_obj <- get_proj(r$this_wd)
+          r$models_running <- isolate(r$models_running) - 1
+          r$model_updated <- isolate(r$model_updated) + 1
+          exportTestValues(
+            model_updated = r$model_updated
+          )
+        }
+        
+        return(txt)
+        
+      } else {
+        return(txt)
       }
     })
     
     output$progrTxt <- renderText(runmodmonit())
+    
+    # Disable suspend for output$myplot, otherwise necessary reactives
+    # don't trigger when user is not on this tab anymore
+    outputOptions(output, "progrTxt", suspendWhenHidden = FALSE)
+    
     # Monitor all external runs
     rv <- reactiveValues(montbl=NULL)
     monmodal <- function(){
