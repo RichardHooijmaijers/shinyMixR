@@ -38,8 +38,6 @@ module_overview_server <- function(id, r) {
     
     observe({
       
-      print("change in r$proj_obj")
-      
       # Make reactive value to hold the available models/scripts
       r$mdls <- list.files(paste0(r$this_wd, "/models"), pattern = "run[[:digit:]]*\\.[r|R]", full.names = TRUE)
       r$scrpt <- list.files(paste0(r$this_wd, "/scripts"), full.names = TRUE)
