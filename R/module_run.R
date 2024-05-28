@@ -58,7 +58,12 @@ module_run_server <- function(id, r) {
           addcwres <- ifelse("Add CWRES to output"%in%input$addExtra,TRUE,FALSE)
           addnpde  <- ifelse("Add NPDE to output"%in%input$addExtra,TRUE,FALSE)
           lapply(input$runLst,function(mods) run_nmx(mods, r$proj_obj, addcwres=addcwres,addnpde=addnpde,projloc=r$this_wd))
-          r$finished_models <- character(0)
+          # check for any existing finished models, and remove from r$finished_models if input$runList is in them
+          if (length(r$finished_models) > 0) {
+            r$finished_models <- r$finished_models[-which(grepl(input$runLst, r$finished_models))]
+          } else {
+            r$finished_models <- character(0)
+          }
           r$models_running <- r$models_running + length(input$runLst)
         }
       }else{
