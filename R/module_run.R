@@ -58,6 +58,7 @@ module_run_server <- function(id, r) {
           addcwres <- ifelse("Add CWRES to output"%in%input$addExtra,TRUE,FALSE)
           addnpde  <- ifelse("Add NPDE to output"%in%input$addExtra,TRUE,FALSE)
           lapply(input$runLst,function(mods) run_nmx(mods, r$proj_obj, addcwres=addcwres,addnpde=addnpde,projloc=r$this_wd))
+          r$finished_models <- character(0)
           r$models_running <- r$models_running + length(input$runLst)
         }
       }else{
@@ -68,26 +69,34 @@ module_run_server <- function(id, r) {
     runmodmonit <- reactive({
       
       progFn  <- list.files(paste0(r$this_wd,"/shinyMixR/temp"),pattern="prog\\.txt$",full.names = TRUE)
-      txt <- paste(unlist(lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x, warn = FALSE)))),collapse="\n")
+      txt <- lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x, warn = FALSE)))
       
       if (r$models_running > 0) {
         
         invalidateLater(1000, session)
         
-        if(grepl("run finished", txt)){
+        if (any(grepl("run finished", txt))) {
 
-          print("a model finished running")
-          r$models_running <- isolate(r$models_running) - 1
-          r$model_updated <- isolate(r$model_updated) + 1
-          exportTestValues(
-            model_updated = r$model_updated
-          )
+          finished_models <- progFn[which(grepl("run finished", txt))]
+          
+          if (!all(finished_models %in% r$finished_models)) {
+            
+            print(sprintf("%s model(s) finished running", length(finished_models)))
+            
+            r$finished_models <- c(isolate(r$finished_models), finished_models)
+            r$models_running <- length(setdiff(progFn, finished_models))
+            r$model_updated <- isolate(r$model_updated) + 1
+            
+            exportTestValues(
+              model_updated = r$model_updated
+            )
+          }
         }
         
-        return(txt)
+        return(paste(unlist(txt), collapse = "\n"))
         
       } else {
-        return(txt)
+        return(paste(unlist(txt), collapse = "\n"))
       }
     })
     
@@ -97,8 +106,6 @@ module_run_server <- function(id, r) {
     
     observe({
       req(model_updated_d() > 0)
-      print(model_updated_d())
-      print(normalizePath(list.files(paste0(r$this_wd,"/shinyMixR"),pattern="run[[:digit:]]*\\.ressum\\.rds",full.names = TRUE)))
       r$proj_obj <- get_proj(r$this_wd)
     })
     
