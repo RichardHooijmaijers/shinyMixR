@@ -4,7 +4,7 @@
 \alias{module_scripts_server}
 \title{Run script module for server}
 \usage{
-module_scripts_server(id, files = NULL, scripts = NULL, loc = "temp")
+module_scripts_server(id, files = NULL, scripts = NULL, loc = "temp", r)
 }
 \arguments{
 \item{id}{Module id}

@@ -11,7 +11,7 @@
 #' removeModal removeUI renderPlot renderPrint renderText req
 #' selectInput showModal sliderInput span tabPanel tagList
 #' tags textInput updateSelectInput updateSliderInput updateTabsetPanel
-#' updateTextInput verbatimTextOutput shinyApp
+#' updateTextInput verbatimTextOutput shinyApp invalidateLater debounce outputOptions
 #' @import bs4Dash ggplot2 gridExtra
 #' @export
 #' @return runs the shinyMixR interface
