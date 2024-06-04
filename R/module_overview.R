@@ -118,7 +118,7 @@ module_overview_server <- function(id, r) {
       }
     },ignoreInit = TRUE)
 
-    module_scripts_server("runscripts", files = reactive(r$mdls), scripts = reactive(r$scrpt), loc = paste0(r$this_wd,"/shinyMixR/temp"))
+    module_scripts_server("runscripts", files = reactive(r$mdls), scripts = reactive(r$scrpt), loc = paste0(r$this_wd,"/shinyMixR/temp"), r = r)
 
     # Creating reports
     module_reports_server("reports")

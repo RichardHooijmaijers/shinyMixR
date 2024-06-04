@@ -86,7 +86,8 @@ run_shinymixr <- function(wd = getwd(),...){
                           proj_obj = get_proj(wd),
                           this_wd = wd,
                           models_running = 0,
-                          finished_models = character(0))
+                          finished_models = character(0),
+                          uids_running = 0)
       
       observeEvent(input$tabs, r$active_tab <- input$tabs)
       
