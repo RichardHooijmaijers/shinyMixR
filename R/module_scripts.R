@@ -17,6 +17,7 @@ module_scripts_ui <- function(id) {
 #' @param files character vector of files to apply the scripts on, usually a reactive
 #' @param scripts character vector of scripts that can be applied on files, usually a reactive
 #' @param loc character with the location where the temp scripts are saved (created when not existing)
+#' @param r reactive values object that is defined top-level
 #' 
 #' @export
 module_scripts_server <- function(id, files=NULL, scripts=NULL, loc="temp", r) {
