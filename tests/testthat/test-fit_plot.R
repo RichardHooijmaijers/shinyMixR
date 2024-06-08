@@ -18,6 +18,13 @@ test_that("gof_plot works as expected", {
   expect_equal(length(plot$layers), 3)
   expect_equal(length(plot), 11)
   
+  # Note: many warnings!
+  plot <- suppressWarnings(fit_plot(res, type = "user", by = "dosenum"))
+  
+  expect_true(is.ggplot(plot))
+  expect_equal(length(plot$layers), 3)
+  expect_equal(length(plot), 11)
+  
   # test if output file is generated
   temp_dir <- tempdir()
   
