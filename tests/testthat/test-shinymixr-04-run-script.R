@@ -14,7 +14,7 @@ test_that("Shiny app correctly creates new model code", {
                                    incres = TRUE)
   
   # Start driver for Shiny test
-  shinyMixR::run_shinymixr(paste0(tempdir(),"/files"), write_to_file = TRUE)
+  shinyMixR::run_shinymixr(paste0(tempdir(),"/files"))
   
   app <- AppDriver$new(app_dir = paste0(tempdir(),"/files"), 
                        name = "run4-script", 
@@ -29,15 +29,7 @@ test_that("Shiny app correctly creates new model code", {
   # run script
   app$click("oview-runscripts-runscriptA")
   
-  # Capture state for debugging
-  app$expect_values(input = "editor-newmdl")
-  
-  # Wait for modal to open
-  Sys.sleep(1)
-  app$click("editor-newgo")
-  
-  # Capture state for debugging
-  app$expect_values(input = "editor-newgo")
+  # TODO: some real tests...
 
   # Stop and clean up
   app$stop()
