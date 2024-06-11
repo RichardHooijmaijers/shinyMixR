@@ -14,10 +14,9 @@ test_that("Shiny app correctly creates new model code", {
                                    incres = TRUE)
   
   # Start driver for Shiny test
-  shinyMixR::run_shinymixr(paste0(tempdir(),"/files"))
-  
-  app <- AppDriver$new(app_dir = paste0(tempdir(),"/files"), 
-                       name = "run4-script", 
+  shiny_app <- shinyMixR::run_shinymixr(paste0(tempdir(),"/files"))
+  app <- AppDriver$new(app_dir = shiny_app, 
+                       name = "run1-model", 
                        seed = 123)
   
   # open run script modal
