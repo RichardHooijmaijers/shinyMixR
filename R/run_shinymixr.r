@@ -21,10 +21,28 @@
 #' \dontrun{
 #'  run_shinymixr(".")
 #' }
-run_shinymixr <- function(wd = getwd(),...){ 
+run_shinymixr <- function(wd = getwd(), write_to_file = FALSE, ...){ 
+  
+  # when TRUE, write an app.R file with the full content of this function
+  if (write_to_file) {
+    str <- sprintf("wd <- '%s'; write_to_file = FALSE", wd)
+    str <- c(str, "library(shinyMixR); library(shiny); library(bs4Dash)")
+    str <- c(str, capture.output(run_shinymixr))
+    # drop 3rd element
+    str <- str[-3]
+    # drop last 2 elements
+    str <- str[1:(length(str)-2)]
+    # replace ,... by empty
+    str <- gsub(",...)", ")", str, fixed = TRUE)
+    writeLines(str, con = paste0(wd, "/app.R"))
+    return(invisible())
+  }
   
   if(!file.exists(paste0(wd,"/shinyMixR/temp")))    try(dir.create(paste0(wd,"/shinyMixR/temp"),recursive=TRUE))
   proj_obj <- get_proj(wd)
+  
+  print(wd)
+  print(proj_obj)
 
   newtheme <- fresh::create_theme(
     theme = "darkly", # theme has no effect, at least within bs4Dash
