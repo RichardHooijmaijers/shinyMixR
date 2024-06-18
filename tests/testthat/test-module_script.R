@@ -1,5 +1,5 @@
 
-test_that("Shiny app runs model and returns parameters for run1", {
+test_that("Shiny app runs given R script", {
   
   temp_dir <- tempdir()
   
