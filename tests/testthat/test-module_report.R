@@ -43,30 +43,34 @@ test_that("Shiny app creates plot and runs report", {
                                  savename = "GOF",
                                  typeout = "HTML")
                
-               # Make a new plot
-               session$setInputs(make = 1)
-               
-               # Time for the plot to render
-               Sys.sleep(2)
-               
-               # Check if plot object is present 
-               expect_equal(is.ggplot(gofplm()), TRUE)
-               
-               # Open modal
-               session$setInputs(save = 1)
-               
-               # Wait for modal to open
-               Sys.sleep(1)
-               
-               # Save results
-               session$setInputs(save2 = 1)
-               Sys.sleep(2)
-               
-               # Check if results are saved
-               expect_equal(file.exists(paste0(temp_dir, "/files/analysis/run1/GOF.html")), TRUE)
+               suppressWarnings({
+                 # Make a new plot
+                 session$setInputs(make = 1)
+                 
+                 # Time for the plot to render
+                 Sys.sleep(2)
+                 
+                 # Check if plot object is present 
+                 expect_equal(is.ggplot(gofplm()), TRUE)
+                 
+                 # Open modal
+                 session$setInputs(save = 1)
+                 
+                 # Wait for modal to open
+                 Sys.sleep(1)
+                 
+                 # Save results
+                 session$setInputs(save2 = 1)
+                 Sys.sleep(2)
+                 
+                 # Check if results are saved
+                 expect_equal(file.exists(paste0(temp_dir, "/files/analysis/run1/GOF.html")), TRUE)
+               })
              })
   
   testServer(module_reports_server, {
+    
+    setwd(paste0(temp_dir, "/files"))
     
     session$setInputs(models = "run1",
                       type = "HTML",
