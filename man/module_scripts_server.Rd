@@ -4,7 +4,7 @@
 \alias{module_scripts_server}
 \title{Run script module for server}
 \usage{
-module_scripts_server(id, files = NULL, scripts = NULL, loc = "temp")
+module_scripts_server(id, files = NULL, scripts = NULL, loc = "temp", r)
 }
 \arguments{
 \item{id}{Module id}
@@ -14,6 +14,8 @@ module_scripts_server(id, files = NULL, scripts = NULL, loc = "temp")
 \item{scripts}{character vector of scripts that can be applied on files, usually a reactive}
 
 \item{loc}{character with the location where the temp scripts are saved (created when not existing)}
+
+\item{r}{reactive values object that is defined top-level}
 }
 \description{
 Run script module for server
