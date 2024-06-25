@@ -20,8 +20,12 @@ test_that("Shiny app runs model and returns parameters for run1", {
     dir.create(paste0(temp_dir, "/files/shinyMixR/temp"), recursive = TRUE)
   }
   
+  r <- list(
+    uids_running = 0
+  )
+  
   testServer(module_scripts_server, 
-             args = list(files = reactive(models), scripts = reactive(scripts), loc = paste0(temp_dir, "/files/shinyMixR/temp")), {
+             args = list(files = reactive(models), scripts = reactive(scripts), loc = paste0(temp_dir, "/files/shinyMixR/temp"), r = r), {
                
                # Open modal
                session$setInputs(runscript = 1)
@@ -29,19 +33,14 @@ test_that("Shiny app runs model and returns parameters for run1", {
                # Wait a bit
                Sys.sleep(2)
                
-               print(files())
-               print(scripts())
-               
                # Choose script, file and run script
                session$setInputs(files = "run1.r",
                                  scripts = "eta.plot.r",
-                                 runscriptA = 2)
+                                 runscriptA = 1)
 
                # Wait a bit
                Sys.sleep(2)
               
-               print(monout())
-               
                # Check if scriptres output is present 
                expect_equal(monout(), TRUE)
                
