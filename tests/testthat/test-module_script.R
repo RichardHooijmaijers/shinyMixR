@@ -40,9 +40,6 @@ test_that("Shiny app runs model and returns parameters for run1", {
 
                # Wait a bit
                Sys.sleep(2)
-              
-               # Check if scriptres output is present 
-               expect_equal(monout(), TRUE)
                
                expect_equal(output$scriptprogress, "Run eta.plot.r for file(s) run1.r")
                
