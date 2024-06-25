@@ -27,6 +27,7 @@ module_run_ui <- function(id, proj_obj) {
 #' @export
 module_run_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
+    
     #print("Im here")
     # Adapt/update model list 
     observeEvent(r$active_tab,{
@@ -57,38 +58,66 @@ module_run_server <- function(id, r) {
           addcwres <- ifelse("Add CWRES to output"%in%input$addExtra,TRUE,FALSE)
           addnpde  <- ifelse("Add NPDE to output"%in%input$addExtra,TRUE,FALSE)
           lapply(input$runLst,function(mods) run_nmx(mods, r$proj_obj, addcwres=addcwres,addnpde=addnpde,projloc=r$this_wd))
+          # check for any existing finished models, and remove from r$finished_models if input$runList is in them
+          if (length(r$finished_models) > 0) {
+            r$finished_models <- r$finished_models[-which(grepl(paste0(input$runLst, collapse = "|"), r$finished_models))]
+          } else {
+            r$finished_models <- character(0)
+          }
+          r$models_running <- r$models_running + length(input$runLst)
         }
       }else{
         myalert("Please select models to run",type = "error")
       }
     })
-    # Get progress log
-    runmodmonit <- reactivePoll(500, session,
-      checkFunc = function() {
-        progf <- list.files(paste0(r$this_wd,"/shinyMixR/temp"),pattern="prog\\.txt$",full.names = TRUE)
-        if (length(progf)>0)
-          max(file.info(progf)$mtime)
-        else
-          ""
-      },
-      valueFunc = function() {
-        progFn  <- list.files(paste0(r$this_wd,"/shinyMixR/temp"),pattern="prog\\.txt$",full.names = TRUE)
-        paste(unlist(lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x, warn = FALSE)))),collapse="\n")
-      }
-    )
     
-    observe({
-      # check if "run finished" prevails in runmodmonit()
-      if(grepl("run finished", runmodmonit())){
-        r$model_updated <- isolate(r$model_updated) + 1
-        r$proj_obj <- get_proj(r$this_wd)
-        exportTestValues(
-          model_updated = r$model_updated
-        )
+    runmodmonit <- reactive({
+      
+      progFn  <- list.files(paste0(r$this_wd,"/shinyMixR/temp"),pattern="prog\\.txt$",full.names = TRUE)
+      txt <- lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x, warn = FALSE)))
+      
+      if (r$models_running > 0) {
+        
+        invalidateLater(1000, session)
+        
+        if (any(grepl("run finished", txt))) {
+
+          finished_models <- progFn[which(grepl("run finished", txt))]
+          
+          if (!all(finished_models %in% r$finished_models)) {
+            
+            print(sprintf("%s model(s) finished running", length(finished_models)))
+            
+            r$finished_models <- c(isolate(r$finished_models), finished_models)
+            r$models_running <- length(setdiff(progFn, finished_models))
+            r$model_updated <- isolate(r$model_updated) + 1
+            
+            exportTestValues(
+              model_updated = r$model_updated
+            )
+          }
+        }
+        
+        return(paste(unlist(txt), collapse = "\n"))
+        
+      } else {
+        return(paste(unlist(txt), collapse = "\n"))
       }
     })
     
     output$progrTxt <- renderText(runmodmonit())
+    
+    model_updated_d <- debounce(reactive(r$model_updated), millis = 1000)
+    
+    observe({
+      req(model_updated_d() > 0)
+      r$proj_obj <- get_proj(r$this_wd)
+    })
+    
+    # Disable suspend for output$myplot, otherwise necessary reactives
+    # don't trigger when user is not on this tab anymore
+    outputOptions(output, "progrTxt", suspendWhenHidden = FALSE)
+    
     # Monitor all external runs
     rv <- reactiveValues(montbl=NULL)
     monmodal <- function(){
