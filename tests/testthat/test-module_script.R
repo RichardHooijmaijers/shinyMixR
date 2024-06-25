@@ -29,13 +29,18 @@ test_that("Shiny app runs model and returns parameters for run1", {
                # Wait a bit
                Sys.sleep(2)
                
+               print(files())
+               print(scripts())
+               
                # Choose script, file and run script
                session$setInputs(files = "run1.r",
                                  scripts = "eta.plot.r",
-                                 runscriptA = 1)
+                                 runscriptA = 2)
 
                # Wait a bit
                Sys.sleep(2)
+              
+               print(monout())
                
                # Check if scriptres output is present 
                expect_equal(monout(), TRUE)
