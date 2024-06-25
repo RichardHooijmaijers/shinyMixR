@@ -40,7 +40,7 @@ test_that("gof_plot works as expected", {
   }
   
   # test ptype = "all"
-  all_plot <- gof_plot(res, ptype = "all", type = "user")
+  all_plot <- suppressWarnings(gof_plot(res, ptype = "all", type = "user"))
   
   expect_true(is.ggplot(all_plot))
   expect_equal(length(all_plot$layers), 8)
@@ -48,14 +48,14 @@ test_that("gof_plot works as expected", {
   # test if output file is generated
   temp_dir <- tempdir()
   
-  gof_plot(res, 
-           ptype = "all", 
-           type = "user", 
-           projloc = temp_dir, 
-           outnm = "gof_plot.html",
-           mdlnm = "test_model",
-           title = "myplot",
-           colby = "ID")
+  suppressWarnings(gof_plot(res, 
+                            ptype = "all", 
+                            type = "user", 
+                            projloc = temp_dir, 
+                            outnm = "gof_plot.html",
+                            mdlnm = "test_model",
+                            title = "myplot",
+                            colby = "ID"))
   
   expect_true(file.exists(paste0(temp_dir, "/analysis/test_model/gof_plot.html")))
   
