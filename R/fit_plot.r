@@ -68,6 +68,7 @@ fit_plot <- function(dfrm,type="xpose",by="ID",idv="TIME",obs="DV",pred="PRED",i
     pl
   }else{
     if(is.null(mdlnm)) stop("in case output should be saved, mdlnm should be given")
+    dir.create(paste0(projloc,"/analysis/"),showWarnings=FALSE)
     dir.create(paste0(projloc,"/analysis/",mdlnm),showWarnings=FALSE)
     if(grepl("\\.tex$",outnm)) R3port::ltx_plot(pl+labs(title=mdlnm),title="Fit plots",out=paste0(projloc,"/analysis/",mdlnm,"/",basename(outnm)),...)
     if(grepl("\\.html$",outnm)) R3port::html_plot(pl+labs(title=mdlnm),title="Fit plots",out=paste0(projloc,"/analysis/",mdlnm,"/",basename(outnm)),...)

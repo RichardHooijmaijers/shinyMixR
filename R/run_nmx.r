@@ -12,7 +12,7 @@
 #' @param projloc character with the base location of the shinyMixR project
 #' @param addcwres logical indicating if CWRES should be added to the output
 #' @param addnpde logical indicating if NPDE should be added to the output
-#'
+#' 
 #' @details the meta data is obtained by compiling the model. The dataset, estimation method and control list are
 #'   then included in the nlmixr call. Meta data is included in the model function which is comparable with NONMEM.
 #'   This method was chosen so that all information to run a model is kept togehter in one function
@@ -72,8 +72,8 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
       system(paste0(R.home("bin"), "/Rscript \"", tscr,  "\" > \"",projloc,"/shinyMixR/temp/",mod,".prog.txt\" 2>&1"),wait=FALSE)
     }
   }else{
-    # Handle subsetting (data is loaded in global environment by get_proj function)
-    if(!is.null(meta$subs) && meta$subs!="") data_nlm <- subset(get(meta$data),eval(parse(text=(meta$subs)))) else data_nlm <- get(meta$data)
+    data <- readRDS(paste0(projloc,"/data/", meta$data, ".rds"))
+    if(!is.null(meta$subs) && meta$subs!="") data_nlm <- subset(data,eval(parse(text=(meta$subs)))) else data_nlm <- data
     modres  <- nlmixr2::nlmixr(eval(parse(text=readLines(proj[[mod]]$model))), data_nlm, est=meta$est,control=meta$control,nlmixr2::tableControl(cwres=addcwres, npde=addnpde))
     if("nlmixr2" %in% rownames(installed.packages())){
       ressum  <- list(OBJF=modres$objective,CONDNR=modres$conditionNumberCor,partbl=modres$parFixedDf,partblf=modres$parFixed,omega=modres$omega,tottime=rowSums(modres$time))

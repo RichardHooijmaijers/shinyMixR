@@ -66,7 +66,7 @@ module_gof_server <- function(id, r, settings) {
         gof_plot(dataIn,type=settings()$plott,colby=clr,ptype=inp$ptype,linscale=inp$linscale)  
       }else{
         savnm  <- ifelse(inp$typeout=="PDF",paste0(inp$savename,".tex"),paste0(inp$savename,".html"))
-        gof_plot(dataIn,mdlnm=inp$gofLst,outnm=savnm,show=inp$showres,type=settings()$plott,colby=clr,ptype=inp$ptype,linscale=inp$linscale) 
+        gof_plot(dataIn,mdlnm=inp$gofLst,outnm=savnm,show=inp$showres,type=settings()$plott,colby=clr,ptype=inp$ptype,linscale=inp$linscale, projloc = r$this_wd) 
         removeModal()
       }
     }

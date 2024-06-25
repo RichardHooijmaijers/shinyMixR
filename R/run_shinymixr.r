@@ -21,7 +21,7 @@
 #' \dontrun{
 #'  run_shinymixr(".")
 #' }
-run_shinymixr <- function(wd = getwd(),...){ 
+run_shinymixr <- function(wd = getwd(), ...){ 
   
   if(!file.exists(paste0(wd,"/shinyMixR/temp")))    try(dir.create(paste0(wd,"/shinyMixR/temp"),recursive=TRUE))
   proj_obj <- get_proj(wd)
