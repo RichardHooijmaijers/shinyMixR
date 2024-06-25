@@ -21,8 +21,14 @@ test_that("Shiny app runs given R script", {
     dir.create(paste0(temp_dir, "/files/shinyMixR/temp"), recursive = TRUE)
   }
   
+  r <- list(
+    active_tab = "run",
+    this_wd = paste0(temp_dir, "/files"),
+    proj_obj = get_proj(paste0(temp_dir, "/files"))
+  )
+  
   testServer(module_scripts_server, 
-             args = list(files = reactive(models), scripts = reactive(scripts), loc = paste0(temp_dir, "/files/shinyMixR/temp")), {
+             args = list(files = reactive(models), scripts = reactive(scripts), loc = paste0(temp_dir, "/files/shinyMixR/temp"), r = r), {
                
                # Open modal
                session$setInputs(runscript = 1)
