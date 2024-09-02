@@ -1,4 +1,4 @@
-test_that("gof_plot works as expected", {
+test_that("exploreplot works as expected", {
   
   res_path <- system.file("/other/run1.res.rds", package = "shinyMixR")
   

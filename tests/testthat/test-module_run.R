@@ -37,6 +37,7 @@ test_that("Shiny app runs model", {
                # Open monitoring modal
                session$setInputs(monMdl = 1)
                
+               # Double check if we want to do this here; decide if we want test-shinymixr-01-model-run-1? seems duplicated
                # Wait a bit until model is finished
                Sys.sleep(60)
                

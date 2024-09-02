@@ -12,6 +12,8 @@ test_that("run_nmx works as expected", {
   run_nmx("run1", proj, projloc = paste0(tempdir(), "/files"))
   
   # wait for 30 seconds so model can finish
+  # Double check if we want to do this here; decide if we want test-shinymixr-01-model-run-1 AND test-module_run? seems duplicated
+  # This location might be the best one, the app calls this function, so if it is tested here once it should be OK!
   Sys.sleep(30)
   
   # check if output files are generated in shinyMixR directory
