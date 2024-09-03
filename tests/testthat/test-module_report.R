@@ -29,7 +29,7 @@ test_that("Shiny app creates plot and runs report", {
   )
   
   # To test report creation, first an analysis has to be made.
-  # So at the same time, we are testing module_gof_server
+  # So at the same time, we are testing module_gof_server and module_fitplots_server
   # This will result in output in the analysis folder
   testServer(module_gof_server,
              args = list(settings = reactive(settings), r = r), {
@@ -68,6 +68,48 @@ test_that("Shiny app creates plot and runs report", {
                })
              })
   
+  testServer(module_fitplots_server,
+             args = list(settings = reactive(settings), r = r), {
+               session$setInputs(fitLst = "run1",
+                                 subset = "ID!=10",
+                                 precode = "dataIn$DV <- log(dataIn$DV)",
+                                 by = "ID",
+                                 idv = "TIME",
+                                 obs = "DV",
+                                 pred = "PRED",
+                                 ipred = "IPRED",
+                                 grp  = "ID",
+                                 scales = "free",
+                                 logy = FALSE,
+                                 showres = FALSE,
+                                 savename = "FITS",
+                                 typeout = "HTML")
+               
+               suppressWarnings({
+                 # Make a new plot
+                 session$setInputs(make = 1)
+                 
+                 # Time for the plot to render
+                 Sys.sleep(2)
+                 
+                 # Check if plot object is present 
+                 expect_equal(is.ggplot(fitplm()), TRUE)
+                 
+                 # Open modal
+                 session$setInputs(save = 1)
+                 
+                 # Wait for modal to open
+                 Sys.sleep(1)
+                 
+                 # Save results
+                 session$setInputs(save2 = 1)
+                 Sys.sleep(2)
+                 
+                 # Check if results are saved
+                 expect_equal(file.exists(paste0(temp_dir, "/files/analysis/run1/FITS.html")), TRUE)
+               })
+             })
+  
   testServer(module_reports_server, {
     
     setwd(paste0(temp_dir, "/files"))
@@ -75,20 +117,14 @@ test_that("Shiny app creates plot and runs report", {
     session$setInputs(models = "run1",
                       type = "HTML",
                       showres = FALSE,
-                      name = "Report",
-                      results = "GOF.html")
-    
-    # Open modal
-    session$setInputs(createreport = 1)
-    
-    # Wait for modal to open
-    Sys.sleep(1)
+                      name = "TestReport",
+                      results = c("GOF.html","FITS.html"))
     
     # Show results
     session$setInputs(showres = 1)
     
-    # Not really a test to be executed here...
-    
+    # Test if report is created (combined when more than 1 output is available)
+    expect_equal(file.exists(paste0(temp_dir, "/files/analysis/run1/TestReport.html")), TRUE)
   })
   
   unlink(paste0(temp_dir, "/files"), recursive = TRUE) 
