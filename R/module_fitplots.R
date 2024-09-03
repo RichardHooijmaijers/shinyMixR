@@ -80,7 +80,8 @@ module_fitplots_server <- function(id, r, settings) {
         fit_plot(dataIn,type=settings()$plott,by=byr,idv=inp$idv,obs=inp$obs,pred=inp$pred,ipred=iprr,grp=inp$grp,logy=inp$logy,scales=inp$scales) 
       }else{
         savnm  <- ifelse(inp$typeout=="PDF",paste0(inp$savename,".tex"),paste0(inp$savename,".html"))
-        fit_plot(dataIn,mdlnm=inp$fitLst,outnm=savnm,show=inp$showres, type=settings()$plott,by=byr,idv=inp$idv,obs=inp$obs,pred=inp$pred,ipred=iprr,grp=inp$grp,logy=inp$logy,scales=inp$scales) 
+        fit_plot(dataIn,mdlnm=inp$fitLst,outnm=savnm,show=inp$showres, type=settings()$plott,by=byr,idv=inp$idv,obs=inp$obs,pred=inp$pred,
+                 ipred=iprr,grp=inp$grp,logy=inp$logy,scales=inp$scales,projloc = r$this_wd) 
         removeModal()
       }
     }

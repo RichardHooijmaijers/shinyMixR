@@ -38,5 +38,28 @@ test_that("gof_plot works as expected", {
       expect_equal(tolower(rlang::as_name(plot$mapping$y)), sub("\\..*","",plot_type))  
     }
   }
+  
+  # test ptype = "all"
+  all_plot <- suppressWarnings(gof_plot(res, ptype = "all", type = "user"))
+  
+  expect_true(is.ggplot(all_plot))
+  expect_equal(length(all_plot$layers), 8)
+  
+  # test if output file is generated
+  temp_dir <- tempdir()
+  
+  suppressWarnings(gof_plot(res, 
+                            ptype = "all", 
+                            type = "user", 
+                            projloc = temp_dir, 
+                            outnm = "gof_plot.html",
+                            mdlnm = "test_model",
+                            title = "myplot",
+                            colby = "ID", show=FALSE))
+  
+  expect_true(file.exists(paste0(temp_dir, "/analysis/test_model/gof_plot.html")))
+  
+  # remove directory
+  unlink(paste0(temp_dir, "/analysis"), recursive = TRUE)
 
 })

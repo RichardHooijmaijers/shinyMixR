@@ -75,7 +75,7 @@ module_overview_server <- function(id, r) {
     selectedLine <- reactive({
       if (is.null(input$overview_tbl_rows_selected)) return(NULL) else return(input$overview_tbl_rows_selected)
     })
-    upd <- module_metadata_server("adapt_meta_ov","overview",selline=selectedLine)
+    upd <- module_metadata_server("adapt_meta_ov","overview",selline=selectedLine, r = r)
     observeEvent(upd(),{
        if(upd()=="Update DT") DT::replaceData(proxy, overview(r$proj_obj), rownames = FALSE)
     })
