@@ -3,6 +3,7 @@ test_that("Shiny app runs model", {
   temp_dir <- tempdir()
   
   # Set up necessary files (internal function)
+  unlink(paste0(temp_dir,"/files"), recursive = TRUE)
   shinyMixR:::setup_shinymixr_test(dir = paste0(temp_dir, "/files"), 
                                    overwrite = TRUE, 
                                    record = FALSE, 
@@ -37,13 +38,14 @@ test_that("Shiny app runs model", {
                # Open monitoring modal
                session$setInputs(monMdl = 1)
                
-               # Double check if we want to do this here; decide if we want test-shinymixr-01-model-run-1? seems duplicated
-               # Wait a bit until model is finished
-               Sys.sleep(60)
-               
-               # Expect run1.ressum.rds to be present
+               # Test if a model can be correctly submitted also within shiny
+               chkt <- 1
+               while (chkt<100) {
+                 if(file.exists(paste0(tempdir(), "/files/shinyMixR/run1.ressum.rds"))) break
+                 Sys.sleep(1)
+                 chkt <- chkt + 1
+               }
                expect_true(file.exists(paste0(temp_dir, "/files/shinyMixR/run1.ressum.rds")))
-               
              })
   
   unlink(paste0(temp_dir, "/files"), recursive = TRUE) 
