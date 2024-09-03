@@ -24,6 +24,7 @@ test_that("Shiny app runs model and returns parameters for run1", {
                # Adapt meta data ad check if results are expected
                session$setInputs(mdlimp = 3, mdldesc = "for testing", mdlref = "run1", mdldata = "theo_sd",
                                  mdlest = "focei", mdladpt = "run1", adpt = 1)
+               Sys.sleep(1)
                expect_true(file.exists(paste0(r$this_wd,"/models/run1.R")))
                adpt_mdl <- readLines(paste0(r$this_wd,"/models/run1.R"))
                expect_true(any(grepl("desc.*for testing",adpt_mdl)))

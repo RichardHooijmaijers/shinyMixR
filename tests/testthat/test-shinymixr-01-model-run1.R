@@ -1,6 +1,8 @@
 library(shinytest2)
 
 test_that("Shiny app runs model and returns parameters for run1", {
+  # In the end we might want to remove this test;
+  # running a model is tested from within R (test-run_nmx) and in shiny (test-module_run)
   
   # Don't run these tests on the CRAN build servers
   skip_on_cran()

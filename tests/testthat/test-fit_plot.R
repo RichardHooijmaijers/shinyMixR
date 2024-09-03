@@ -32,7 +32,7 @@ test_that("fit_plot works as expected", {
                             type = "user", 
                             projloc = temp_dir, 
                             outnm = "fit_plot.html",
-                            mdlnm = "test_model"))
+                            mdlnm = "test_model", show=FALSE))
   
   expect_true(file.exists(paste0(temp_dir, "/analysis/test_model/fit_plot.html")))
   

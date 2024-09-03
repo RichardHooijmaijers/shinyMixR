@@ -55,7 +55,7 @@ test_that("gof_plot works as expected", {
                             outnm = "gof_plot.html",
                             mdlnm = "test_model",
                             title = "myplot",
-                            colby = "ID"))
+                            colby = "ID", show=FALSE))
   
   expect_true(file.exists(paste0(temp_dir, "/analysis/test_model/gof_plot.html")))
   
