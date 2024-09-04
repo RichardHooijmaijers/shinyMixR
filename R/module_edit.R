@@ -76,8 +76,6 @@ module_edit_server <- function(id, r, settings) {
         writeLines(input$editor,r$proj_obj[[input$editLst]]$model)
         r$proj_obj <- get_proj(r$this_wd)
         myalert("Model saved",type = "success")
-        # Do not really like the alerts from bs4dash so stick to shinywdigets
-        # createAlert(id = NULL,selector = NULL,options=list(title = "Alert",closable = TRUE,width = 12,elevations = 1,status = "primary",content = "Model saved"))
       }
     },ignoreInit=TRUE)
 
