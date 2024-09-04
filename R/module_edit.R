@@ -111,9 +111,11 @@ module_edit_server <- function(id, r, settings) {
     observeEvent(input$updinit,{showModal(initmodal())},ignoreInit = TRUE)
     observeEvent(input$goupdate,{
       if(isTruthy(input$finest) && isTruthy(input$tosave)){
+        shinyWidgets::progressSweetAlert(session=session,id="updateInitProg",title="Updating initial estimates",value = 50)
         res <- try(update_inits(readLines(paste0(r$this_wd,"/models/",input$finest,".r")),
                                 paste0(r$this_wd,"/shinyMixr/",input$finest,".res.rds"),
                                 paste0(r$this_wd,"/models/",input$tosave)))
+        shinyWidgets::closeSweetAlert(session = session)
         if("try-error"%in%class(res)){
           myalert(res,type = "error")
         }else{
