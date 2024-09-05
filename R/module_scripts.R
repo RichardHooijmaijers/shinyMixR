@@ -51,7 +51,7 @@ module_scripts_server <- function(id, files=NULL, scripts=NULL, loc="temp", r) {
     # Function for the first modal
     scriptmodal1 <- function(dflist){
       ns <- session$ns
-      modalDialog(title="Scripting",easyClose = TRUE,size="l",fade=FALSE,
+      modalDialog(title="Scripting",easyClose = TRUE,size="xl",fade=FALSE,
                   div(id="scrmodal1",div(id="scrmodal2",
                                          fluidRow(
                                            column(6,selectInput(ns("files"),"File(s)",dflist$df2$bn,multiple=TRUE,size=15,selectize=FALSE,width='100%')),
@@ -59,6 +59,7 @@ module_scripts_server <- function(id, files=NULL, scripts=NULL, loc="temp", r) {
                                          ),
                                          actionButton(ns("runscriptA"), "Run script",icon=icon("play")),br(),br(),
                                          span(paste("scripts located in:",paste(unique(dflist$dff$loc[dflist$dff$nam!="---"]),collapse = ", ")),style="font-size: 0.75em;"),br(),
+                                         span("Be aware that script is submitted in separate R session when 'Run script' is clicked. Box below shows progress and state 'Script done' when finished",style="font-size: 0.75em;"),br(),
                                          div(verbatimTextOutput(ns("scriptprogress")),class="card card-body bg-light p-0") # wrapped in div because well class is no longer present in bs4
                   ))
       )  
@@ -120,9 +121,11 @@ module_scripts_server <- function(id, files=NULL, scripts=NULL, loc="temp", r) {
       tmpsc   <- paste0(loc,"/",allinp$scripts,".",uid(),".r")
       
       warg    <- gsub("^#inp#","",scrcont[grepl("^#inp#",scrcont)])
-      allid   <- getParseData(parse(text=warg), includeText = TRUE)
-      allid   <- allid[grepl("ns\\(.*\\)",allid$text) & allid$parent!=0,]
-      allid   <- gsub("^ns\\(|\\)|\\\"","",allid$text)
+      # getParseData does not work here, method below assume that id's are wrapped in ns and id is first argument!
+      # allid   <- getParseData(parse(text=warg), includeText = TRUE)
+      # allid   <- allid[grepl("ns\\(.*\\)",allid$text) & allid$parent!=0,]
+      # allid   <- gsub("^ns\\(|\\)|\\\"","",allid$text)
+      allid  <- sapply(warg,function(x) as.character(as.list(str2lang(x))[[2]])[2])
       
       inplst <- allinp[names(allinp)%in%allid]
       inplst <- inplst[!sapply(inplst,is.null)]
@@ -144,7 +147,7 @@ module_scripts_server <- function(id, files=NULL, scripts=NULL, loc="temp", r) {
         invalidateLater(1000, session)
         
         if (grepl("Script done", txt)) {
-          print("UID finished running")
+          #print("UID finished running")
           
           r$uids_running <- 0
         }

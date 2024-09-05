@@ -4,14 +4,14 @@
 #' @param wd character with the working directory
 #' @param ... arguments passed to the shiny runApp function
 #' @importFrom shiny runApp HTML NS br checkboxGroupInput checkboxInput conditionalPanel
-#' div em eventReactive exportTestValues fluidRow hr icon
+#' div em p eventReactive exportTestValues fluidRow hr icon markdown
 #' insertUI isTruthy isolate modalDialog moduleServer
 #' numericInput observe observeEvent plotOutput radioButtons reactive
 #' reactivePoll reactiveVal reactiveValues reactiveValuesToList
 #' removeModal removeUI renderPlot renderPrint renderText req
 #' selectInput showModal sliderInput span tabPanel tagList
 #' tags textInput updateSelectInput updateSliderInput updateTabsetPanel
-#' updateTextInput verbatimTextOutput shinyApp invalidateLater debounce outputOptions
+#' updateTextInput verbatimTextOutput shinyApp invalidateLater debounce outputOptions stopApp
 #' @import bs4Dash ggplot2 gridExtra
 #' @export
 #' @return runs the shinyMixR interface
@@ -23,7 +23,9 @@
 #' }
 run_shinymixr <- function(wd = getwd(), ...){ 
   
+  # Create folder if not existing and clean progress files at start-up (will slow down app in case of large outputs)
   if(!file.exists(paste0(wd,"/shinyMixR/temp")))    try(dir.create(paste0(wd,"/shinyMixR/temp"),recursive=TRUE))
+  try(unlink(list.files(paste0(wd,"/shinyMixR/temp"),pattern=".*prog\\.txt$",full.names = TRUE)))
   proj_obj <- get_proj(wd)
 
   newtheme <- fresh::create_theme(
@@ -38,7 +40,9 @@ run_shinymixr <- function(wd = getwd(), ...){
       # Header
       header = dashboardHeader(
         title = dashboardBrand(title = "ShinyMixR", color = "lightblue"), #, color = "lightblue", href = "#", image = "logoshinyMixR.png"),
-        leftUI = tags$img(src=paste0("data:image/png;base64,",xfun::base64_encode(system.file("dashboard/www/logoshinyMixR.png", package = "shinyMixR"))),height=40)
+        leftUI = tags$img(src=paste0("data:image/png;base64,",xfun::base64_encode(system.file("dashboard/www/logoshinyMixR.png", package = "shinyMixR"))),height=40),
+        rightUI = div(p(paste("Working in:",normalizePath(wd,winslash = "/")), style = "font-weight: 300;color: #484848;"),
+                      style="display: flex;justify-content: center;width: 100%;")
       ),
       # Sidebar menu
       sidebar = dashboardSidebar(status="lightblue", elevation = 1,

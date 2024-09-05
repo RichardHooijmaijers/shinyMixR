@@ -44,11 +44,16 @@ module_run_server <- function(id, r) {
         proj     <- r$proj_obj
         checkall <- unlist(sapply(input$runLst,function(x){
           chk    <- proj[[x]]$model
+          chkdat <- proj[[x]]$modeleval$meta$data 
           chksrc <- try(source(chk,local=TRUE),silent=TRUE)
           if("try-error"%in%class(chksrc)){
             return("syntax error within model file")
           }else if(!tools::file_path_sans_ext(basename(chk))%in%ls()){
             return("model and function name do not comply")
+          }else if(!proj[[x]]$modeleval$meta$est%in%nlmixr2est::nlmixr2AllEst()){
+            return("specified estimation method not available")
+          }else if(!any(paste0(chkdat,c(".csv",".rds"))%in%list.files(paste0(r$this_wd,"/data"))) && !exists(chkdat)){
+            return("specified dataset could not be found")
           }
         }))
         if(length(checkall)>0){
