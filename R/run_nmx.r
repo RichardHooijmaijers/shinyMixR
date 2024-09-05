@@ -32,7 +32,7 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
   # if(autoupdate) assign(dnm,get_proj(projloc=projloc))
   # Source model to obtain meta data (places meta object in env)
   sret <- try(source(proj[[mod]]$model,local=TRUE))
-  meta <- try(eval(parse(text=c("nlmixr2::nlmixr(",readLines(proj[[mod]]$model),")$meta"))))
+  meta <- suppressMessages(try(eval(parse(text=c("nlmixr2::nlmixr(",readLines(proj[[mod]]$model),")$meta"))),silent=TRUE))
   if(inherits(meta, "try-error") || inherits(sret, "try-error")){
     cat("Error in model syntax please check before running\n")
     if(ext) writeLines(meta, paste0(projloc,"/shinyMixR/temp/",mod,".prog.txt"))

@@ -16,7 +16,9 @@ if(!exists("{{{data}}}", envir=.GlobalEnv)) {
   data_nlm <- {{{data}}}
 }
 if("{{subs}}"!=""){
-  data_nlm <- subset(data_nlm,{{{subs}}})
+  data_nlm <- try(subset(data_nlm,{{{subs}}}))
+  if(inherits(data_nlm,"try-error")) cat("!!!! subset meta data (subs) in model, results in an error, please check syntax !!!!\n")
+  if(!inherits(data_nlm,"try-error") && nrow(data_nlm)==0) cat("!!!! subset meta data (subs) in model, results in an empty data frame, please check syntax !!!!\n")
 }
 
 source("{{{modelloc}}}")
