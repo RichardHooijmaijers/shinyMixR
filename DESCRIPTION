@@ -41,7 +41,10 @@ Suggests:
     shinytest2,
     knitr,
     rmarkdown,
-    rlang
+    rlang,
+    miniUI,
+    shinyFiles,
+    rstudioapi
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

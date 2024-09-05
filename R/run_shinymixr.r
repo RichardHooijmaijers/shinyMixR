@@ -40,7 +40,9 @@ run_shinymixr <- function(wd = getwd(), ...){
       # Header
       header = dashboardHeader(
         title = dashboardBrand(title = "ShinyMixR", color = "lightblue"), #, color = "lightblue", href = "#", image = "logoshinyMixR.png"),
-        leftUI = tags$img(src=paste0("data:image/png;base64,",xfun::base64_encode(system.file("dashboard/www/logoshinyMixR.png", package = "shinyMixR"))),height=40)
+        leftUI = tags$img(src=paste0("data:image/png;base64,",xfun::base64_encode(system.file("dashboard/www/logoshinyMixR.png", package = "shinyMixR"))),height=40),
+        rightUI = div(p(paste("Working in:",normalizePath(wd,winslash = "/")), style = "font-weight: 300;color: #484848;"),
+                      style="display: flex;justify-content: center;width: 100%;")
       ),
       # Sidebar menu
       sidebar = dashboardSidebar(status="lightblue", elevation = 1,
