@@ -6,6 +6,7 @@ library(shinyMixR)
 library(nlmixr2)
 
 test_check("shinyMixR")
+
 # devtools::test() 
 # test_dir("tests/testthat/")
 # devtools::test_active_file(file = "tests/testthat/test-gof_plot.R")

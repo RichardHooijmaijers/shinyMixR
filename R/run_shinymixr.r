@@ -4,14 +4,14 @@
 #' @param wd character with the working directory
 #' @param ... arguments passed to the shiny runApp function
 #' @importFrom shiny runApp HTML NS br checkboxGroupInput checkboxInput conditionalPanel
-#' div em eventReactive exportTestValues fluidRow hr icon
+#' div em p eventReactive exportTestValues fluidRow hr icon markdown
 #' insertUI isTruthy isolate modalDialog moduleServer
 #' numericInput observe observeEvent plotOutput radioButtons reactive
 #' reactivePoll reactiveVal reactiveValues reactiveValuesToList
 #' removeModal removeUI renderPlot renderPrint renderText req
 #' selectInput showModal sliderInput span tabPanel tagList
 #' tags textInput updateSelectInput updateSliderInput updateTabsetPanel
-#' updateTextInput verbatimTextOutput shinyApp invalidateLater debounce outputOptions
+#' updateTextInput verbatimTextOutput shinyApp invalidateLater debounce outputOptions stopApp
 #' @import bs4Dash ggplot2 gridExtra
 #' @export
 #' @return runs the shinyMixR interface

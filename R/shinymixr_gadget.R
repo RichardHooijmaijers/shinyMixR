@@ -1,9 +1,6 @@
 #------------------------------------------ shinymixr_gadget ------------------------------------------
 #' Rstudio gadget to select project and start app
 #'
-#' @importFrom shiny hr div markdown textInput checkboxInput observeEvent
-#' updateTextInput stopApp paneViewer
-#' @import rstudioapi shinyFiles miniUI
 #' @export
 #' @return runs the shinyMixR interface
 #' @author Richard Hooijmaijers
