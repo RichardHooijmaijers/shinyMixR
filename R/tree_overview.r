@@ -18,14 +18,20 @@
 #'  tree_overview(proj_obj)
 #' }
 tree_overview <- function(proj_obj, ...){
-  tmod   <- overview(proj_obj, ...)
-  stmodn <- data.frame(from=NA,to="start",imp=0,stringsAsFactors = FALSE)
-  noref  <- data.frame(from="start",to=tmod$models[tmod$ref==""],imp=tmod$imp[tmod$ref==""],stringsAsFactors = FALSE)
-  refs   <- data.frame(from=tmod$ref[tmod$ref!=""],to=tmod$models[tmod$ref!=""],imp=tmod$imp[tmod$ref!=""],stringsAsFactors = FALSE)
+  tmod     <- overview(proj_obj, ...)
+  tmod$ref <- ifelse(tmod$ref==tmod$models,"",tmod$ref)
+  stmodn   <- data.frame(from=NA,to="start",imp=0,stringsAsFactors = FALSE)
+  if(length(tmod$models[tmod$ref==""])!=0){
+    noref  <- data.frame(from="start",to=tmod$models[tmod$ref==""],imp=tmod$imp[tmod$ref==""],stringsAsFactors = FALSE)
+  }else{noref <- NULL}
+  if(length(tmod$models[tmod$ref!=""])!=0){
+    refs   <- data.frame(from=tmod$ref[tmod$ref!=""],to=tmod$models[tmod$ref!=""],imp=tmod$imp[tmod$ref!=""],stringsAsFactors = FALSE)
+  }else{refs <- NULL}
   stmodn <- rbind(stmodn,noref,refs)
   #stmodn$imp <- 5-as.numeric(stmodn$imp)
-  stmodn$imp <- as.numeric(stmodn$imp)
-  stmodn$col <- factor(stmodn$imp,levels=0:5)
+  stmodn$imp      <- ifelse(is.na(stmodn$imp),0,as.numeric(stmodn$imp))
+  stmodn$col      <- factor(stmodn$imp,levels=0:5)
+  stmodn$from[-1] <- ifelse(!stmodn$from[-1]%in%stmodn$to,"start",stmodn$from[-1])
   levels(stmodn$col) <- c("#edf8fb","#bfd3e6","#9ebcda","#8c96c6","#8856a7","#810f7c")
-  collapsibleTree::collapsibleTreeNetwork(stmodn, collapsed = FALSE,tooltip=FALSE,zoomable=FALSE,nodeSize="imp",fill="col")
+  collapsibleTree::collapsibleTreeNetwork(stmodn, collapsed = FALSE,tooltip=FALSE,zoomable=FALSE,fill="col")
 }
