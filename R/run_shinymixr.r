@@ -37,6 +37,7 @@ run_shinymixr <- function(wd = getwd(), ...){
   shinyApp(
     ui = dashboardPage(
       title = "shinyMixR",
+      help = NULL, dark = NULL,
       # Header
       header = dashboardHeader(
         title = dashboardBrand(title = "ShinyMixR", color = "lightblue"), #, color = "lightblue", href = "#", image = "logoshinyMixR.png"),
