@@ -30,6 +30,7 @@ jobs:
 
       - name: Test coverage
         run: |
+          Sys.setenv(NOT_CRAN = "true")
           cov <- covr::package_coverage(
             line_exclusions = "R/shinymixr_gadget.R",
             quiet = FALSE,
