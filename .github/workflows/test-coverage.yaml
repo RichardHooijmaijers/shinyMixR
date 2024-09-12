@@ -31,6 +31,7 @@ jobs:
       - name: Test coverage
         run: |
           cov <- covr::package_coverage(
+            line_exclusions = "R/shinymixr_gadget.R",
             quiet = FALSE,
             clean = FALSE,
             install_path = file.path(normalizePath(Sys.getenv("RUNNER_TEMP"), winslash = "/"), "package")
