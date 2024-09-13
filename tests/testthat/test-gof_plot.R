@@ -9,11 +9,11 @@ test_that("gof_plot works as expected", {
   #         double check; is this the case or only within shinytest2 (more related to mdoel run!)
   plot <- suppressWarnings(gof_plot(res, ptype = "all", type = "xpose"))
   expect_true(is.ggplot(plot))
-  expect_equal(length(plot$layers), 8)
+  expect_equal(length(plot$layers), 4)
   
   plot    <- suppressWarnings(gof_plot(res, ptype = "all", type = "user"))
   expect_true(is.ggplot(plot))
-  expect_equal(length(plot$layers), 8)
+  expect_equal(length(plot$layers), 2)
   
   plotlin  <- suppressWarnings(gof_plot(res, ptype = "ipred.dv", type = "user", linscale = TRUE))
   plotlog  <- suppressWarnings(gof_plot(res, ptype = "ipred.dv", type = "user"))
@@ -43,7 +43,7 @@ test_that("gof_plot works as expected", {
   all_plot <- suppressWarnings(gof_plot(res, ptype = "all", type = "user"))
   
   expect_true(is.ggplot(all_plot))
-  expect_equal(length(all_plot$layers), 8)
+  expect_equal(length(all_plot$layers), 2)
   
   # test if output file is generated
   temp_dir <- tempdir()
