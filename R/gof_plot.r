@@ -72,12 +72,9 @@ gof_plot <- function(dfrm,type="xpose",mdlnm=NULL,colby=NULL,ptype="all",outnm=N
   }
   if(ptype=="all"){
     p1 <- plfun(dat,"pred.dv"); p2 <- plfun(dat,"ipred.dv"); p3 <- plfun(dat,"pred.res"); p4 <- plfun(dat,"idv.res");
-    pl <- cowplot::plot_grid(p1 + theme(legend.position="none"),p2 + theme(legend.position="none"),p3 + theme(legend.position="none"),p4 + theme(legend.position="none"),labels="AUTO",align="hv")
-    if(!is.null(colby)) pl  <- cowplot::plot_grid(pl,cowplot::get_legend(plfun(dat,"ipred.dv") + guides(color = guide_legend(nrow = 1)) + theme(legend.position = "bottom")),ncol = 1, rel_heights = c(1, .1))
-    if(!is.null(title)){
-      ptitl <- cowplot::ggdraw() + cowplot::draw_label(title, x = 0, hjust = 0) + theme(plot.margin = margin(0, 0, 0, 7))
-      pl    <- cowplot::plot_grid(ptitl, pl, ncol = 1, rel_heights = c(0.1, 1))
-    }
+    pl <- patchwork::wrap_plots(p1,p2,p3,p4,guides="collect") & theme(legend.position="bottom")
+    pl <- pl <- pl + patchwork::plot_annotation(tag_levels = 'A')
+    pl <- pl + patchwork::plot_annotation(title = title)
   }else{
     pl <- plfun(dat,ptype)
     if(!is.null(title)) pl <- pl + labs(title=title)
