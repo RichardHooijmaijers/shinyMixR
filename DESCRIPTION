@@ -25,7 +25,7 @@ Imports:
   R3port,
   whisker,
   plotly,
-  cowplot,
+  patchwork,
   shinyjs,
   ps,
   xfun,

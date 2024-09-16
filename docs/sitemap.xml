@@ -1,84 +1,56 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url>
-    <loc>/404.html</loc>
-  </url>
-  <url>
-    <loc>/LICENSE-text.html</loc>
-  </url>
-  <url>
-    <loc>/articles/getting_started.html</loc>
-  </url>
-  <url>
-    <loc>/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>/articles/shinyMixR-vignette.html</loc>
-  </url>
-  <url>
-    <loc>/authors.html</loc>
-  </url>
-  <url>
-    <loc>/index.html</loc>
-  </url>
-  <url>
-    <loc>/news/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/adpt_meta.html</loc>
-  </url>
-  <url>
-    <loc>/reference/create_proj.html</loc>
-  </url>
-  <url>
-    <loc>/reference/exploreplot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/fit_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_meta.html</loc>
-  </url>
-  <url>
-    <loc>/reference/get_proj.html</loc>
-  </url>
-  <url>
-    <loc>/reference/getwidg.html</loc>
-  </url>
-  <url>
-    <loc>/reference/gof_plot.html</loc>
-  </url>
-  <url>
-    <loc>/reference/incr_mdl.html</loc>
-  </url>
-  <url>
-    <loc>/reference/index.html</loc>
-  </url>
-  <url>
-    <loc>/reference/myalert.html</loc>
-  </url>
-  <url>
-    <loc>/reference/overview.html</loc>
-  </url>
-  <url>
-    <loc>/reference/par_table.html</loc>
-  </url>
-  <url>
-    <loc>/reference/run_nmx.html</loc>
-  </url>
-  <url>
-    <loc>/reference/run_shinymixr.html</loc>
-  </url>
-  <url>
-    <loc>/reference/sigdigs.html</loc>
-  </url>
-  <url>
-    <loc>/reference/theme_shinyMixR.html</loc>
-  </url>
-  <url>
-    <loc>/reference/tree_overview.html</loc>
-  </url>
-  <url>
-    <loc>/reference/update_inits.html</loc>
-  </url>
+<urlset xmlns = 'http://www.sitemaps.org/schemas/sitemap/0.9'>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/404.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/articles/getting_started.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/articles/index.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/articles/shinyMixR-vignette.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/authors.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/index.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/LICENSE-text.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/LICENSE.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/news/index.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/adpt_meta.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/create_proj.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/exploreplot.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/fit_plot.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/getwidg.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/get_meta.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/get_proj.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/gof_plot.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/incr_mdl.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/index.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_dataexplore_server.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_dataexplore_ui.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_edit_server.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_edit_ui.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_fitplots_server.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_fitplots_ui.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_gof_server.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_gof_ui.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_metadata_server.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_metadata_ui.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_overview_server.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_overview_ui.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_pt_server.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_pt_ui.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_reports_server.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_reports_ui.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_run_server.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_run_ui.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_scripts_server.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_scripts_ui.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_settings_server.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/module_settings_ui.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/myalert.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/overview.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/par_table.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/run_nmx.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/run_shinymixr.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/setup_shinymixr_test.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/shinyMixR-package.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/shinymixr_gadget.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/sigdigs.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/theme_shinyMixR.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/tree_overview.html</loc></url>
+<url><loc>https://github.com/RichardHooijmaijers/shinyMixR/reference/update_inits.html</loc></url>
 </urlset>
+

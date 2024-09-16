@@ -19,7 +19,7 @@ module_dataexplore_ui <- function(id) {
         title = "",
         id = ns("exploretabs"),
         tabPanel("Data",
-          selectInput(ns("mdls"), "Models:", choices = "",multiple=FALSE,selectize =FALSE,size=10),
+          selectInput(ns("mdls"), "Models:", choices = "",multiple=FALSE,selectize =FALSE,size=10,selected=NA),
           checkboxInput(ns("use_input"),  "Use input dataset", value = FALSE)
         ),
         # The base layer
@@ -188,7 +188,7 @@ module_dataexplore_server <- function(id, r) {
         pos  <- regexpr("ggplot(.*)",ptxt)
         eval(parse(text=ptxt))
       }else{
-        shinyWidgets::sendSweetAlert(session=session,title="Info",text="Select model/data for analysis",type="error")
+        myalert("Select model/data for analysis",type = "error")
       }
     })#,ignoreInit=TRUE)
     output$plotout   <- renderPlot({print(createplot())},height=plheight,res=100)

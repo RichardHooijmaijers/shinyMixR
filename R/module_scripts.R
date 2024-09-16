@@ -15,12 +15,11 @@ module_scripts_ui <- function(id) {
 #' 
 #' @param id Module id
 #' @param files character vector of files to apply the scripts on, usually a reactive
-#' @param scripts character vector of scripts that can be applied on files, usually a reactive
 #' @param loc character with the location where the temp scripts are saved (created when not existing)
 #' @param r reactive values object that is defined top-level
 #' 
 #' @export
-module_scripts_server <- function(id, files=NULL, scripts=NULL, loc="temp", r) {
+module_scripts_server <- function(id, files=NULL, loc="temp", r) {
   # Decided that the files and script arguments should contain the path as well 
   # In the end the modal will show the basenames but on the background the entire 
   # name is used. The script will not set a working directory (it is the app dir by default)
@@ -88,26 +87,31 @@ module_scripts_server <- function(id, files=NULL, scripts=NULL, loc="temp", r) {
     
     # This is the first observer to open up the modal
     observeEvent(input$runscript,{
-      dflist <- dffun(files(),scripts())
+      r$scrpt <- list.files(paste0(r$this_wd, "/scripts"), full.names = TRUE) # make sure to list scripts when modal opens (always up-to-date)
+      dflist <- dffun(files(),r$scrpt)
       showModal(scriptmodal1(dflist))
     })
     # this is the second observer to run a script with arguments or to open modal in case of arguments
     observeEvent(input$runscriptA,{
-      uid(stringi::stri_rand_strings(1,6))
-      dflist  <- dffun(files(),scripts())
-      if(!file.exists(loc)) dir.create(loc,recursive=TRUE)
-      allinp  <- reactiveValuesToList(input)
-      scrcont <- readLines(dflist$dff$nam[dflist$dff$bn2==allinp$scripts])
-      tmpsc   <- paste0(loc,"/",allinp$scripts,".",uid(),".r")
-      if(any(grepl("^#inp#",scrcont))){
-        # Actions in case script has arguments (replace content of current modal)
-        warg  <- gsub("^#inp#","",scrcont[grepl("^#inp#",scrcont)])
-        scriptmodal2(warg)
+      if(!isTruthy(input$scripts) || !isTruthy(input$files)){
+        myalert("please select both script and model",type = "error")
       }else{
-        # Actions in case script does not has arguments
-        writeLines(c(paste0("files <- c(", paste(shQuote(dflist$df2$nam[dflist$df2$bn==allinp$files]),collapse = ", "),")"),scrcont),tmpsc)
-        runRscript(uid(),tmpsc,allinp)
-        r$uids_running <- 1
+        uid(stringi::stri_rand_strings(1,6))
+        dflist  <- dffun(files(),r$scrpt)
+        if(!file.exists(loc)) dir.create(loc,recursive=TRUE)
+        allinp  <- reactiveValuesToList(input)
+        scrcont <- readLines(dflist$dff$nam[dflist$dff$bn2==allinp$scripts])
+        tmpsc   <- paste0(loc,"/",allinp$scripts,".",uid(),".r")
+        if(any(grepl("^#inp#",scrcont))){
+          # Actions in case script has arguments (replace content of current modal)
+          warg  <- gsub("^#inp#","",scrcont[grepl("^#inp#",scrcont)])
+          scriptmodal2(warg)
+        }else{
+          # Actions in case script does not has arguments
+          writeLines(c(paste0("files <- c(", paste(shQuote(dflist$df2$nam[dflist$df2$bn==allinp$files]),collapse = ", "),")"),scrcont),tmpsc)
+          runRscript(uid(),tmpsc,allinp)
+          r$uids_running <- 1
+        }
       }
     })
     
@@ -116,7 +120,7 @@ module_scripts_server <- function(id, files=NULL, scripts=NULL, loc="temp", r) {
       uid(stringi::stri_rand_strings(1,6))
       if(!file.exists(loc)) dir.create(loc,recursive=TRUE)
       allinp  <- reactiveValuesToList(input)
-      dflist  <- dffun(files(),scripts())
+      dflist  <- dffun(files(),r$scrpt)
       scrcont <- readLines(dflist$dff$nam[dflist$dff$bn2==allinp$scripts])
       tmpsc   <- paste0(loc,"/",allinp$scripts,".",uid(),".r")
       
@@ -139,26 +143,19 @@ module_scripts_server <- function(id, files=NULL, scripts=NULL, loc="temp", r) {
     monout <- reactive({
       
       req(file.exists(paste0(normalizePath(loc), "/scriptres", uid(), ".out")))
-      
       txt <- paste(readLines(paste0(normalizePath(loc), "/scriptres", uid(), ".out")), collapse = "\n")
       
       if (r$uids_running > 0) {
-        
         invalidateLater(1000, session)
-        
         if (grepl("Script done", txt)) {
-          #print("UID finished running")
-          
           r$uids_running <- 0
         }
-        
         return(txt)
-        
       } else {
         return(txt)
       }
     })
-    
+   
     output$scriptprogress <- renderText(monout())
     
   })
