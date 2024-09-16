@@ -70,9 +70,10 @@ The interface will be started and a project object will be created in the global
 
 ```{r echo=FALSE,out.width="700px"}
 #knitr::include_graphics("screen1.png")
+knitr::include_graphics(file.path("..","man", "figures", "screen1.png"))
 ```
 <!-- ![nlmixr](screen1.png) -->
-<img src="./screen1.png"></img>
+<!-- <img src="./screen1.png"></img> -->
 
 
 On the left side, there is sidebar with various menu items. The content of the main body will open with the model overview but changes based on the selected menu item in the sidebar. The sidebar can be collapsed by clicking the three lines in the top bar, providing more room for the main body. 
@@ -117,7 +118,8 @@ Although it is possible to delete models manually within the project folder, it 
 ## Edit models
 
 ```{r echo=FALSE,out.width="300px"}
-knitr::include_graphics("screen2.png")
+#knitr::include_graphics("screen2.png")
+knitr::include_graphics(file.path("..","man", "figures", "screen2.png"))
 ```
 
 The edit tab can be used to edit existing models within an editor including syntax coloring (using the `shinyAce` package). It is also possible to create new models using various templates or to duplicate existing models. Finally the initial estimates for a model can be updated using the final estimates of (another) model.
@@ -125,7 +127,8 @@ The edit tab can be used to edit existing models within an editor including synt
 ## Run models
 
 ```{r echo=FALSE,out.width="300px"}
-knitr::include_graphics("screen3.png")
+#knitr::include_graphics("screen3.png")
+knitr::include_graphics(file.path("..","man", "figures", "screen3.png"))
 ```
 
 The run tab can be used to run models within a project. It is possible to run one or multiple models at once. Also it is possible to assess the intermediate output or progress for an nlmixr2 run. Furthermore, you can see which models are still running on the background and kill any model submitted from the interface.
@@ -133,7 +136,8 @@ The run tab can be used to run models within a project. It is possible to run on
 ## Parameter estimates
 
 ```{r echo=FALSE,out.width="300px"}
-knitr::include_graphics("screen4.png")
+#knitr::include_graphics("screen4.png")
+knitr::include_graphics(file.path("..","man", "figures", "screen4.png"))
 ```
 
 The parameter estimates tab can be used to generate a table with parameter estimates. In case multiple models are selected the table will show the results of each run in a separate column. This page is reactive which means that in case a different model is selected, the table is directly updated. There are possibilities to save the table to a latex/pdf or html file, show back-transformed values or to include shrinkage and between subject variability within the output
@@ -141,7 +145,8 @@ The parameter estimates tab can be used to generate a table with parameter estim
 ## Goodness of fit
 
 ```{r echo=FALSE,out.width="300px"}
-knitr::include_graphics("screen5.png")
+#knitr::include_graphics("screen5.png")
+knitr::include_graphics(file.path("..","man", "figures", "screen5.png"))
 ```
 
 The goodness of fit tab can be used to generate a the most relevant goodness of fit plots. Plots can be generate using the `nlmixr.xpose2` package or directly using `ggplot` (this can be specified in the settings widget). 
@@ -150,7 +155,8 @@ Also here the plots can be saved to a latex/pdf or html file. Additional options
 ## Fit plots
 
 ```{r echo=FALSE,out.width="300px"}
-knitr::include_graphics("screen6.png")
+#knitr::include_graphics("screen6.png")
+knitr::include_graphics(file.path("..","man", "figures", "screen6.png"))
 ```
 
 
@@ -159,7 +165,8 @@ The fit plots tab can be used to generate a individual fit plots. In general sim
 ## Data exploration
 
 ```{r echo=FALSE,out.width="300px"}
-knitr::include_graphics("screen7.png")
+#knitr::include_graphics("screen7.png")
+knitr::include_graphics(file.path("..","man", "figures", "screen7.png"))
 ```
 
 
@@ -225,7 +232,7 @@ res  <- readRDS("./shinyMixR/run1.res.rds")
 ```
 
 ```{r message=FALSE, warning=FALSE}
-gof_plot(res)
+gof_plot(res, type="user")
 # gof_plot(res, mdlnm="run1", outnm="gof.tex")
 ```
 
