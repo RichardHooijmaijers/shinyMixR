@@ -40,7 +40,7 @@ module_overview_server <- function(id, r) {
       
       # Make reactive value to hold the available models/scripts
       r$mdls <- list.files(paste0(r$this_wd, "/models"), pattern = "run[[:digit:]]*\\.[r|R]", full.names = TRUE)
-      r$scrpt <- list.files(paste0(r$this_wd, "/scripts"), full.names = TRUE)
+      #r$scrpt <- list.files(paste0(r$this_wd, "/scripts"), full.names = TRUE)
       
       # if no models are present in r$proj_obj, return empty table
       if (length(names(r$proj_obj)[names(r$proj_obj) != "meta"]) > 0) {
@@ -66,8 +66,8 @@ module_overview_server <- function(id, r) {
         r$proj_obj <- get_proj(r$this_wd)
         overview_ov <- overview(r$proj_obj)
         DT::replaceData(proxy, overview_ov, rownames = FALSE)
-        r$mdls  <- list.files("models",pattern="run[[:digit:]]*\\.[r|R]",full.names = TRUE)
-        r$scrpt <- list.files("scripts",full.names = TRUE)
+        r$mdls <- list.files(paste0(r$this_wd, "/models"), pattern = "run[[:digit:]]*\\.[r|R]", full.names = TRUE)
+        #r$scrpt <- list.files(paste0(r$this_wd, "/scripts"), full.names = TRUE)
       }
     },ignoreInit = TRUE)
 
@@ -118,7 +118,7 @@ module_overview_server <- function(id, r) {
       }
     },ignoreInit = TRUE)
 
-    module_scripts_server("runscripts", files = reactive(r$mdls), scripts = reactive(r$scrpt), loc = paste0(r$this_wd,"/shinyMixR/temp"), r = r)
+    module_scripts_server("runscripts", files = reactive(r$mdls), loc = paste0(r$this_wd,"/shinyMixR/temp"), r = r)
 
     # Creating reports
     module_reports_server("reports")
