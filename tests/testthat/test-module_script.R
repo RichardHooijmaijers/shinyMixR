@@ -21,11 +21,13 @@ test_that("Shiny app runs model and returns parameters for run1", {
   }
   
   r <- list(
-    uids_running = 0
+    uids_running = 0,
+    this_wd = paste0(temp_dir, "/files"),
+    scrpt = scripts
   )
   
   testServer(module_scripts_server, 
-             args = list(files = reactive(models), scripts = reactive(scripts), loc = paste0(temp_dir, "/files/shinyMixR/temp"), r = r), {
+             args = list(files = reactive(models), loc = paste0(temp_dir, "/files/shinyMixR/temp"), r = r), {
                
                # Open modal
                session$setInputs(runscript = 1)
