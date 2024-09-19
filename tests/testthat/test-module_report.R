@@ -110,9 +110,8 @@ test_that("Shiny app creates plot and runs report", {
                })
              })
   
-  testServer(module_reports_server, {
-    
-    setwd(paste0(temp_dir, "/files"))
+  testServer(module_reports_server, 
+             args = list(r = r),{
     
     session$setInputs(models = "run1",
                       type = "HTML",

@@ -4,10 +4,12 @@
 \alias{module_reports_server}
 \title{Reporting module for server}
 \usage{
-module_reports_server(id)
+module_reports_server(id, r)
 }
 \arguments{
 \item{id}{Module id}
+
+\item{r}{reactive values object that is defined top-level}
 }
 \description{
 Reporting module for server
