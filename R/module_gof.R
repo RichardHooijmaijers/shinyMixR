@@ -52,7 +52,7 @@ module_gof_server <- function(id, r, settings) {
         updateSelectInput(session, "colby", choices = "")
       } else {
         datar <- readRDS(paste0(r$this_wd,"/shinyMixR/",input$gofLst,".res.rds"))
-        updateSelectInput(session, "colby", choices = c("",names(datar)))
+        updateSelectInput(session, "colby", choices = c("",names(datar)), selected = input$colby)
       }
     })
     
