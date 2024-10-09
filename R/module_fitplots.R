@@ -57,13 +57,18 @@ module_fitplots_server <- function(id, r, settings) {
       if (!file.exists(paste0(r$this_wd,"/shinyMixR/",input$fitLst,".res.rds"))){
         for(i in c("by", "idv", "obs", "pred", "ipred", "grp")) updateSelectInput(session, i, choices = "")
       } else {
+        defsel <- list(by="ID", idv="TIME", obs="DV", pred="PRED", ipred="IPRED", grp="ID")
+        for(i in seq_along(defsel)){
+          if(isTruthy(input[[names(defsel)[i]]])) defsel[[i]] <- input[[names(defsel)[i]]] else defsel[[i]] <- defsel[[i]]
+        }
+        
         datar <- readRDS(paste0(r$this_wd,"/shinyMixR/",input$fitLst,".res.rds"))
-        updateSelectInput(session, "by", choices = c("",names(datar)),selected="ID")
-        updateSelectInput(session, "idv", choices = c("",names(datar)),selected="TIME")
-        updateSelectInput(session, "obs", choices = c("",names(datar)),selected="DV")
-        updateSelectInput(session, "pred", choices = c("",names(datar)),selected="PRED")
-        updateSelectInput(session, "ipred", choices = c("",names(datar)),selected="IPRED")
-        updateSelectInput(session, "grp", choices = c("",names(datar)),selected="ID")
+        updateSelectInput(session, "by", choices = c("",names(datar)),selected=defsel$by)
+        updateSelectInput(session, "idv", choices = c("",names(datar)),selected=defsel$idv)
+        updateSelectInput(session, "obs", choices = c("",names(datar)),selected=defsel$obs)
+        updateSelectInput(session, "pred", choices = c("",names(datar)),selected=defsel$pred)
+        updateSelectInput(session, "ipred", choices = c("",names(datar)),selected=defsel$ipred)
+        updateSelectInput(session, "grp", choices = c("",names(datar)),selected=defsel$grp)
       }
       
     })

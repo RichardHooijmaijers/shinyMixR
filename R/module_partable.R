@@ -88,6 +88,6 @@ module_pt_server <- function(id, r) {
       )
     }
     observeEvent(input$savePars,showModal(parsave()))
-    observeEvent(input$savePars2, parTable(input, projloc = r$this_wd, saveit = TRUE))
+    observeEvent(input$savePars2, {parTable(input, projloc = r$this_wd, saveit = TRUE);removeModal()})
   })
 }
