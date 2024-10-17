@@ -31,6 +31,6 @@ lapply(files,function(x){
   try(R3port::html_plot(nlmixr2::vpcPlot(res,n=500,show=list(obs_dv=TRUE)),out=paste0(rootl,"/analysis/",mdln,"/06vpc.plot.html"),show=FALSE,title="VPC"))
 
   R3port::html_combine(combine=paste0(rootl,"/analysis/",mdln),out="report.html",show=TRUE,
-                       template=paste0(system.file(package="R3port"),"/bootstrap.html"),toctheme=TRUE)
+                       template=paste0(system.file(package="shinyMixR"),"/other/bootstrap.htmltmpl"),toctheme=TRUE)
 })
 cat("Script done!\n")

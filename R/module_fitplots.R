@@ -14,7 +14,7 @@ module_fitplots_ui <- function(id, proj_obj) {
       box(width=3, title = "Settings", status="lightblue",solidHeader=TRUE, 
         actionButton(ns("make"), "Create plot",icon=icon("play")),
         actionButton(ns("save"), "Save plot",icon=icon("floppy-disk")),hr(),
-        selectInput(ns("fitLst"),"Model(s):",names(proj_obj)[names(proj_obj)!="meta"],multiple=FALSE,size=5,selectize=FALSE,selected=NA),
+        selectInput(ns("fitLst"),"Model(s):",sort(names(proj_obj)[names(proj_obj)!="meta"]),multiple=FALSE,size=5,selectize=FALSE,selected=NA),
         textInput(ns("subset"), "Subset:", value = "", placeholder="e.g. ID!=10"),
         textInput(ns("precode"), "Pre-code:", value = "",placeholder="e.g. dataIn$DV <- log(dataIn$DV)"),
         selectInput(ns("by"),"Panel by:","",multiple=TRUE),
@@ -47,7 +47,7 @@ module_fitplots_server <- function(id, r, settings) {
     # Adapt model list based on selected project location
     observeEvent(r$active_tab,{
       if(r$active_tab=="fitpl"){
-        updateSelectInput(session, "fitLst", choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=input$fitLst)
+        updateSelectInput(session, "fitLst", choices = sort(names(r$proj_obj)[names(r$proj_obj)!="meta"]),selected=input$fitLst)
       }
     },ignoreInit=TRUE)
 

@@ -96,7 +96,7 @@ module_edit_server <- function(id, r, settings) {
       ns <- session$ns
       if(isTruthy(input$editLst)){
         selm <- tools::file_path_sans_ext(basename(r$proj_obj[[input$editLst]]$model))
-        incm <- incr_mdl(basename(r$proj_obj[[input$editLst]]$model),"models")
+        incm <- incr_mdl(basename(r$proj_obj[[input$editLst]]$model),paste0(r$this_wd,"/models"))
       }else{
         selm <- incm <- NULL
       } 

@@ -13,7 +13,7 @@ module_pt_ui <- function(id, proj_obj) {
     actionButton(ns("savePars"), "Save parameter table",icon=icon("floppy-disk")),br(),br(),
     fluidRow(
       box(width=3, title = "Settings", status="lightblue",solidHeader=TRUE, 
-        selectInput(ns("EstLst"),"Model(s)",names(proj_obj)[names(proj_obj)!="meta"],multiple=TRUE,size=10,selectize=FALSE),
+        selectInput(ns("EstLst"),"Model(s)",sort(names(proj_obj)[names(proj_obj)!="meta"]),multiple=TRUE,size=10,selectize=FALSE),
         checkboxInput(ns("bsv"),"Include BSV",TRUE),
         checkboxInput(ns("shrink"),"Include shrinkage",TRUE),
         checkboxInput(ns("backt"),"Back-transformed parameters",FALSE)
@@ -36,7 +36,7 @@ module_pt_server <- function(id, r) {
       if(r$active_tab=="par"){
         updateSelectInput(session, 
                           "EstLst", 
-                          choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],
+                          choices = sort(names(r$proj_obj)[names(r$proj_obj)!="meta"]),
                           selected= ifelse(is.null(input$EstLst), names(r$proj_obj)[names(r$proj_obj)!="meta"][1], input$EstLst) 
         )
       }
