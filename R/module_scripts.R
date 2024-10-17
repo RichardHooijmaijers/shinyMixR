@@ -53,7 +53,7 @@ module_scripts_server <- function(id, files=NULL, loc="temp", r) {
       modalDialog(title="Scripting",easyClose = TRUE,size="xl",fade=FALSE,
                   div(id="scrmodal1",div(id="scrmodal2",
                                          fluidRow(
-                                           column(6,selectInput(ns("files"),"File(s)",dflist$df2$bn,multiple=TRUE,size=15,selectize=FALSE,width='100%')),
+                                           column(6,selectInput(ns("files"),"File(s)",sort(dflist$df2$bn),multiple=TRUE,size=15,selectize=FALSE,width='100%')),
                                            column(6,selectInput(ns("scripts"),"Scripts",dflist$dff$bn2,multiple=FALSE,size=15,selectize=FALSE,width='100%'))
                                          ),
                                          actionButton(ns("runscriptA"), "Run script",icon=icon("play")),br(),br(),

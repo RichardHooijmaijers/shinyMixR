@@ -58,8 +58,8 @@ module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NU
         selectInput(ns("mdlest"),"Method",c("fo", "foce", "focei", "foi", "nlme", "posthoc", "predict", "rxSolve", "saem", "simulate"),selected=meta$est),
         actionButton(ns("adpt"), "Save",icon=icon("floppy-disk"))    
       )
-      mld1 <- tagList(textInput(ns("mdladpt"),"Save as",incr_mdl(paste0(meta$sel,".r"),"models")))
-      mld2 <- tagList(selectInput(ns("mdladpt"),"Model",choices=meta$mdls,selected=meta$sel,multiple=FALSE,selectize = TRUE))
+      mld1 <- tagList(textInput(ns("mdladpt"),"Save as",incr_mdl(paste0(meta$sel,".r"), paste0(r$this_wd,"/models"))))
+      mld2 <- tagList(selectInput(ns("mdladpt"),"Model",choices=sort(meta$mdls),selected=meta$sel,multiple=FALSE,selectize = TRUE))
       if(type=="save") allt <- tagList(mld1,gen) else allt <- tagList(mld2,gen)
       
       modalDialog(title=titl,easyClose = TRUE,fade=FALSE, allt)  
@@ -104,7 +104,11 @@ module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NU
           toret <- c(name=paste0(r$this_wd,"/models/",input$mdladpt,".r"), val="Update DT", saveas=paste0(r$this_wd,"/models/",input$mdladpt,".r"))
         } 
         towr <- adpt_meta(toret['name'],metanfo)
-        if(type=="save") towr <- sub(sellmod(),sub("\\.[r|R]","",input$mdladpt),towr)
+        if(type=="save"){
+          # Adapt function name while making sure to only replace first occurence (otherwise reference can be replaced as well!)
+          occr <- grep(sellmod(),towr)
+          if(length(occr)>0) towr[occr[1]] <- sub(sellmod(),sub("\\.[r|R]","",input$mdladpt),towr[occr[1]])
+        } 
         writeLines(towr,toret['saveas'])
         r$proj_obj <- get_proj(r$this_wd)
         removeModal()

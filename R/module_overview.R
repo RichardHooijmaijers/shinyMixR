@@ -56,7 +56,7 @@ module_overview_server <- function(id, r) {
 
     # Create tree
     tree <- eventReactive(input$mktree,{
-      if(file.exists("shinyMixR")){tree_overview(r$proj_obj)}else{data.frame()}
+      if(file.exists(paste0(r$this_wd, "/shinyMixR"))){tree_overview(r$proj_obj)}else{data.frame()}
     })
     output$treeout <- collapsibleTree::renderCollapsibleTree(tree())
 

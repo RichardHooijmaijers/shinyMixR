@@ -10,7 +10,7 @@
 module_run_ui <- function(id, proj_obj) {
   ns <- NS(id)
   tagList(
-    selectInput(ns("runLst"),"Model(s)",names(proj_obj)[names(proj_obj)!="meta"],multiple=TRUE,selectize = TRUE),
+    selectInput(ns("runLst"),"Model(s)",sort(names(proj_obj)[names(proj_obj)!="meta"]),multiple=TRUE,selectize = TRUE),
     actionButton(ns("runMdl"), "Run Model(s)",icon=icon("play")),
     actionButton(ns("monMdl"), "Monitor Model(s)",icon=icon("play")),br(),br(),
     checkboxGroupInput(ns("addExtra"),label=NULL,choices=c("Add CWRES to output","Add NPDE to output"),selected=c("Add CWRES to output","Add NPDE to output"),inline=TRUE),
@@ -32,7 +32,7 @@ module_run_server <- function(id, r) {
     # Adapt/update model list 
     observeEvent(r$active_tab,{
       if(r$active_tab=="run"){
-        updateSelectInput(session, "runLst", choices = names(r$proj_obj)[names(r$proj_obj)!="meta"],selected=input$runmod_runLst)
+        updateSelectInput(session, "runLst", choices = sort(names(r$proj_obj)[names(r$proj_obj)!="meta"]),selected=input$runmod_runLst)
       }
     },ignoreInit=TRUE)
 

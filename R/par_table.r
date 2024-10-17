@@ -34,26 +34,35 @@
 par_table <- function(proj,models,outnm=NULL,projloc=".",bsv=FALSE,shrink=FALSE,backt=FALSE,formatting=FALSE,...){
   withres <- names(proj)[sapply(proj,function(x) !is.null(x$results))]
   tbls <- lapply(intersect(models,withres),function(x){
-    tbl <- proj[[x]]$results$partblf
+    #tbl <- proj[[x]]$results$partblf
+    tbl  <- proj[[x]]$results$partbl
+    tblf <- proj[[x]]$results$partblf
     if(!backt){
-      Est <- paste0(tbl$Est.," [",tbl$`%RSE`,"]")  
+      #Est <- paste0(tbl$Est.," [",tbl$`%RSE`,"]")  
+      Est <- paste0(numfmt(tbl$Estimate)," [",numfmt(tbl$`%RSE`),"]")  
     }else{
       if("SE"%in%names(tbl)){
-        Est <- ifelse(tbl$SE=="FIXED",paste0(tbl$`Back-transformed(95%CI)`," (FIXED)"),tbl$`Back-transformed(95%CI)`)   
+        #Est <- ifelse(tbl$SE=="FIXED",paste0(tbl$`Back-transformed(95%CI)`," (FIXED)"),tbl$`Back-transformed(95%CI)`)   
+        Est <- ifelse(tblf$SE=="FIXED",paste0(numfmt(tbl$`Back-transformed`)," (FIXED)"),
+                                       paste0(numfmt(tbl$`Back-transformed`)," (",numfmt(tbl$`CI Lower`),", ",numfmt(tbl$`CI Upper`),")"))
       }else{
-        Est <- tbl$`Back-transformed`
+        Est <- numfmt(tbl$`Back-transformed`)
       }
     }
     Est <- sub(" \\[\\]","",Est)
     if(bsv){
-      if(!shrink)    EstAdd <- ifelse(tbl$`BSV(CV%)`==" ","",paste0("{",tbl$`BSV(CV%)`,"}"))
-      if(shrink)     EstAdd <- ifelse(tbl$`BSV(CV%)`==" ","",paste0("{",tbl$`BSV(CV%)`,", ",tbl$`Shrink(SD)%`,"}"))
+      #if(!shrink)    EstAdd <- ifelse(tbl$`BSV(CV%)`==" ","",paste0("{",tbl$`BSV(CV%)`,"}"))
+      #if(shrink)     EstAdd <- ifelse(tbl$`BSV(CV%)`==" ","",paste0("{",tbl$`BSV(CV%)`,", ",tbl$`Shrink(SD)%`,"}"))
+      if(!shrink)    EstAdd <- ifelse(is.na(tbl$`BSV(CV%)`),"",paste0("{",numfmt(tbl$`BSV(CV%)`),"}"))
+      if(shrink)     EstAdd <- ifelse(is.na(tbl$`BSV(CV%)`),"",paste0("{",numfmt(tbl$`BSV(CV%)`),", ",numfmt(tbl$`Shrink(SD)%`),"}"))
       if(formatting) EstAdd <- ifelse(EstAdd=="","",paste0("<span style=\"font-size: 0.75em;font-weight: bold;\">",EstAdd,"</span>"))
       Est <- paste(Est,EstAdd)
     }
     ret <- data.frame(Parameter=row.names(tbl),Est=Est)
-    if(!is.null(proj[[x]]$results$CONDNR)) CN <- round(proj[[x]]$results$CONDNR,1) else CN <- ""
-    ret <- rbind(data.frame(Parameter="OBJF",Est=round(proj[[x]]$results$OBJF,2)),data.frame(Parameter="COND. NR",Est=CN),ret)
+    #if(!is.null(proj[[x]]$results$CONDNR)) CN <- round(proj[[x]]$results$CONDNR,1) else CN <- ""
+    #ret <- rbind(data.frame(Parameter="OBJF",Est=round(proj[[x]]$results$OBJF,2)),data.frame(Parameter="COND. NR",Est=CN),ret)
+    if(!is.null(proj[[x]]$results$CONDNR)) CN <- numfmt(proj[[x]]$results$CONDNR) else CN <- ""
+    ret <- rbind(data.frame(Parameter="OBJF",Est=numfmt(proj[[x]]$results$OBJF)),data.frame(Parameter="COND. NR",Est=CN),ret)
     names(ret) <- c("Parameter",x)
     ret
   })
