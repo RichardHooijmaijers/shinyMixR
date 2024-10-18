@@ -88,7 +88,7 @@ module_overview_server <- function(id, r) {
     hr_out <- eventReactive(input$hlr, {
       #sel   <- sort(names(r$proj_obj)[names(r$proj_obj)!="meta"])[input$overview_tbl_rows_selected]
       mdlc  <- overview(r$proj_obj)
-      sel   <- mdlc$models[input$overview_tbl_rows_selected][1]
+      sel   <- mdlc$models[sort(input$overview_tbl_rows_selected)][1] # make sure the first occured row is used (instead of first selected!)
       if(length(sel)>0){
         res <- try(readRDS(paste0(r$this_wd,"/shinyMixR/",sel[1],".res.rds")))
         if(!"try-error"%in%class(res)) print(res) else print("No results available")
@@ -109,7 +109,7 @@ module_overview_server <- function(id, r) {
       if(!is.null(input$overview_tbl_rows_selected)){
         #msel <- sort(names(r$proj_obj)[names(r$proj_obj)!="meta"])[input$overview_tbl_rows_selected]
         mdlc  <- overview(r$proj_obj)
-        msel  <- mdlc$models[input$overview_tbl_rows_selected][1]
+        msel  <- mdlc$models[input$overview_tbl_rows_selected]
         if(input$delmodall) {
           try(file.remove(paste0(r$this_wd,"/shinyMixR/",msel,".res.rds")))
           try(file.remove(paste0(r$this_wd,"/shinyMixR/",msel,".ressum.rds")))

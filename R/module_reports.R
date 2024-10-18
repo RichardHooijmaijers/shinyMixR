@@ -75,7 +75,7 @@ module_reports_server <- function(id, r) {
             ftr <- paste0(r$this_wd,"/analysis/",input$models,"/",sub("\\.html$",".html.rawhtml",input$results))
             ftr <- ftr[file.exists(ftr)]
             R3port::html_combine(list(ftr),out=paste0(r$this_wd,"/analysis/",input$models,"/",input$name,".html"),show=TRUE,
-                                template=paste0(system.file(package="R3port"),"/bootstrap.html"))
+                                template=paste0(system.file(package="shinyMixR"),"/other/bootstrap.htmltmpl"),rtitle = paste0("report: ",input$models))
           }
         }
       }else{
