@@ -15,7 +15,7 @@
 #' @examples
 #'
 #' \dontrun{
-#'  tree_overview(proj_obj)
+#'  if (interactive()) tree_overview(proj_obj)
 #' }
 tree_overview <- function(proj_obj, ...){
   tmod     <- overview(proj_obj, ...)

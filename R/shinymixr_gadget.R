@@ -7,7 +7,7 @@
 #' @examples
 #'
 #' \dontrun{
-#'  shinymixr_gadget()
+#'  if (interactive()) shinymixr_gadget()
 #' }
 shinymixr_gadget <- function(){ 
   if(!"shinymixr" %in% tolower((.packages()))){
