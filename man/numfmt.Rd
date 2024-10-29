@@ -4,12 +4,15 @@
 \alias{numfmt}
 \title{set significant digits without rounding higher numbers}
 \usage{
-numfmt(x, sdig = 3)
+numfmt(x, sdig = 3, snc = 6)
 }
 \arguments{
 \item{x}{a numerical vector}
 
 \item{sdig}{a single number defining the number of significant digits}
+
+\item{snc}{a single number defining the scientific notation cutoff 
+(higher means notation is only used for very small or very large numbers)}
 }
 \value{
 a character vector with formatted numbers

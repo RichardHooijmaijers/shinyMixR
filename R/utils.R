@@ -41,14 +41,17 @@ setup_shinymixr_test <- function(dir = "./tests/files", overwrite = TRUE, record
 #' This function sets significant digits without rounding any numbers
 #' @param x a numerical vector
 #' @param sdig a single number defining the number of significant digits
+#' @param snc a single number defining the scientific notation cutoff 
+#' (higher means notation is only used for very small or very large numbers)
 #' @export
 #' @return a character vector with formatted numbers
 #' @author Richard Hooijmaijers
 #' @examples
 #' numfmt(c(0.012,12345,1))
-numfmt <- function(x,sdig=3){
+numfmt <- function(x,sdig=3,snc=6){
   om <- floor(log10(abs(x)))
   dp <- sdig-om-1
   dp <- ifelse(dp<0 | is.na(dp) | is.infinite(dp),0,dp)
-  sprintf(paste("%.",dp,"f", sep=""), x)
+  ifelse(abs(om)>=snc & x!=0, sprintf(paste("%.",sdig-1,"e", sep=""), x),
+                              sprintf(paste("%.",dp,"f", sep=""), x))
 }

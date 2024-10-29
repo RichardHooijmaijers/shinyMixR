@@ -156,7 +156,15 @@ module_dataexplore_server <- function(id, r) {
     # Select different model (store in reactive values object)
     updfunc <- function(){
       if(input$use_input){
-        r$dataIn <- try(readRDS(paste0(r$this_wd,"/shinyMixR/",input$mdls[1],".res.rds"))$origData)
+        dat  <- r$proj_obj[[which(names(r$proj_obj)==input$mdls[1])]]$modeleval$meta$data
+        if(file.exists(paste0(r$this_wd,"/data/",dat,".rds"))){
+          r$dataIn <- try(readRDS(paste0(r$this_wd,"/data/",dat,".rds")))
+        }else if(file.exists(paste0(r$this_wd,"/data/",dat,".csv"))){
+          r$dataIn <- try(read.csv(paste0(r$this_wd,"/data/",dat,".csv")))
+        }else{
+          r$dataIn <- data.frame(result="Could not read input data")
+        }
+        #r$dataIn <- try(readRDS(paste0(r$this_wd,"/shinyMixR/",input$mdls[1],".res.rds"))$origData)
       }else{
         r$dataIn <- try(as.data.frame(readRDS(paste0(r$this_wd,"/shinyMixR/",input$mdls[1],".res.rds"))))
       }
