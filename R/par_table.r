@@ -44,7 +44,9 @@ par_table <- function(proj,models,outnm=NULL,projloc=".",bsv=FALSE,shrink=FALSE,
       if("SE"%in%names(tbl)){
         #Est <- ifelse(tbl$SE=="FIXED",paste0(tbl$`Back-transformed(95%CI)`," (FIXED)"),tbl$`Back-transformed(95%CI)`)   
         Est <- ifelse(tblf$SE=="FIXED",paste0(numfmt(tbl$`Back-transformed`)," (FIXED)"),
-                                       paste0(numfmt(tbl$`Back-transformed`)," (",numfmt(tbl$`CI Lower`),", ",numfmt(tbl$`CI Upper`),")"))
+                      ifelse(!is.na(tbl$`CI Lower`) & !is.na(tbl$`CI Lower`),
+                             paste0(numfmt(tbl$`Back-transformed`)," (",numfmt(tbl$`CI Lower`),", ",numfmt(tbl$`CI Upper`),")"),
+                             paste0(numfmt(tbl$`Back-transformed`))))
       }else{
         Est <- numfmt(tbl$`Back-transformed`)
       }
