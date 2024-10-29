@@ -1,5 +1,5 @@
 #------------------------------------------ module_overview_ui ------------------------------------------
-#' Oerview module for UI
+#' Overview module for UI
 #'
 #' @description Shiny module for overview
 #'

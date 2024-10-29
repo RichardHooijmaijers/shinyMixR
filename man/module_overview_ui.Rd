@@ -2,7 +2,7 @@
 % Please edit documentation in R/module_overview.R
 \name{module_overview_ui}
 \alias{module_overview_ui}
-\title{Oerview module for UI}
+\title{Overview module for UI}
 \usage{
 module_overview_ui(id)
 }

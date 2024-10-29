@@ -63,7 +63,7 @@ default ggplot call
 In case a model is saved, a directory with the name of the model is created within the
   analysis folder of the current project. Then within this folder the file is saved as outnm.
   This method was chosen so the interface can easily index applicable files for a certain model.
-  However, this means that output is alwasy saved in this directly regardless of the location of outnm
+  However, this means that output is always saved in this directly regardless of the location of outnm
 }
 \examples{
 

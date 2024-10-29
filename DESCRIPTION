@@ -6,8 +6,6 @@ Authors@R: c(person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmai
              person("LAPP Consultants",email = "info@lapp.nl", role=c("fnd","cph")),
              person("Matthew Fidler",role=c("ctb")),
              person("Veerle van Leemput",role=c("ctb")))
-Author: Richard Hooijmaijers
-Maintainer: Richard Hooijmaijers <richardhooijmaijers@gmail.com>
 Description: An interface for the 'nlmixr2' package. Furthermore additional functions
   are included to work with the 'nlmixr2' package through the command line.
 Depends:
