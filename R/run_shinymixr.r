@@ -19,7 +19,7 @@
 #' @examples
 #'
 #' \dontrun{
-#'  run_shinymixr(".")
+#'  if (interactive()) run_shinymixr(".")
 #' }
 run_shinymixr <- function(wd = getwd(), ...){ 
   
