@@ -15,7 +15,7 @@ incr_mdl(mod, checkloc = NULL)
 character with the incremented name
 }
 \description{
-A model name is incremented either by incementing numerical or alpha numerical.
+A model name is incremented either by incrementing numerical or alpha numerical.
 Furthermore it is possible to check the existence of the incremented model
 and take this into account.
 }

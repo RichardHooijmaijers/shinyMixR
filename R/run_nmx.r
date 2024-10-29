@@ -15,7 +15,7 @@
 #' 
 #' @details the meta data is obtained by compiling the model. The dataset, estimation method and control list are
 #'   then included in the nlmixr call. Meta data is included in the model function which is comparable with NONMEM.
-#'   This method was chosen so that all information to run a model is kept togehter in one function
+#'   This method was chosen so that all information to run a model is kept together in one function
 #'
 #' @export
 #' @return In case the model is not submitted in a separate R session, the results from nlmixr are returned otherwise

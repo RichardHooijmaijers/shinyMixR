@@ -10,14 +10,14 @@
 #' @param projloc character with the base location of the shinyMixR project
 #' @param bsv logical indicating if between subject variability (BSV) should be added to table
 #' @param shrink logical indicating if shrinkage should be added to table
-#' @param backt logical indicating if the backtransformed parameters should be returned oposed to the original values
+#' @param backt logical indicating if the backtransformed parameters should be returned opposed to the original values
 #' @param formatting logical indicating if the formatting should be applied to present the table (not implemented for latex output)
 #' @param ... additional arguments passed to \code{\link[R3port]{ltx_plot}} or \code{\link[R3port]{html_plot}}
 #'
 #' @details In case a model is saved, a directory with the name of the model is created within the
 #'   analysis folder of the current project. Then within this folder the file is saved as outnm.
 #'   This method was chosen so the interface can easily index applicable files for a certain model.
-#'   However, this means that output is alwasy saved in this directly regardless of the location of outnm
+#'   However, this means that output is always saved in this directly regardless of the location of outnm
 #'   In case multiple models are selected the result will be written to the name of the first model in the
 #'   models vector.
 #'
