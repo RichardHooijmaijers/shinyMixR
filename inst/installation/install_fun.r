@@ -2,15 +2,24 @@
 # if packages can be loaded and models can be correctly submitted
 install_fun <- function(pkg=TRUE,test=TRUE){
   sect    <- function(txt) paste(paste0(rep("-",40),collapse = ""),txt,paste0(rep("-",40),collapse = ""))
-  cat("Start installation function...\n")
+  cat("------------- Start installation function (Make sure all R sessions are closed!)...\n")
   if(pkg){
-    cat("Installing all necessary R packages (this could take a while)...\n")
-    ins1   <- system2("Rscript", "-e \"install.packages('nlmixr2',quiet=TRUE, dependencies = TRUE,repos='https://cloud.r-project.org')\"", stdout=TRUE, stderr=TRUE)
-    ins2   <- system2("Rscript", "-e \"install.packages('xpose.nlmixr2',quiet=TRUE, dependencies = TRUE,repos='https://cloud.r-project.org')\"", stdout=TRUE, stderr=TRUE)
-    ins3   <- system2("Rscript", "-e \"devtools::install_github('richardhooijmaijers/shinyMixR', repos='https://cloud.r-project.org')\"", stdout=TRUE, stderr=TRUE)
-    ins4   <- system2("Rscript", "-e \"install.packages('GGally',quiet=TRUE, dependencies = TRUE,repos='https://cloud.r-project.org')\"", stdout=TRUE, stderr=TRUE)
-    pkgres <- c(sect("R package installation - nlmixr2"),ins1,sect("R package installation - xpose.nlmixr2"),ins2,
-                sect("R package installation - shinyMixR"),ins3,sect("R package installation - other"),ins4)
+    cat("------------- Installing all necessary R packages (this could take a while, please ignore warnings here)...\n")
+    # Install regular pacakges first, then delete all possible nlmixr2 related packages (and reinstall clean version 3.0.0)
+    ins1 <- try(install.packages('devtools',quiet=TRUE, dependencies = TRUE,repos='https://cloud.r-project.org', quiet=TRUE), silent=TRUE)
+    ins2 <- try(install.packages('xpose.nlmixr2',quiet=TRUE, dependencies = TRUE, repos='https://cloud.r-project.org', quiet=TRUE), silent=TRUE)
+    ins3 <- try(devtools::install_github('richardhooijmaijers/shinyMixR', repos='https://cloud.r-project.org', quiet=TRUE), silent=TRUE)
+    
+    rempck <- c("nlmixr2","lbfgsb3c","n1qn1c","cpp11armadillo","lotri","PreciseSums","dparser-R","rxode2","nlmixr2est","dparser")
+    try(suppressMessages(remove.packages(rempck)),silent = TRUE)
+    
+    ins4 <- try(devtools::install_version("nlmixr2est", version = "3.0.0", repos = "https://cloud.r-project.org", upgrade="always", quiet = TRUE), silent=TRUE)
+    ins5 <- try(devtools::install_version("rxode2", version = "3.0.0", repos = "https://cloud.r-project.org", upgrade="always", quiet = TRUE), silent=TRUE)
+    ins6 <- try(devtools::install_version("nlmixr2", version = "3.0.0", repos = "https://cloud.r-project.org", upgrade="never", quiet = TRUE), silent=TRUE)
+    
+    pkgres <- c(sect("R package installation - devtools"),ins1, sect("R package installation - xpose.nlmixr2"), ins2,
+                sect("R package installation - shinyMixR"),ins3, sect("R package installation - nlmixr2est"),ins4,
+                sect("R package installation - rxode2"),ins4, sect("R package installation - nlmixr2"),ins6)
   }
   if(test){
     cat("Testing the installation (this could take a while)...\n")
@@ -34,7 +43,7 @@ install_fun <- function(pkg=TRUE,test=TRUE){
       setwd(owd)  
       tst3 <- chk
     },silent=TRUE)
-    if(is.null(tst3) || length(tst3)==0) tst3 <- "failed"
+    if(!exists("chk3") || is.null(tst3) || length(tst3)==0) tst3 <- "failed"
     tstres <- c(sect("Loading libraries - nlmixr2"),tst1,sect("Loading libraries - shinyMixR"),tst2,
                 sect("Running models"),tst3)
   }
