@@ -22,7 +22,7 @@ visualise the relationship between models
 \examples{
 
 \dontrun{
- tree_overview(proj_obj)
+ if (interactive()) tree_overview(proj_obj)
 }
 }
 \seealso{

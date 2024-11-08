@@ -15,7 +15,7 @@ Rstudio gadget to select project and start app
 \examples{
 
 \dontrun{
- shinymixr_gadget()
+ if (interactive()) shinymixr_gadget()
 }
 }
 \author{

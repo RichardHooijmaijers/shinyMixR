@@ -20,7 +20,7 @@ Creates and run the interface
 \examples{
 
 \dontrun{
- run_shinymixr(".")
+ if (interactive()) run_shinymixr(".")
 }
 }
 \author{
