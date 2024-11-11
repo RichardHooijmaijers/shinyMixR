@@ -139,12 +139,18 @@ module_run_server <- function(id, r) {
           if(any(grepl("shinyMixR/temp/script",cmd)) & !any(grepl("prog\\.txt",cmd))){
             scrf   <- sub("--file=","",cmd[grepl("shinyMixR/temp/script",cmd)])
             scrf   <- try(readLines(scrf),silent=TRUE)
-            runin  <- grepl("modres <- try\\(nlmixr\\(",scrf) 
+            #runin  <- grepl("modres <- try\\(nlmixr\\(",scrf) 
+            runin  <- grepl("modres <- try\\(nlmixr2::nlmixr\\(",scrf) 
             if(any(runin)){
-              modf     <- gsub("modres <- try\\(nlmixr\\(|,.*","",scrf[runin])
-              ret$modf <- modf
-              ret$time <- ps::ps_cpu_times(x)["user"]
-              ret$pid  <- ps::ps_pid(x)
+              #modf     <- gsub("modres <- try\\(nlmixr\\(|,.*","",scrf[runin])
+              modf     <- gsub("modres <- try\\(nlmixr2::nlmixr\\(|,.*","",scrf[runin])
+              tim      <- try(ps::ps_cpu_times(x)["user"],silent=TRUE)
+              pid      <- try(ps::ps_pid(x), silent=TRUE)
+              if(!inherits(tim,"try-error") && !inherits(pid,"try-error")){
+                ret$modf <- modf
+                ret$time <- tim
+                ret$pid  <- pid
+              }
             }
           }
         }
