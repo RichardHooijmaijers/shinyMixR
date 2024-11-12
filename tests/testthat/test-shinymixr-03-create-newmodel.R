@@ -70,5 +70,7 @@ test_that("Shiny app correctly creates new model code", {
 
   # Stop and clean up
   app$stop()
-  unlink(paste0(temp_dir, "/files"), recursive = TRUE) 
+  #unlink(paste0(temp_dir, "/files"), recursive = TRUE) 
+  rml  <- list.files(tempdir(), recursive = TRUE, include.dirs = TRUE, full.names = TRUE)
+  unlink(rml, recursive = TRUE)
 })

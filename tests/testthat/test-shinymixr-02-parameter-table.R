@@ -25,5 +25,7 @@ test_that("Shiny app creates correct parameter table", {
   
   # Stop and clean up
   app$stop()
-  unlink(paste0(tempdir(),"/files"), recursive = TRUE) 
+  #unlink(paste0(tempdir(),"/files"), recursive = TRUE) 
+  rml  <- list.files(tempdir(), recursive = TRUE, include.dirs = TRUE, full.names = TRUE)
+  unlink(rml, recursive = TRUE)
 })
