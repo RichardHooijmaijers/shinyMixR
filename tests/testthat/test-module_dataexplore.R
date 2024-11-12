@@ -1,4 +1,6 @@
 test_that("Can run a data exploration", {
+  # Don't run these tests on the CRAN build servers
+  skip_on_cran()
   
   temp_dir <- tempdir()
   
@@ -107,6 +109,8 @@ test_that("Can run a data exploration", {
                })
              })
   
-  unlink(paste0(temp_dir, "/files"), recursive = TRUE) 
+  #unlink(paste0(temp_dir, "/files"), recursive = TRUE) 
+  rml  <- list.files(temp_dir, recursive = TRUE, include.dirs = TRUE, full.names = TRUE)
+  unlink(rml, recursive = TRUE)
   
 }) 

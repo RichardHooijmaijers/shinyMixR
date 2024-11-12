@@ -1,4 +1,6 @@
 test_that("run_nmx works as expected", {
+  # Don't run these tests on the CRAN build servers
+  skip_on_cran()
   
   # create project
   unlink(paste0(tempdir(),"/files"), recursive = TRUE)
@@ -39,5 +41,7 @@ test_that("run_nmx works as expected", {
   expect_true(file.exists(paste0(tempdir(), "/files/shinyMixR/run1.ressum.rds")))
   
   # remove project
-  unlink(paste0(tempdir(), "/files"), recursive = TRUE)
+  #unlink(paste0(tempdir(), "/files"), recursive = TRUE)
+  rml  <- list.files(tempdir(), recursive = TRUE, include.dirs = TRUE, full.names = TRUE)
+  unlink(rml, recursive = TRUE)
 })

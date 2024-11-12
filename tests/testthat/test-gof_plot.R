@@ -60,6 +60,8 @@ test_that("gof_plot works as expected", {
   expect_true(file.exists(paste0(temp_dir, "/analysis/test_model/gof_plot.html")))
   
   # remove directory
-  unlink(paste0(temp_dir, "/analysis"), recursive = TRUE)
+  #unlink(paste0(temp_dir, "/analysis"), recursive = TRUE)
+  rml  <- list.files(temp_dir, recursive = TRUE, include.dirs = TRUE, full.names = TRUE)
+  unlink(rml, recursive = TRUE)
 
 })

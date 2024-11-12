@@ -17,6 +17,8 @@ test_that("tree overview works as expected", {
   expect_equal(treeview$x$data$children[[1]]$name, "run1")
   
   # remove project
-  unlink(paste0(tempdir(), "/files"), recursive = TRUE)
+  #unlink(paste0(tempdir(), "/files"), recursive = TRUE)
+  rml  <- list.files(tempdir(), recursive = TRUE, include.dirs = TRUE, full.names = TRUE)
+  unlink(rml, recursive = TRUE)
   
 })

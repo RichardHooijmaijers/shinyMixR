@@ -29,6 +29,8 @@ test_that("partable works", {
   
   expect_true(file.exists(paste0(tempdir(), "/files/analysis/run1/par_table.html")))
   
-  unlink(paste0(tempdir(), "/files"), recursive = TRUE) 
+  #unlink(paste0(tempdir(), "/files"), recursive = TRUE) 
+  rml  <- list.files(tempdir(), recursive = TRUE, include.dirs = TRUE, full.names = TRUE)
+  unlink(rml, recursive = TRUE)
   
 })
