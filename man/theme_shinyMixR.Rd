@@ -9,6 +9,9 @@ theme_shinyMixR(fontsize = 12)
 \arguments{
 \item{fontsize}{numeric with the default fontsize passed through to theme}
 }
+\value{
+A list with ggplot theme elements
+}
 \description{
 This function provides a custom theme for ggplot output
 }

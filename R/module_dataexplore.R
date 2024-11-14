@@ -6,6 +6,7 @@
 #' @param id Module id
 #' 
 #' @export
+#' @return A list of html tags used for th UI of the app
 module_dataexplore_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -143,6 +144,7 @@ module_dataexplore_ui <- function(id) {
 #' @param r reactive values object that is defined top-level
 #' 
 #' @export
+#' @return No return value, called for side effects
 module_dataexplore_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     

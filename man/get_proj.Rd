@@ -11,8 +11,11 @@ get_proj(projloc = ".", geteval = TRUE)
 
 \item{geteval}{logical indicating if the model functions should be evaluated}
 }
+\value{
+A named list with information for each model in the 'projloc'
+}
 \description{
-This function creates or updates a project object with models and/or results emerged from nlmixr runs
+This function creates or updates a project object with models and/or results emerged from nlmixr2 runs.
 A check is performed to see if newer results are present and only updates these.
 }
 \examples{

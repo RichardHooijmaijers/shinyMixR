@@ -1,13 +1,14 @@
 #------------------------------------------ get_proj ------------------------------------------
 #' Read in and update model results in project object
 #'
-#' This function creates or updates a project object with models and/or results emerged from nlmixr runs
+#' This function creates or updates a project object with models and/or results emerged from nlmixr2 runs.
 #' A check is performed to see if newer results are present and only updates these.
 #'
 #' @param projloc character with the base location of the shinyMixR project
 #' @param geteval logical indicating if the model functions should be evaluated
 #'
 #' @export
+#' @return A named list with information for each model in the 'projloc'
 #' @examples
 #'
 #' \dontrun{

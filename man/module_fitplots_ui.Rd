@@ -11,6 +11,9 @@ module_fitplots_ui(id, proj_obj)
 
 \item{proj_obj}{Project object}
 }
+\value{
+A list of html tags used for th UI of the app
+}
 \description{
 Shiny module for fit plots
 }

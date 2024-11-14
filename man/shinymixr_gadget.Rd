@@ -7,7 +7,7 @@
 shinymixr_gadget()
 }
 \value{
-runs the shinyMixR interface
+No return value, runs a gadget to start the shinyMixR interface
 }
 \description{
 Rstudio gadget to select project and start app

@@ -34,7 +34,7 @@
 #' }
 gof_plot <- function(dfrm,type="xpose",mdlnm=NULL,colby=NULL,ptype="all",outnm=NULL,projloc=".",title=NULL,linscale=FALSE,...){
   if(type=="xpose" & !is.null(colby)) stop("Color by does not work with xpose type of plots")
-  if(type=="xpose" && "nlmixr2" %in% rownames(installed.packages())){
+  if(type=="xpose" && length(find.package("nlmixr2", quiet = TRUE))>0){
     dat <- xpose.nlmixr2::xpose_data_nlmixr2(dfrm)
   }else{
     dat <- as.data.frame(dfrm)

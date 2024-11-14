@@ -6,6 +6,7 @@
 #' @param id Module id
 #' 
 #' @export
+#' @return A list of html tags used for th UI of the app
 module_edit_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -25,6 +26,7 @@ module_edit_ui <- function(id) {
 #' @param settings reactive value with the app settings
 #' 
 #' @export
+#' @return No return value, called for side effects
 module_edit_server <- function(id, r, settings) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location

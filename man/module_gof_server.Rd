@@ -13,6 +13,9 @@ module_gof_server(id, r, settings)
 
 \item{settings}{reactive value with the app settings}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 GOF plots module for server
 }

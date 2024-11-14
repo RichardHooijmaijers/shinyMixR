@@ -11,6 +11,9 @@ sigdigs(x, sdig = 3)
 
 \item{sdig}{a single number defining the number of significant digits}
 }
+\value{
+A character vector with formatted numbers
+}
 \description{
 This function sets significant digits without rounding any numbers
 }

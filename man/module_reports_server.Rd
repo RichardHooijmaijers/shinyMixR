@@ -11,6 +11,9 @@ module_reports_server(id, r)
 
 \item{r}{reactive values object that is defined top-level}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Reporting module for server
 }

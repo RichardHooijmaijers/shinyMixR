@@ -6,6 +6,7 @@
 #' @param id Module id
 #' 
 #' @export
+#' @return A list of html tags used for th UI of the app
 module_scripts_ui <- function(id) {
   ns <- NS(id)
   actionButton(ns("runscript"), label = "Run Script",icon=icon("code"))
@@ -19,6 +20,7 @@ module_scripts_ui <- function(id) {
 #' @param r reactive values object that is defined top-level
 #' 
 #' @export
+#' @return No return value, called for side effects
 module_scripts_server <- function(id, files=NULL, loc="temp", r) {
   # Decided that the files and script arguments should contain the path as well 
   # In the end the modal will show the basenames but on the background the entire 

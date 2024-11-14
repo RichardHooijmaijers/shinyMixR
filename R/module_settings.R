@@ -6,6 +6,7 @@
 #' @param id Module id
 #' 
 #' @export
+#' @return A list of html tags used for th UI of the app
 module_settings_ui <- function(id) {
   ns <- NS(id)
   tagList(
@@ -22,6 +23,7 @@ module_settings_ui <- function(id) {
 #' @param id Module id
 #' 
 #' @export
+#' @return a reactive with all input elements
 module_settings_server <- function(id) {
   moduleServer(id,function(input, output, session) {
     ret <- reactive({reactiveValuesToList(input)})

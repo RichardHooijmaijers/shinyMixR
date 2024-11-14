@@ -14,7 +14,7 @@
 #' updateTextInput verbatimTextOutput shinyApp invalidateLater debounce outputOptions stopApp
 #' @import bs4Dash ggplot2 gridExtra
 #' @export
-#' @return runs the shinyMixR interface
+#' @return No return value, runs the shinyMixR interface
 #' @author Richard Hooijmaijers
 #' @examples
 #'

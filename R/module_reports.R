@@ -6,6 +6,7 @@
 #' @param id Module id
 #' 
 #' @export
+#' @return A list of html tags used for th UI of the app
 module_reports_ui <- function(id) {
   ns <- NS(id)
   actionButton(ns("createreport"), label = "Create report",icon=icon("book"))
@@ -17,6 +18,7 @@ module_reports_ui <- function(id) {
 #' @param r reactive values object that is defined top-level
 #' 
 #' @export
+#' @return No return value, called for side effects
 module_reports_server <- function(id, r) {
   moduleServer(id,function(input, output, session) {
     # Function for the modal

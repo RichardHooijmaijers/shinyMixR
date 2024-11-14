@@ -5,6 +5,7 @@
 #' @param x a numerical vector
 #' @param sdig a single number defining the number of significant digits
 #' @export
+#' @return A character vector with formatted numbers
 sigdigs <- function(x,sdig=3){
   om <- floor(log10(abs(x)))
   dp <- sdig-om-1
@@ -20,6 +21,7 @@ sigdigs <- function(x,sdig=3){
 #' @param type character with the type of alert to display
 #' @param ... other arguments passed to class
 #' @export
+#' @return No return value, called for side effects
 myalert <- function(text,type,...){
   shinyWidgets::sendSweetAlert(text = text,type = type,
     showClass=list(backdrop='swal2-noanimation'),width="30%",
@@ -33,6 +35,7 @@ myalert <- function(text,type,...){
 #' This function provides a custom theme for ggplot output
 #' @param fontsize numeric with the default fontsize passed through to theme
 #' @export
+#' @return A list with ggplot theme elements
 theme_shinyMixR <- function(fontsize=12){
   ret <- theme_bw(base_size = fontsize) + 
     theme(panel.border     = element_rect(color="grey30", size=0.75),
