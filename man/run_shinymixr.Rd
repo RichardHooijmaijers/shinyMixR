@@ -12,7 +12,7 @@ run_shinymixr(wd = getwd(), ...)
 \item{...}{arguments passed to the shiny runApp function}
 }
 \value{
-runs the shinyMixR interface
+No return value, runs the shinyMixR interface
 }
 \description{
 Creates and run the interface

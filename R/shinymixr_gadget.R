@@ -2,7 +2,7 @@
 #' Rstudio gadget to select project and start app
 #'
 #' @export
-#' @return runs the shinyMixR interface
+#' @return No return value, runs a gadget to start the shinyMixR interface
 #' @author Richard Hooijmaijers
 #' @examples
 #'

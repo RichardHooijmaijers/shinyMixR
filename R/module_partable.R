@@ -7,6 +7,7 @@
 #' @param proj_obj Project object
 #' 
 #' @export
+#' @return A list of html tags used for th UI of the app
 module_pt_ui <- function(id, proj_obj) {
   ns <- NS(id)
   tagList(
@@ -29,6 +30,7 @@ module_pt_ui <- function(id, proj_obj) {
 #' @param r reactive values object that is defined top-level
 #' 
 #' @export
+#' @return No return value, called for side effects
 module_pt_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
     # Adapt model list based on selected project location

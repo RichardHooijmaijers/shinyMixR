@@ -15,6 +15,9 @@ module_scripts_server(id, files = NULL, loc = "temp", r)
 
 \item{r}{reactive values object that is defined top-level}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Run script module for server
 }

@@ -9,6 +9,9 @@ module_settings_ui(id)
 \arguments{
 \item{id}{Module id}
 }
+\value{
+A list of html tags used for th UI of the app
+}
 \description{
 Shiny module for settings
 }

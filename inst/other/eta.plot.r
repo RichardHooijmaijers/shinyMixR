@@ -15,4 +15,4 @@ lapply(files,function(x){
     R3port::html_plot(pll,out=paste0(rootl,"/analysis/",mdln,"/hist.eta.html"),show=FALSE,title="ETA distribution")
   }
 })
-cat("Script done!\n")
+message("Script done!\n")

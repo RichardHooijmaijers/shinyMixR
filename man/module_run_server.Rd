@@ -11,6 +11,9 @@ module_run_server(id, r)
 
 \item{r}{reactive values object that is defined top-level}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Run model module for server
 }

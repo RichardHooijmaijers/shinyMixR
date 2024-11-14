@@ -6,6 +6,7 @@
 #' @param mdl character with the path of the model function
 #'
 #' @export
+#' @return A list with the models meta data
 #' @examples
 #'
 #' \dontrun{

@@ -1,4 +1,4 @@
-#files <- c("G:/Computerised systems/R/Packages/shinyMixR/Testing/Appwithmodules/dummy project 1/models/run1.r")
+# files <- c("~/dummy project 1/models/run1.r")
 # Script to create combined results
 library(xpose.nlmixr2)
 library(shinyMixR)
@@ -34,4 +34,4 @@ lapply(files,function(x){
                        template=paste0(system.file(package="shinyMixR"),"/other/bootstrap.htmltmpl"),toctheme=TRUE, 
                        rtitle = paste0("report:",x))
 })
-cat("Script done!\n")
+message("Script done!\n")

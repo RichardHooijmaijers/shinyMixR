@@ -5,11 +5,11 @@ test_that("run_shinymixr returns app object", {
   # Don't run this test on CI
   skip_on_ci()
   
-  app <- suppressWarnings(run_shinymixr())
-  
-  expect_is(app, "shiny.appobj")
+  app <- suppressWarnings(run_shinymixr(paste0(tempdir(),"/files")))
+   expect_is(app, "shiny.appobj")
   
   # delete created shinyMixR/ subdirectory
-  unlink("shinyMixR", recursive = TRUE)
+  rml  <- list.files(tempdir(), recursive = TRUE, include.dirs = TRUE, full.names = TRUE)
+  unlink(rml, recursive = TRUE)
   
 })

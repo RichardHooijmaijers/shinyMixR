@@ -9,6 +9,9 @@ get_meta(mdl)
 \arguments{
 \item{mdl}{character with the path of the model function}
 }
+\value{
+A list with the models meta data
+}
 \description{
 This function gets only the meta data from a function
 }

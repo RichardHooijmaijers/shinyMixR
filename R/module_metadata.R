@@ -7,6 +7,7 @@
 #' @param type character with the type of button to present (either "save" or "overview")
 #' 
 #' @export
+#' @return A list of html tags used for th UI of the app
 module_metadata_ui <- function(id,type) {
   ns  <- NS(id)
   lbl <- ifelse(type=="save","Save as","Adapt meta data") 
@@ -25,6 +26,7 @@ module_metadata_ui <- function(id,type) {
 #' @param r reactive values object that is defined top-level
 #' 
 #' @export
+#' @return a reactive with the meta data information
 module_metadata_server <- function(id,type,selline=NULL,sellmod=NULL,sellcont=NULL,r){
   moduleServer(id, function(input, output, session){
     

@@ -11,6 +11,9 @@ module_metadata_ui(id, type)
 
 \item{type}{character with the type of button to present (either "save" or "overview")}
 }
+\value{
+A list of html tags used for th UI of the app
+}
 \description{
 Shiny module for meta data
 }

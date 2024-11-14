@@ -2,9 +2,9 @@
 # if packages can be loaded and models can be correctly submitted
 install_fun <- function(pkg=TRUE,test=TRUE){
   sect    <- function(txt) paste(paste0(rep("-",40),collapse = ""),txt,paste0(rep("-",40),collapse = ""))
-  cat("------------- Start installation function (Make sure all R sessions are closed!)...\n")
+  message("------------- Start installation function (Make sure all R sessions are closed!)...\n")
   if(pkg){
-    cat("------------- Installing all necessary R packages (this could take a while, please ignore warnings here)...\n")
+    message("------------- Installing all necessary R packages (this could take a while, please ignore warnings here)...\n")
     # Install regular pacakges first, then delete all possible nlmixr2 related packages (and reinstall clean version 3.0.0)
     ins1 <- try(install.packages('devtools', dependencies = TRUE,repos='https://cloud.r-project.org', quiet=TRUE), silent=TRUE)
     ins2 <- try(install.packages('xpose.nlmixr2', dependencies = FALSE, repos='https://cloud.r-project.org', quiet=TRUE), silent=TRUE)
@@ -25,7 +25,7 @@ install_fun <- function(pkg=TRUE,test=TRUE){
                 sect("R package installation - n1qn1c"),ins7, sect("R package installation - dparser"),ins8)
   }
   if(test){
-    cat("------------- Testing the installation (this could take a while)...\n")
+    message("------------- Testing the installation (this could take a while)...\n")
     tst1 <- suppressWarnings(system2("Rscript", "-e \"library(nlmixr2)\"", stdout=TRUE, stderr=TRUE))
     tst2 <- suppressWarnings(system2("Rscript", "-e \"library(shinyMixR)\"", stdout=TRUE, stderr=TRUE))
     try({
@@ -58,7 +58,7 @@ install_fun <- function(pkg=TRUE,test=TRUE){
   allres <- c(allres,"\n\n",capture.output(sessionInfo()))
   writeLines(allres,paste0(path.expand('~'),"/InstallationResults.log"))
   
-  cat(paste0("------------- Done! Results for the test can be found here: ",paste0(path.expand('~'),"/InstallationResults.log"),
-             "\nPlease mail this file to r.hooijmaijers@lapp.nl (please ignore warnings below) \n\n\n\n\n"))
+  message(paste0("------------- Done! Results for the test can be found here: ",paste0(path.expand('~'),"/InstallationResults.log"),
+                 "\nPlease mail this file to r.hooijmaijers@lapp.nl (please ignore warnings below) \n\n\n\n\n"))
   
 }

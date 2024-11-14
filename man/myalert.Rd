@@ -13,6 +13,9 @@ myalert(text, type, ...)
 
 \item{...}{other arguments passed to class}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 This function gets list of widgets to include in run_shinymixr
 }

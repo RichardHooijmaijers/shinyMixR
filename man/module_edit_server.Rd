@@ -13,6 +13,9 @@ module_edit_server(id, r, settings)
 
 \item{settings}{reactive value with the app settings}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Editor module for server
 }

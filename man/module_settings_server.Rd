@@ -9,6 +9,9 @@ module_settings_server(id)
 \arguments{
 \item{id}{Module id}
 }
+\value{
+a reactive with all input elements
+}
 \description{
 Settings module for server
 }

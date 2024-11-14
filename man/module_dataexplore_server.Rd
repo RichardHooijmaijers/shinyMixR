@@ -11,6 +11,9 @@ module_dataexplore_server(id, r)
 
 \item{r}{reactive values object that is defined top-level}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Data exploration module for server
 }

@@ -7,10 +7,10 @@ lapply(files,function(x){
   rootl <- normalizePath(paste0(dirname(x),"/../"),winslash = "/")
   res   <- readRDS(paste0(rootl,"/shinyMixR/",mdln,".res.rds"))
   dir.create(paste0(rootl,"/analysis/",mdln),showWarnings=FALSE)
-  if("nlmixr2" %in% rownames(installed.packages())){
+  if(length(find.package("nlmixr2", quiet = TRUE))>0){
     try(R3port::html_plot(nlmixr2plot::vpcPlot(res,n=500,show=list(obs_dv=TRUE)),out=paste0(rootl,"/analysis/",mdln,"/vpc.plot.html"),show=FALSE,title="VPC"))
   }else{
     try(R3port::html_plot(nlmixr::vpc(res,nsim=500,show=list(obs_dv=TRUE)),out=paste0(rootl,"/analysis/",mdln,"/vpc.plot.html"),show=FALSE,title="VPC"))
   }
 })
-cat("Script done!\n")
+message("Script done!\n")

@@ -34,7 +34,7 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
   sret <- try(source(proj[[mod]]$model,local=TRUE))
   meta <- suppressMessages(try(eval(parse(text=c("nlmixr2::nlmixr(",readLines(proj[[mod]]$model),")$meta"))),silent=TRUE))
   if(inherits(meta, "try-error") || inherits(sret, "try-error")){
-    cat("Error in model syntax please check before running\n")
+    warning("Error in model syntax please check before running\n")
     if(ext) writeLines(meta, paste0(projloc,"/shinyMixR/temp/",mod,".prog.txt"))
     return()
   }
@@ -75,7 +75,7 @@ run_nmx <- function(mod,proj=proj,ext=TRUE,saverds=TRUE,autoupdate=TRUE,projloc=
     data <- readRDS(paste0(projloc,"/data/", meta$data, ".rds"))
     if(!is.null(meta$subs) && meta$subs!="") data_nlm <- subset(data,eval(parse(text=(meta$subs)))) else data_nlm <- data
     modres  <- nlmixr2::nlmixr(eval(parse(text=readLines(proj[[mod]]$model))), data_nlm, est=meta$est,control=meta$control,nlmixr2::tableControl(cwres=addcwres, npde=addnpde))
-    if("nlmixr2" %in% rownames(installed.packages())){
+    if(length(find.package("nlmixr2", quiet = TRUE))>0){
       ressum  <- list(OBJF=modres$objective,CONDNR=modres$conditionNumberCor,partbl=modres$parFixedDf,partblf=modres$parFixed,omega=modres$omega,tottime=rowSums(modres$time))
     }else{
       ressum  <- list(OBJF=modres$objective,partbl=modres$popDf,partblf=modres$par.fixed,omega=modres$omega,tottime=rowSums(modres$time))

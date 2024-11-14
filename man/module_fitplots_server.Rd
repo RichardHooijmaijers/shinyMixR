@@ -13,6 +13,9 @@ module_fitplots_server(id, r, settings)
 
 \item{settings}{reactive value with the app settings}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 Fit plots module for server
 }

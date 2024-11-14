@@ -42,7 +42,7 @@ fit_plot <- function(dfrm,type="xpose",by="ID",idv="TIME",obs="DV",pred="PRED",i
   
   if(type=="xpose"){
     if((length(by)==1 && by!="ID") || length(by)>1 || idv!="TIME" || obs!="DV" || pred!="PRED" || ipred!="IPRED" || grp!="ID") stop("Changing variables does not work with xpose type of plots")
-    if("nlmixr2" %in% rownames(installed.packages())){
+    if(length(find.package("nlmixr2", quiet = TRUE))>0){
       xpdb <- xpose.nlmixr2::xpose_data_nlmixr2(dfrm)
     }else{
       stop("nlmixr2 package is not installed")
