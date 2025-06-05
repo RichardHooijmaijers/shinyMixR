@@ -1,4 +1,4 @@
-if(length(find.package("nlmixr2", quiet = TRUE))>0){
+if(length(find.package("nlmixr2est", quiet = TRUE))>0){
   library(nlmixr2)
 }else if(length(find.package("nlmixr", quiet = TRUE))>0){
   library(nlmixr)
@@ -23,12 +23,12 @@ if("{{subs}}"!=""){
 
 source("{{{modelloc}}}")
 setwd("{{{locproj}}}/shinyMixR/temp")
-modres <- try(nlmixr2::nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{control}}},table=tableControl(cwres={{{addcwres}}}, npde={{{addnpde}}})))
+modres <- try(nlmixr2est::nlmixr({{{modelname}}}, data=data_nlm, est="{{{est}}}",control={{{control}}},table=tableControl(cwres={{{addcwres}}}, npde={{{addnpde}}})))
 
 {{#saveres}}
 if(length(class(modres))>1 && !"try-error"%in%class(modres)){
   saveRDS(modres,file="../{{{modelname}}}.res.rds")
-  if(length(find.package("nlmixr2", quiet = TRUE))>0){
+  if(length(find.package("nlmixr2est", quiet = TRUE))>0){
     saveRDS(list(OBJF=modres$objective,CONDNR=modres$conditionNumberCor,partbl=modres$parFixedDf,partblf=modres$parFixed,omega=modres$omega,
                  tottime=rowSums(modres$time)),file="../{{{modelname}}}.ressum.rds")
   }else{

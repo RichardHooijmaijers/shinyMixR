@@ -34,13 +34,13 @@
 #' }
 gof_plot <- function(dfrm,type="xpose",mdlnm=NULL,colby=NULL,ptype="all",outnm=NULL,projloc=".",title=NULL,linscale=FALSE,...){
   if(type=="xpose" & !is.null(colby)) stop("Color by does not work with xpose type of plots")
-  if(type=="xpose" && length(find.package("nlmixr2", quiet = TRUE))>0){
+  if(type=="xpose" && length(find.package("nlmixr2est", quiet = TRUE))>0){
     dat <- xpose.nlmixr2::xpose_data_nlmixr2(dfrm)
   }else{
     dat <- as.data.frame(dfrm)
   }
   plfun <- function(data,plottype){
-    if(type=="xpose"){  
+    if(type=="xpose"){
       # types are "all", "ipred.dv", "pred.dv", "idv.res", "pred.res" .
       if(plottype=="pred.dv")  pl <- xpose::dv_vs_pred(data,title=NULL,subtitle=NULL,caption=NULL)
       if(plottype=="ipred.dv") pl <- xpose::dv_vs_ipred(data,title=NULL,subtitle=NULL,caption=NULL)
@@ -65,7 +65,7 @@ gof_plot <- function(dfrm,type="xpose",mdlnm=NULL,colby=NULL,ptype="all",outnm=N
       lims <- c(as.data.frame(dfrm)[,"DV"],as.data.frame(dfrm)[,limt])
       if(!linscale) lims <- range(lims[lims>0]) else lims <- range(lims)
       pl  <- pl + coord_cartesian(xlim=lims,ylim=lims)
-      if(!linscale) pl <- pl + scale_y_log10() + scale_x_log10() + annotation_logticks(sides = "bl") 
+      if(!linscale) pl <- pl + scale_y_log10() + scale_x_log10() + annotation_logticks(sides = "bl")
     }
     pl <- pl + theme_shinyMixR()
     return(pl)
@@ -79,7 +79,7 @@ gof_plot <- function(dfrm,type="xpose",mdlnm=NULL,colby=NULL,ptype="all",outnm=N
     pl <- plfun(dat,ptype)
     if(!is.null(title)) pl <- pl + labs(title=title)
   }
-  
+
   if(is.null(outnm)){
     return(pl)
   }else{

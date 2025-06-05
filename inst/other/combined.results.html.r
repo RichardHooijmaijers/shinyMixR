@@ -28,10 +28,10 @@ lapply(files,function(x){
     })
     R3port::html_plot(pll,out=paste0(rootl,"/analysis/",mdln,"/05hist.eta.html"),show=FALSE,title="ETA distribution")
   }
-  try(R3port::html_plot(nlmixr2::vpcPlot(res,n=500,show=list(obs_dv=TRUE)),out=paste0(rootl,"/analysis/",mdln,"/06vpc.plot.html"),show=FALSE,title="VPC"))
+  try(R3port::html_plot(nlmixr2plot::vpcPlot(res,n=500,show=list(obs_dv=TRUE)),out=paste0(rootl,"/analysis/",mdln,"/06vpc.plot.html"),show=FALSE,title="VPC"))
 
   R3port::html_combine(combine=paste0(rootl,"/analysis/",mdln),out="report.html",show=TRUE,
-                       template=paste0(system.file(package="shinyMixR"),"/other/bootstrap.htmltmpl"),toctheme=TRUE, 
+                       template=paste0(system.file(package="shinyMixR"),"/other/bootstrap.htmltmpl"),toctheme=TRUE,
                        rtitle = paste0("report:",x))
 })
 message("Script done!\n")
