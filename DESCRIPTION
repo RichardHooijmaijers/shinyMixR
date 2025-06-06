@@ -29,13 +29,13 @@ Imports:
   ps,
   xfun,
   fresh,
-  nlmixr2,
   nlmixr2est,
-  nlmixr2plot,
   magrittr,
   cli
 Suggests:
     xpose,
+    nlmixr2,
+    nlmixr2plot,
     xpose.nlmixr2,
     nlme,
     testthat,
