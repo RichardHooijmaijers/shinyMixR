@@ -1,4 +1,4 @@
-# shinyMixR (development version)
+# shinyMixR 0.5.1
 
 - This version implements fixes for the new `nlmixr2` 4.0 package
 
