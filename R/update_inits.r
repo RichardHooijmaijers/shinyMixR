@@ -10,7 +10,7 @@
 #' @param out character with the path for the updated model to save
 #'
 #' @export
-#' @return nothing will be returned the function saves the updated model to disk 
+#' @return nothing will be returned the function saves the updated model to disk
 #' @author Richard Hooijmaijers
 #' @examples
 #'
@@ -22,9 +22,9 @@ update_inits <- function(mod,res,out){
   modnm <- ls()[!ls()%in%c("mod","res","out")]
   ores  <- readRDS(res)
 
-  # Get parameters from original model (adapted to use direct interface; easier to obtain IIV as well) 
+  # Get parameters from original model (adapted to use direct interface; easier to obtain IIV as well)
   eomod  <- get(modnm)
-  eomod2 <- nlmixr2::nlmixr2(eomod)
+  eomod2 <- nlmixr2est::nlmixr2(eomod)
   opar   <- eomod2$iniDf[eomod2$iniDf$fix==FALSE,c("name","est")]
   opar   <- setNames(signif(opar$est,4),opar$name)
 
@@ -35,7 +35,7 @@ update_inits <- function(mod,res,out){
 
   # Update the model with the inits (perform intersect to only update parameters that allign)
   apar    <- rpar[intersect(names(rpar),names(opar))]
-  outt    <- eomod  %>% nlmixr2::ini(apar)
+  outt    <- eomod  %>% rxode2::ini(apar)
   outt    <- deparse(outt$fun)
   outt[1] <- paste(tools::file_path_sans_ext(basename(out)),"<-",outt[1])
   writeLines(outt,out)

@@ -1,3 +1,7 @@
+# shinyMixR (development version)
+
+- This version implements fixes for the new `nlmixr2` 4.0 package
+
 # shinyMixR 0.5
 
 This version is a preview version of the package. The main changes are:
@@ -14,7 +18,7 @@ Within this version some updates have been implemented, see below the most impor
 - Implemented shiny modules for the back-bone structure of the app
 - Used the bs4Dash package to create the dashboard instead of shinydashboard
 - Added more functionality to the existing widgets and included new widgets:
-  - in parameter table provide options to include BSV, shrinkage and back-transformation 
+  - in parameter table provide options to include BSV, shrinkage and back-transformation
   - in gof plots added the option to subset and perform pre-coding, adjust plot size and option to color by a variable
   - in fit plots added the option to subset and perform pre-coding, adjust plot size and more options to select variables and adjust scaling
   - Added a data exploration widget to create exploratory (interactive) plots and show underlying data

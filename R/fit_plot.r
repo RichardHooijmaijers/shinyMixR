@@ -39,10 +39,10 @@ fit_plot <- function(dfrm,type="xpose",by="ID",idv="TIME",obs="DV",pred="PRED",i
   if(!all(c(idv,obs,pred)%in%names(dfrm)))     stop("Please provide correct 'idv', 'obs', 'pred'")
   if(!is.null(by) && !all(by%in%names(dfrm)))  stop("Please provide correct 'by'")
   if(!is.null(ipred) && !ipred%in%names(dfrm)) stop("Please provide correct 'ipred'")
-  
+
   if(type=="xpose"){
     if((length(by)==1 && by!="ID") || length(by)>1 || idv!="TIME" || obs!="DV" || pred!="PRED" || ipred!="IPRED" || grp!="ID") stop("Changing variables does not work with xpose type of plots")
-    if(length(find.package("nlmixr2", quiet = TRUE))>0){
+    if(length(find.package("nlmixr2est", quiet = TRUE))>0){
       xpdb <- xpose.nlmixr2::xpose_data_nlmixr2(dfrm)
     }else{
       stop("nlmixr2 package is not installed")
@@ -58,7 +58,7 @@ fit_plot <- function(dfrm,type="xpose",by="ID",idv="TIME",obs="DV",pred="PRED",i
       dfrm$byvar  <- factor(dfrm$byvar,levels=unique(dfrm$byvar))
     }
     pl   <- ggplot(dfrm,aes_string(x=idv,group=grp)) + geom_point(aes_string(y=obs)) +
-      geom_line(aes_string(y=pred)) 
+      geom_line(aes_string(y=pred))
     if(!is.null(ipred))    pl <- pl + geom_line(aes_string(y=ipred),linetype=2)
     if(!is.null(by))       pl <- pl + facet_wrap("byvar",scales=scales)
     if(logy)               pl <- pl + scale_y_log10()

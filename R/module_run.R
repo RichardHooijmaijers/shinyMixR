@@ -5,7 +5,7 @@
 #'
 #' @param id Module id
 #' @param proj_obj Project object
-#' 
+#'
 #' @export
 #' @return A list of html tags used for th UI of the app
 module_run_ui <- function(id, proj_obj) {
@@ -16,22 +16,22 @@ module_run_ui <- function(id, proj_obj) {
     actionButton(ns("monMdl"), "Monitor Model(s)",icon=icon("play")),br(),br(),
     checkboxGroupInput(ns("addExtra"),label=NULL,choices=c("Add CWRES to output","Add NPDE to output"),selected=c("Add CWRES to output","Add NPDE to output"),inline=TRUE),
     div(verbatimTextOutput(ns("progrTxt")),class="card card-body bg-light p-0",id="progph"),
-   
+
   )
 }
 #------------------------------------------ module_run_server ------------------------------------------
 #' Run model module for server
-#' 
+#'
 #' @param id Module id
 #' @param r reactive values object that is defined top-level
-#' 
+#'
 #' @export
 #' @return No return value, called for side effects
 module_run_server <- function(id, r) {
   moduleServer(id, function(input, output, session) {
-    
+
     #print("Im here")
-    # Adapt/update model list 
+    # Adapt/update model list
     observeEvent(r$active_tab,{
       if(r$active_tab=="run"){
         updateSelectInput(session, "runLst", choices = sort(names(r$proj_obj)[names(r$proj_obj)!="meta"]),selected=input$runmod_runLst)
@@ -46,7 +46,7 @@ module_run_server <- function(id, r) {
         proj     <- r$proj_obj
         checkall <- unlist(sapply(input$runLst,function(x){
           chk    <- proj[[x]]$model
-          chkdat <- proj[[x]]$modeleval$meta$data 
+          chkdat <- proj[[x]]$modeleval$meta$data
           chksrc <- try(source(chk,local=TRUE),silent=TRUE)
           if("try-error"%in%class(chksrc)){
             return("syntax error within model file")
@@ -77,54 +77,54 @@ module_run_server <- function(id, r) {
         myalert("Please select models to run",type = "error")
       }
     })
-    
+
     runmodmonit <- reactive({
-      
+
       progFn  <- list.files(paste0(r$this_wd,"/shinyMixR/temp"),pattern="prog\\.txt$",full.names = TRUE)
       txt <- lapply(progFn,function(x) c(paste0("\n ***************",x,"***************"),readLines(x, warn = FALSE)))
-      
+
       if (r$models_running > 0) {
-        
+
         invalidateLater(1000, session)
-        
+
         if (any(grepl("run finished", txt))) {
 
           finished_models <- progFn[which(grepl("run finished", txt))]
-          
+
           if (!all(finished_models %in% r$finished_models)) {
-            
+
             print(sprintf("%s model(s) finished running", length(finished_models)))
-            
+
             r$finished_models <- c(isolate(r$finished_models), finished_models)
             r$models_running <- length(setdiff(progFn, finished_models))
             r$model_updated <- isolate(r$model_updated) + 1
-            
+
             exportTestValues(
               model_updated = r$model_updated
             )
           }
         }
-        
+
         return(paste(unlist(txt), collapse = "\n"))
-        
+
       } else {
         return(paste(unlist(txt), collapse = "\n"))
       }
     })
-    
+
     output$progrTxt <- renderText(runmodmonit())
-    
+
     model_updated_d <- debounce(reactive(r$model_updated), millis = 1000)
-    
+
     observe({
       req(model_updated_d() > 0)
       r$proj_obj <- get_proj(r$this_wd)
     })
-    
+
     # Disable suspend for output$myplot, otherwise necessary reactives
     # don't trigger when user is not on this tab anymore
     outputOptions(output, "progrTxt", suspendWhenHidden = FALSE)
-    
+
     # Monitor all external runs
     rv <- reactiveValues(montbl=NULL)
     monmodal <- function(){
@@ -141,11 +141,11 @@ module_run_server <- function(id, r) {
           if(any(grepl("shinyMixR/temp/script",cmd)) & !any(grepl("prog\\.txt",cmd))){
             scrf   <- sub("--file=","",cmd[grepl("shinyMixR/temp/script",cmd)])
             scrf   <- try(readLines(scrf),silent=TRUE)
-            #runin  <- grepl("modres <- try\\(nlmixr\\(",scrf) 
-            runin  <- grepl("modres <- try\\(nlmixr2::nlmixr\\(",scrf) 
+            #runin  <- grepl("modres <- try\\(nlmixr\\(",scrf)
+            runin  <- grepl("modres <- try\\(nlmixr2est::nlmixr\\(",scrf)
             if(any(runin)){
               #modf     <- gsub("modres <- try\\(nlmixr\\(|,.*","",scrf[runin])
-              modf     <- gsub("modres <- try\\(nlmixr2::nlmixr\\(|,.*","",scrf[runin])
+              modf     <- gsub("modres <- try\\(nlmixr2est::nlmixr\\(|,.*","",scrf[runin])
               tim      <- try(ps::ps_cpu_times(x)["user"],silent=TRUE)
               pid      <- try(ps::ps_pid(x), silent=TRUE)
               if(!inherits(tim,"try-error") && !inherits(pid,"try-error")){
@@ -166,7 +166,7 @@ module_run_server <- function(id, r) {
     output$mon_out <- DT::renderDT(hr_out())
     observeEvent(input$monMdl,{showModal(monmodal())},ignoreInit = TRUE)
     observeEvent(input$killMdl,{
-      pid <- rv$montbl[input$mon_out_rows_selected,] 
+      pid <- rv$montbl[input$mon_out_rows_selected,]
       try(tools::pskill(pid))
       removeModal()
     },ignoreInit = TRUE)
