@@ -11,8 +11,8 @@ An R shiny user interface for the 'nlmixr2' (Fidler et al (2019) \doi{10.1002/ps
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://github.com/RichardHooijmaijers/shinyMixR}
-  \item \url{https://richardhooijmaijers.github.io/shinyMixR}
+  \item \url{https://github.com/RichardHooijmaijers/shinyMixR/}
+  \item \url{https://richardhooijmaijers.github.io/shinyMixR/}
   \item Report bugs at \url{https://github.com/RichardHooijmaijers/shinyMixR/issues}
 }
 
