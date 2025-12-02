@@ -1,6 +1,6 @@
 Package: shinyMixR
 Title: Interactive 'shiny' Dashboard for 'nlmixr2'
-Version: 0.5.2
+Version: 0.5.3
 Authors@R: c(person("Richard", "Hooijmaijers", email = "richardhooijmaijers@gmail.com", role = c("aut", "cre","cph")),
              person("Teun", "Post", email = "teunpost@gmail.com",role = c("aut","cph")),
              person("LAPP Consultants",email = "info@lapp.nl", role=c("fnd","cph")),
@@ -29,9 +29,9 @@ Imports:
   ps,
   xfun,
   fresh,
-  nlmixr2est,
+  nlmixr2est (>= 5.0.0),
   magrittr,
-  rxode2,
+  rxode2 (>= 5.0.0),
   cli
 Suggests:
     xpose,
