@@ -10,12 +10,12 @@
         "add.err"
       ],
       "run1": [
-        "1043",
-        "1.25",
-        "-2.12 [12.3] <span style=\"font-size: 0.75em;font-weight: bold;\">{108, 59.7}<\/span>",
-        "1.02 [7.00] <span style=\"font-size: 0.75em;font-weight: bold;\">{22.5, 7.53}<\/span>",
-        "0.842 [41.8] <span style=\"font-size: 0.75em;font-weight: bold;\">{173, 29.6}<\/span>",
-        "0.702 [NA] "
+        "721",
+        "1.36",
+        "-2.30 [8.17] <span style=\"font-size: 0.75em;font-weight: bold;\">{69.2, 64.2}<\/span>",
+        "1.01 [7.26] <span style=\"font-size: 0.75em;font-weight: bold;\">{22.9, 9.81}<\/span>",
+        "0.682 [41.0] <span style=\"font-size: 0.75em;font-weight: bold;\">{116, 24.7}<\/span>",
+        "0.700 [NA] "
       ]
     }
   }

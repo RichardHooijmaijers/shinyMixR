@@ -1,3 +1,7 @@
+# shinyMixR 0.5.3
+
+- This version implements fixes for the new `ggplot2` 5.0 package
+
 # shinyMixR 0.5.2
 
 - This version implements fixes for the new `ggplot2` 4.0 package

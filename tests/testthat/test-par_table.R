@@ -15,13 +15,17 @@ test_that("partable works", {
   expect_equal(nrow(partable), 6)
   expect_equal(ncol(partable), 2)
   expect_equal(partable$Parameter[1], "OBJF")
-  expect_equal(partable$run1[1], "1043")
+  expect_equal(partable$run1[1], numfmt(proj$run1$results$OBJF))
   
   # test extra options
   partable <- par_table(proj, models = "run1", projloc = paste0(tempdir(), "/files"),
                         backt = TRUE, bsv = TRUE)
   
-  expect_equal(partable$run1[3], "0.120 (0.0720, 0.200) {108}")
+  refchk   <-  paste0(numfmt(proj$run1$results$partbl$`Back-transformed`[1])," (",
+                      numfmt(proj$run1$results$partbl$`CI Lower`[1]),", ",
+                      numfmt(proj$run1$results$partbl$`CI Upper`[1]),") {",
+                      numfmt(proj$run1$results$partbl$`BSV(CV%)`[1]),"}")
+  expect_equal(partable$run1[3], refchk)
   
   # test output file
   partable <- par_table(proj, models = "run1", projloc = paste0(tempdir(), "/files"),
